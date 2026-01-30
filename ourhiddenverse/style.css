@@ -1,0 +1,1921 @@
+/* ============================================
+   OURHIDDENVERSE - ANA STİL DOSYASI
+   Romantik, sade ve modern tasarım
+   Color Hunt Palette: #1A120B #3C2A21 #D5CEA3 #E5E5CB
+   ============================================ */
+
+/* -------- RENK PALETİ DEĞİŞKENLERİ -------- */
+:root {
+  /* Ana renkler - Sonbahar Paleti */
+  --bg-primary: #E5E5CB;
+  --bg-secondary: #D5CEA3;
+  --bg-sidebar: linear-gradient(180deg, #E5E5CB 0%, #D5CEA3 100%);
+  
+  /* Vurgu renkleri */
+  --accent-primary: #3C2A21;
+  --accent-light: #5a4439;
+  --accent-dark: #1A120B;
+  --accent-soft: #D5CEA3;
+  
+  /* Metin renkleri */
+  --text-primary: #1A120B;
+  --text-secondary: #3C2A21;
+  --text-muted: #6B5344;
+  
+  /* Efekt renkleri */
+  --glow-primary: rgba(60, 42, 33, 0.2);
+  --glow-soft: rgba(90, 68, 57, 0.3);
+  --shadow-soft: rgba(26, 18, 11, 0.08);
+  
+  /* Palet Ana Renkleri */
+  --dark-blue: #1A120B;
+  --mid-blue: #3C2A21;
+  --light-beige: #D5CEA3;
+  --soft-white: #E5E5CB;
+  
+  /* Tema Renkleri */
+  --sponge-yellow: #5a4439;
+  --sponge-yellow-dark: #3C2A21;
+  --sponge-yellow-soft: #D5CEA3;
+  --sponge-pink: #5a4439;
+  --sponge-pink-dark: #3C2A21;
+  --sponge-coral: #D5CEA3;
+  --sponge-blue: #3C2A21;
+  --sponge-green: #5a4439;
+  --sponge-bg: rgba(90, 68, 57, 0.15);
+  --sponge-glow: rgba(60, 42, 33, 0.2);
+  
+  /* Fontlar */
+  --font-heading: 'Cormorant Garamond', serif;
+  --font-body: 'Quicksand', sans-serif;
+  
+  /* Sidebar genişliği */
+  --sidebar-width: 260px;
+  
+  /* Animasyon süreleri */
+  --transition-fast: 0.2s;
+  --transition-normal: 0.3s;
+  --transition-slow: 0.5s;
+}
+
+/* -------- TEMEL SIFIRLAMA -------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* -------- HAMBURGER MENÜ BUTONU -------- */
+.hamburger {
+  display: none;
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1001;
+  background: var(--bg-sidebar);
+  border: 1px solid var(--accent-rose-dark);
+  border-radius: 8px;
+  padding: 12px 10px;
+  cursor: pointer;
+  flex-direction: column;
+  gap: 5px;
+  transition: all var(--transition-normal) ease;
+}
+
+.hamburger span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--accent-rose);
+  border-radius: 2px;
+  transition: all var(--transition-normal) ease;
+}
+
+/* Hamburger açık durumu */
+.hamburger.active span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* -------- OVERLAY (Mobil için) -------- */
+.overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 999;
+  opacity: 0;
+  transition: opacity var(--transition-normal) ease;
+}
+
+.overlay.active {
+  opacity: 1;
+}
+
+/* -------- SIDEBAR -------- */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: var(--sidebar-width);
+  height: 100vh;
+  background: linear-gradient(180deg, var(--soft-white) 0%, var(--light-beige) 100%);
+  border-right: 1px solid var(--glow-primary);
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+  transition: transform var(--transition-normal) ease;
+}
+
+/* Sidebar logo alanı */
+.sidebar-logo {
+  padding: 40px 30px 30px;
+  text-align: center;
+}
+
+.sidebar-logo h1 {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 500;
+  letter-spacing: 4px;
+  color: var(--mid-blue);
+  text-shadow: none;
+  margin-bottom: 15px;
+}
+
+.logo-divider {
+  width: 60px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--mid-blue), transparent);
+  margin: 0 auto;
+}
+
+/* -------- SIDEBAR NAVİGASYON -------- */
+.sidebar-nav {
+  flex: 1;
+  padding: 20px 0;
+  overflow-y: auto;
+}
+
+.menu-list {
+  list-style: none;
+}
+
+.menu-item {
+  margin: 5px 15px;
+}
+
+.menu-item a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 20px;
+  color: #7A7A7A;
+  text-decoration: none;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: all var(--transition-normal) ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Hover efekti */
+.menu-item a:hover {
+  color: var(--mid-blue);
+  background: var(--glow-soft);
+  transform: translateX(3px);
+}
+
+/* Menü ikonu - varsayılan */
+.menu-icon {
+  font-size: 1.1rem;
+  width: 24px;
+  text-align: center;
+  color: #B0B0B0;
+  transition: all var(--transition-normal) ease;
+}
+
+.menu-item a:hover .menu-icon {
+  color: var(--mid-blue);
+}
+
+.menu-text {
+  position: relative;
+  z-index: 1;
+}
+
+/* Aktif menü öğesi */
+.menu-item.active a {
+  color: #FFFFFF;
+  background: var(--mid-blue);
+  box-shadow: 0 4px 15px var(--glow-primary);
+}
+
+.menu-item.active a .menu-icon {
+  color: #FFFFFF;
+}
+
+.menu-item.active a:hover {
+  transform: translateX(3px);
+  background: var(--mid-blue);
+}
+
+/* -------- SIDEBAR FOOTER -------- */
+.sidebar-footer {
+  padding: 25px;
+  text-align: center;
+  border-top: 1px solid var(--glow-primary);
+}
+
+.creators {
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+  color: #7A7A7A;
+  letter-spacing: 2px;
+}
+
+/* -------- ANA İÇERİK ALANI -------- */
+.main-content {
+  margin-left: var(--sidebar-width);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background: linear-gradient(180deg, var(--soft-white) 0%, var(--light-beige) 50%, var(--mid-blue) 100%);
+}
+
+/* ============================================
+   ANA GİRİŞ EKRANI - LANDING PAGE
+   Romantik, sade ve duygusal tasarım
+   ============================================ */
+
+.welcome-section {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 50px 40px;
+  animation: fadeIn 1s ease forwards;
+  background: transparent;
+}
+
+.welcome-container {
+  text-align: center;
+  max-width: 800px;
+  width: 100%;
+}
+
+/* -------- ÜST KISIM - SAYAÇ -------- */
+.time-together-section {
+  margin-bottom: 50px;
+  opacity: 0;
+  animation: slideDown 0.8s ease 0.2s forwards;
+}
+
+.time-together-label {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  letter-spacing: 3px;
+  margin-bottom: 20px;
+  font-weight: 400;
+}
+
+.time-counter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.time-unit {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.time-value {
+  font-family: var(--font-body);
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--mid-blue);
+  text-shadow: none;
+}
+
+.time-label {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-weight: 400;
+  margin-right: 12px;
+}
+
+.time-unit:last-child .time-label {
+  margin-right: 0;
+}
+
+/* -------- ORTA MERKEZ - ANA BAŞLIK -------- */
+.main-title-section {
+  margin-bottom: 60px;
+}
+
+.couple-names {
+  font-family: var(--font-heading);
+  font-size: 4rem;
+  font-weight: 400;
+  color: var(--text-primary);
+  letter-spacing: 12px;
+  margin-bottom: 15px;
+  opacity: 0;
+  animation: slideUp 0.8s ease 0.4s forwards;
+  text-shadow: 0 4px 20px var(--glow-primary);
+}
+
+.site-name {
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  font-weight: 300;
+  color: var(--mid-blue);
+  letter-spacing: 6px;
+  font-style: italic;
+  opacity: 0;
+  animation: slideUp 0.8s ease 0.6s forwards;
+}
+
+/* -------- İSTATİSTİK KUTULARI -------- */
+.stats-section {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  margin-bottom: 50px;
+  flex-wrap: wrap;
+  opacity: 0;
+  animation: slideUp 0.8s ease 0.8s forwards;
+}
+
+.stat-box {
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid var(--mid-blue);
+  border-radius: 16px;
+  padding: 25px 35px;
+  min-width: 140px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: default;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.stat-box:hover {
+  transform: translateY(-5px) scale(1.02);
+  background: rgba(255, 255, 255, 0.8);
+  border-color: var(--dark-blue);
+  box-shadow: 0 10px 30px rgba(60, 42, 33, 0.2);
+}
+
+.stat-number {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--dark-blue);
+  margin-bottom: 8px;
+}
+
+.stat-label {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  letter-spacing: 2px;
+  font-weight: 500;
+}
+
+/* Dekoratif çizgi */
+.decorative-line {
+  width: 100px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--dark-blue), transparent);
+  margin: 0 auto 25px;
+  opacity: 0;
+  animation: fadeIn 1s ease 1s forwards;
+}
+
+/* Menü yönlendirme metni */
+.menu-hint {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+  opacity: 0;
+  animation: fadeIn 1s ease 1.2s forwards;
+}
+
+/* -------- DİNAMİK SAYFA İÇERİĞİ -------- */
+.page-content {
+  flex: 1;
+  padding: 40px;
+}
+
+.page-content.hidden {
+  display: none;
+}
+
+/* -------- FOOTER -------- */
+.main-footer {
+  padding: 25px 40px;
+  text-align: center;
+  border-top: 1px solid var(--mid-blue);
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.footer-credit {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  letter-spacing: 2px;
+}
+
+/* ============================================
+   TEMA SEÇİCİ ÇEKMECE
+   ============================================ */
+
+/* Tema seçici container - sağ üstte sabit */
+.theme-picker-container {
+  position: fixed;
+  top: 100px;
+  right: 0;
+  z-index: 1500;
+}
+
+/* Tema seçici toggle butonu */
+.theme-picker-toggle {
+  width: 50px;
+  height: 50px;
+  border: none;
+  background: linear-gradient(135deg, var(--dark-blue), var(--mid-blue));
+  border-radius: 12px 0 0 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: -3px 3px 15px rgba(0, 0, 0, 0.15);
+}
+
+.theme-picker-toggle:hover {
+  width: 55px;
+  background: linear-gradient(135deg, var(--mid-blue), var(--dark-blue));
+}
+
+.theme-picker-toggle .theme-icon {
+  font-size: 1.5rem;
+  filter: grayscale(0);
+  transition: transform 0.3s ease;
+}
+
+.theme-picker-toggle:hover .theme-icon {
+  transform: rotate(15deg) scale(1.1);
+}
+
+/* Tema çekmecesi */
+.theme-picker-drawer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 220px;
+  background: linear-gradient(180deg, var(--soft-white) 0%, var(--light-beige) 100%);
+  border-radius: 12px 0 0 12px;
+  box-shadow: -5px 5px 25px rgba(0, 0, 0, 0.15);
+  transform: translateX(100%);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.theme-picker-drawer.active {
+  transform: translateX(0);
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Çekmece başlığı */
+.theme-picker-header {
+  padding: 15px 20px;
+  background: linear-gradient(135deg, var(--dark-blue), var(--mid-blue));
+  color: #ffffff;
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  letter-spacing: 2px;
+  text-align: center;
+}
+
+/* Tema seçenekleri */
+.theme-options {
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Tek tema seçeneği */
+.theme-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 15px;
+  background: rgba(255, 255, 255, 0.7);
+  border: 2px solid transparent;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.theme-option:hover {
+  background: rgba(255, 255, 255, 0.9);
+  transform: translateX(-5px);
+  border-color: var(--mid-blue);
+}
+
+.theme-option.active {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: var(--dark-blue);
+  box-shadow: 0 3px 10px rgba(60, 42, 33, 0.2);
+}
+
+.theme-option.active::after {
+  content: '✓';
+  margin-left: auto;
+  color: var(--dark-blue);
+  font-weight: bold;
+}
+
+/* Tema önizleme rengi */
+.theme-preview {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  border: 2px solid rgba(255, 255, 255, 0.8);
+}
+
+/* Tema adı */
+.theme-name {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+/* -------- ANİMASYONLAR -------- */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* -------- RESPONSİVE TASARIM -------- */
+
+/* Tablet boyutu */
+@media (max-width: 992px) {
+  :root {
+    --sidebar-width: 220px;
+  }
+  
+  .couple-names {
+    font-size: 3rem;
+    letter-spacing: 8px;
+  }
+  
+  .stat-box {
+    padding: 20px 28px;
+    min-width: 120px;
+  }
+  
+  .stat-number {
+    font-size: 1.8rem;
+  }
+}
+
+/* Mobil boyutu */
+@media (max-width: 768px) {
+  /* Hamburger göster */
+  .hamburger {
+    display: flex;
+  }
+  
+  /* Overlay göster (aktif olduğunda) */
+  .overlay.active {
+    display: block;
+  }
+  
+  /* Sidebar mobil ayarları */
+  .sidebar {
+    transform: translateX(-100%);
+    width: 280px;
+  }
+  
+  .sidebar.active {
+    transform: translateX(0);
+  }
+  
+  /* Ana içerik tam genişlik */
+  .main-content {
+    margin-left: 0;
+  }
+  
+  /* Karşılama ayarları */
+  .welcome-section {
+    padding: 90px 25px 50px;
+  }
+  
+  .time-together-label {
+    font-size: 0.95rem;
+    letter-spacing: 2px;
+  }
+  
+  .time-value {
+    font-size: 1.4rem;
+  }
+  
+  .time-label {
+    font-size: 0.75rem;
+    margin-right: 8px;
+  }
+  
+  .couple-names {
+    font-size: 2.2rem;
+    letter-spacing: 6px;
+  }
+  
+  .site-name {
+    font-size: 1.1rem;
+    letter-spacing: 4px;
+  }
+  
+  .stats-section {
+    gap: 15px;
+  }
+  
+  .stat-box {
+    padding: 18px 22px;
+    min-width: 100px;
+  }
+  
+  .stat-number {
+    font-size: 1.5rem;
+  }
+  
+  .stat-label {
+    font-size: 0.65rem;
+    letter-spacing: 1px;
+  }
+  
+  .main-footer {
+    padding: 20px;
+  }
+}
+
+/* Küçük mobil */
+@media (max-width: 480px) {
+  .welcome-title {
+    font-size: 1.8rem;
+    letter-spacing: 3px;
+  }
+  
+  .welcome-subtitle {
+    font-size: 1rem;
+    margin-bottom: 40px;
+  }
+  
+  .sidebar-logo h1 {
+    font-size: 1.2rem;
+    letter-spacing: 3px;
+  }
+}
+
+/* -------- YARDIMCI SINIFLAR -------- */
+.hidden {
+  display: none !important;
+}
+
+/* Seçim rengi */
+::selection {
+  background: var(--dark-blue);
+  color: #ffffff;
+}
+
+/* Kaydırma çubuğu stilleri */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--mid-blue);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--dark-blue);
+}
+
+/* ============================================
+   FİLMLER SAYFASI STİLLERİ
+   ============================================ */
+
+/* -------- FİLMLER ANA KONTEYNER -------- */
+.filmler-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  animation: fadeIn 0.6s ease forwards;
+}
+
+/* -------- SAYFA BAŞLIK ALANI -------- */
+.filmler-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.filmler-header h2 {
+  font-family: var(--font-heading);
+  font-size: 2.5rem;
+  font-weight: 400;
+  color: var(--text-primary);
+  letter-spacing: 4px;
+}
+
+/* Yeni Film Ekle Butonu */
+.btn-yeni-film {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 28px;
+  background: linear-gradient(135deg, var(--dark-blue), var(--mid-blue));
+  border: none;
+  border-radius: 12px;
+  color: #ffffff;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-normal) ease;
+  box-shadow: 0 4px 15px rgba(60, 42, 33, 0.3);
+}
+
+.btn-yeni-film:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(60, 42, 33, 0.4);
+  background: linear-gradient(135deg, var(--mid-blue), var(--dark-blue));
+}
+
+.btn-yeni-film:active {
+  transform: translateY(-1px);
+}
+
+.btn-yeni-film .btn-icon {
+  font-size: 1.2rem;
+}
+
+/* -------- BÖLÜM BAŞLIKLARI -------- */
+.section-title {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: var(--dark-blue);
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.section-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--mid-blue), transparent);
+}
+
+/* -------- İSTEK LİSTESİ ALANI -------- */
+.istek-listesi-section {
+  margin-bottom: 50px;
+}
+
+.istek-listesi {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Boş liste mesajı */
+.empty-message {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text-muted);
+  font-style: italic;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 12px;
+  border: 1px dashed var(--mid-blue);
+}
+
+/* -------- İSTEK FİLM KARTI -------- */
+.istek-film-card {
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 12px;
+  border: 1px solid var(--light-beige);
+  overflow: hidden;
+  transition: all var(--transition-normal) ease;
+  box-shadow: 0 2px 8px var(--shadow-soft);
+}
+
+.istek-film-card:hover {
+  border-color: var(--dark-blue);
+  box-shadow: 0 4px 16px rgba(60, 42, 33, 0.15);
+}
+
+/* Film satırı - üst kısım */
+.film-row {
+  display: flex;
+  align-items: center;
+  padding: 18px 20px;
+  gap: 15px;
+}
+
+/* Check butonu - İzlendi olarak işaretle */
+.btn-check {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  border: none;
+  background: linear-gradient(135deg, var(--mid-blue) 0%, var(--dark-blue) 100%);
+  color: #fff;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 3px 10px rgba(60, 42, 33, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-check::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  transition: left 0.5s ease;
+}
+
+.btn-check:hover {
+  background: linear-gradient(135deg, var(--dark-blue) 0%, var(--mid-blue) 100%);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 6px 20px rgba(60, 42, 33, 0.4);
+}
+
+.btn-check:hover::before {
+  left: 100%;
+}
+
+.btn-check:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* Film adı */
+.film-name {
+  flex: 1;
+  font-size: 1.1rem;
+  color: var(--text-primary);
+  font-weight: 400;
+}
+
+/* Silme butonu */
+.btn-delete {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: none;
+  background: rgba(255, 100, 100, 0.1);
+  color: #ff6b6b;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all var(--transition-normal) ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.6;
+}
+
+.btn-delete:hover {
+  opacity: 1;
+  background: rgba(255, 100, 100, 0.2);
+  transform: scale(1.1);
+}
+
+/* -------- PUAN GİRİŞ PANELİ -------- */
+.puan-panel {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, padding 0.4s ease;
+  background: rgba(245, 237, 237, 0.9);
+  border-top: 1px solid var(--light-beige);
+}
+
+.puan-panel.active {
+  max-height: 400px;
+  padding: 25px 20px;
+}
+
+.puan-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+/* Form grubu */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  font-weight: 400;
+}
+
+.form-group input {
+  padding: 12px 15px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid var(--light-beige);
+  border-radius: 8px;
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  transition: all var(--transition-normal) ease;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--dark-blue);
+  box-shadow: 0 0 0 3px var(--glow-primary);
+}
+
+.form-group input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.form-group input[type="number"]::-webkit-outer-spin-button,
+.form-group input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Kaydet butonu */
+.btn-kaydet {
+  grid-column: 1 / -1;
+  padding: 14px 30px;
+  background: linear-gradient(135deg, var(--dark-blue), var(--mid-blue));
+  border: none;
+  border-radius: 10px;
+  color: #ffffff;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-normal) ease;
+  margin-top: 10px;
+}
+
+.btn-kaydet:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(60, 42, 33, 0.4);
+}
+
+/* -------- İZLENEN FİLMLER ALANI - SPONGEBOB TEMALI -------- */
+.izlenen-filmler-section {
+  margin-top: 40px;
+}
+
+/* Ana konteyner - SpongeBob temalı tek büyük kutu */
+.izlenen-filmler-container {
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 16px;
+  border: 2px solid var(--light-beige);
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(60, 42, 33, 0.12);
+}
+
+/* Tablo wrapper - mobilde kaydırılabilir */
+.tablo-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Ana tablo */
+.izlenen-tablo {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 750px;
+}
+
+/* Tablo başlık satırı */
+.izlenen-tablo thead tr {
+  background: linear-gradient(90deg, rgba(90, 68, 57, 0.3), rgba(213, 206, 163, 0.4), rgba(90, 68, 57, 0.3));
+}
+
+.izlenen-tablo th {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--dark-blue);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  padding: 18px 16px;
+  text-align: left;
+  border-bottom: 2px solid rgba(60, 42, 33, 0.15);
+  position: relative;
+}
+
+/* Sıralanabilir başlıklar */
+.izlenen-tablo th.sortable {
+  cursor: pointer;
+  user-select: none;
+  transition: all var(--transition-normal) ease;
+}
+
+.izlenen-tablo th.sortable:hover {
+  color: var(--dark-blue);
+  background: rgba(90, 68, 57, 0.15);
+}
+
+.izlenen-tablo th.sortable::after {
+  content: '↕';
+  margin-left: 6px;
+  font-size: 0.75rem;
+  opacity: 0.5;
+  transition: opacity var(--transition-fast) ease;
+}
+
+.izlenen-tablo th.sortable:hover::after {
+  opacity: 1;
+}
+
+.izlenen-tablo th.sortable.asc::after {
+  content: '↑';
+  opacity: 1;
+  color: var(--dark-blue);
+}
+
+.izlenen-tablo th.sortable.desc::after {
+  content: '↓';
+  opacity: 1;
+  color: var(--dark-blue);
+}
+
+.izlenen-tablo th.col-puan {
+  text-align: center;
+  width: 110px;
+}
+
+.izlenen-tablo th.col-tarih {
+  width: 120px;
+}
+
+.izlenen-tablo th.col-gun {
+  width: 70px;
+  text-align: center;
+}
+
+.izlenen-tablo th.col-film {
+  min-width: 180px;
+}
+
+.izlenen-tablo th.col-sil {
+  width: 70px;
+  text-align: center;
+}
+
+/* Tablo içerik satırları */
+.izlenen-tablo tbody tr {
+  transition: all var(--transition-normal) ease;
+  border-bottom: 1px solid rgba(90, 68, 57, 0.15);
+}
+
+.izlenen-tablo tbody tr:hover {
+  background: linear-gradient(90deg, rgba(90, 68, 57, 0.2), rgba(213, 206, 163, 0.25), rgba(90, 68, 57, 0.2));
+  transform: scale(1.005);
+}
+
+.izlenen-tablo tbody tr:last-child {
+  border-bottom: none;
+}
+
+.izlenen-tablo td {
+  padding: 16px;
+  vertical-align: middle;
+}
+
+.izlenen-tablo td.col-puan {
+  text-align: center;
+}
+
+.izlenen-tablo td.col-sil {
+  text-align: center;
+}
+
+.izlenen-tablo td.col-gun {
+  text-align: center;
+}
+
+/* Gün badge'i - Kaç günde bitirildiğini gösterir */
+.gun-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+  font-weight: 600;
+  font-family: 'Quicksand', sans-serif;
+  color: var(--sponge-green, #98d4a0);
+  background: rgba(152, 212, 160, 0.1);
+  border: 1px solid rgba(152, 212, 160, 0.2);
+  padding: 4px 10px;
+  border-radius: 12px;
+}
+
+/* Film adı stili */
+.film-adi {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  color: var(--text-primary);
+  letter-spacing: 0.5px;
+}
+
+/* Tarih stili - emoji yok, sade format */
+.tarih-text {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+/* Puan sayıları - Sade ve temiz */
+.puan-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  font-weight: 600;
+  font-family: 'Quicksand', sans-serif;
+  transition: all var(--transition-normal) ease;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.puan-badge.baran {
+  color: var(--mid-blue);
+}
+
+.puan-badge.bahar {
+  color: var(--accent-light);
+}
+
+.puan-badge.ortak {
+  color: var(--dark-blue);
+  font-weight: 700;
+  font-size: 1.15rem;
+}
+
+/* Silme butonu */
+.btn-sil-film {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 100, 100, 0.3);
+  background: rgba(255, 100, 100, 0.1);
+  color: #ff8888;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all var(--transition-normal) ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.6;
+}
+
+.btn-sil-film:hover {
+  opacity: 1;
+  background: rgba(255, 100, 100, 0.2);
+  border-color: rgba(255, 100, 100, 0.5);
+  transform: scale(1.1);
+}
+
+/* Boş durum mesajı */
+.izlenen-empty {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--dark-blue);
+  font-style: italic;
+  font-size: 1rem;
+  display: none;
+}
+
+.izlenen-empty::before {
+  content: '🍿';
+  display: block;
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+  opacity: 0.7;
+}
+
+/* -------- YENİ FİLM MODAL -------- */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all var(--transition-normal) ease;
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-content {
+  background: linear-gradient(180deg, var(--soft-white) 0%, var(--light-beige) 100%);
+  border-radius: 16px;
+  border: 2px solid var(--mid-blue);
+  padding: 35px;
+  max-width: 450px;
+  width: 90%;
+  transform: scale(0.9) translateY(20px);
+  transition: all var(--transition-normal) ease;
+  box-shadow: 0 10px 40px var(--glow-primary);
+}
+
+.modal-overlay.active .modal-content {
+  transform: scale(1) translateY(0);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.modal-header h3 {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  color: var(--text-primary);
+  letter-spacing: 2px;
+}
+
+.btn-modal-close {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--mid-blue);
+  background: rgba(255, 255, 255, 0.5);
+  color: var(--text-secondary);
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all var(--transition-normal) ease;
+}
+
+.btn-modal-close:hover {
+  background: rgba(255, 100, 100, 0.15);
+  border-color: #ff6b6b;
+  color: #ff6b6b;
+}
+
+.modal-form .form-group {
+  margin-bottom: 20px;
+}
+
+.modal-form .btn-kaydet {
+  width: 100%;
+  margin-top: 5px;
+}
+
+/* -------- FİLMLER RESPONSİVE -------- */
+@media (max-width: 768px) {
+  .filmler-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .filmler-header h2 {
+    font-size: 2rem;
+  }
+  
+  .btn-yeni-film {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .puan-form {
+    grid-template-columns: 1fr;
+  }
+  
+  /* Tablo mobil ayarları - SpongeBob temalı */
+  .izlenen-header {
+    padding: 20px;
+  }
+  
+  .izlenen-header h3 {
+    font-size: 1.3rem;
+    letter-spacing: 2px;
+  }
+  
+  .izlenen-header::before,
+  .izlenen-header::after {
+    font-size: 1rem;
+    left: 15px;
+    right: 15px;
+  }
+  
+  .izlenen-tablo th,
+  .izlenen-tablo td {
+    padding: 12px 10px;
+  }
+  
+  .izlenen-tablo th {
+    font-size: 0.75rem;
+  }
+  
+  .film-adi {
+    font-size: 1rem;
+  }
+  
+  /* Kaydırma ipucu */
+  .tablo-wrapper {
+    position: relative;
+  }
+  
+  .tablo-wrapper::after {
+    content: '← kaydır →';
+    position: absolute;
+    bottom: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.75rem;
+    color: var(--sponge-yellow-dark);
+    opacity: 0.6;
+  }
+  
+  .izlenen-filmler-section {
+    margin-bottom: 30px;
+  }
+  
+  .puan-badge {
+    font-size: 1rem;
+  }
+  
+  .btn-sil-film {
+    width: 30px;
+    height: 30px;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .filmler-header h2 {
+    font-size: 1.6rem;
+    letter-spacing: 2px;
+  }
+  
+  .section-title {
+    font-size: 1.2rem;
+  }
+  
+  .film-row {
+    padding: 15px;
+  }
+  
+  .film-name {
+    font-size: 1rem;
+  }
+  
+  .izlenen-header h3 {
+    font-size: 1.1rem;
+  }
+  
+  .izlenen-header::before,
+  .izlenen-header::after {
+    display: none;
+  }
+  
+  .puan-badge {
+    font-size: 0.95rem;
+  }
+  
+  .izlenen-tablo th.sortable::after {
+    font-size: 0.65rem;
+    margin-left: 3px;
+  }
+}
+
+/* ============================================
+   BB-DATELER SAYFASI STİLLERİ
+   SüngerBob Temalı - Pastel Sarı & Pembe
+   ============================================ */
+
+/* Ana container */
+.dateler-container {
+  padding: 30px 40px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* Başlık alanı */
+.dateler-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.dateler-header h2 {
+  font-family: var(--font-heading);
+  font-size: 2.2rem;
+  color: var(--accent-dark);
+  letter-spacing: 4px;
+  font-weight: 500;
+}
+
+/* Yeni Date Butonu */
+.btn-yeni-date {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 28px;
+  background: linear-gradient(135deg, var(--dark-blue), var(--mid-blue));
+  border: none;
+  border-radius: 30px;
+  color: #ffffff;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 15px rgba(60, 42, 33, 0.3);
+}
+
+.btn-yeni-date:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 8px 25px rgba(60, 42, 33, 0.4);
+  background: linear-gradient(135deg, var(--mid-blue), var(--dark-blue));
+}
+
+.btn-yeni-date .btn-icon {
+  font-size: 1.2rem;
+}
+
+/* -------- İSTER LİSTESİ -------- */
+.ister-listesi-section {
+  margin-bottom: 50px;
+}
+
+.ister-listesi-box {
+  background: rgba(255, 255, 255, 0.85);
+  border: 2px solid var(--light-beige);
+  border-radius: 20px;
+  padding: 25px;
+  min-height: 100px;
+  box-shadow: 0 4px 16px rgba(60, 42, 33, 0.1);
+}
+
+.ister-empty {
+  text-align: center;
+  color: var(--text-muted);
+  padding: 30px;
+  font-size: 1rem;
+}
+
+/* İster satırı */
+.ister-item {
+  display: flex;
+  align-items: center;
+  padding: 16px 20px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  background: rgba(245, 237, 237, 0.6);
+  border: 1px solid rgba(90, 68, 57, 0.2);
+  transition: all 0.3s ease;
+}
+
+.ister-item:last-child {
+  margin-bottom: 0;
+}
+
+.ister-item:hover {
+  background: rgba(90, 68, 57, 0.15);
+  transform: translateX(5px);
+  border-color: var(--mid-blue);
+}
+
+/* Checkbox label */
+.ister-checkbox-label {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  cursor: pointer;
+  gap: 15px;
+}
+
+/* Custom checkbox */
+.ister-checkbox {
+  display: none;
+}
+
+.ister-checkmark {
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--mid-blue);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.ister-checkmark::after {
+  content: '✓';
+  color: transparent;
+  font-size: 14px;
+  font-weight: bold;
+  transition: all 0.2s ease;
+}
+
+.ister-checkbox:checked + .ister-checkmark {
+  background: linear-gradient(135deg, var(--mid-blue), var(--dark-blue));
+  border-color: var(--dark-blue);
+}
+
+.ister-checkbox:checked + .ister-checkmark::after {
+  color: #fff;
+}
+
+.ister-checkbox-label:hover .ister-checkmark {
+  border-color: var(--dark-blue);
+  box-shadow: 0 0 10px rgba(60, 42, 33, 0.3);
+}
+
+/* İster metni */
+.ister-text {
+  font-size: 1.05rem;
+  color: var(--text-primary);
+  flex: 1;
+}
+
+.ister-tarih {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-left: auto;
+  padding-right: 15px;
+}
+
+/* İster silme butonu */
+.btn-ister-sil {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: none;
+  background: rgba(255, 100, 100, 0.1);
+  color: #ff8888;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+}
+
+.ister-item:hover .btn-ister-sil {
+  opacity: 0.7;
+}
+
+.btn-ister-sil:hover {
+  opacity: 1;
+  background: rgba(255, 100, 100, 0.2);
+  transform: scale(1.1);
+}
+
+/* -------- YAPILAN DATE'LER -------- */
+.yapilan-dateler-section {
+  margin-bottom: 40px;
+}
+
+.yapilan-dateler-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.yapilan-empty {
+  text-align: center;
+  color: var(--text-muted);
+  padding: 50px 20px;
+  font-size: 1rem;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 20px;
+  border: 1px dashed var(--mid-blue);
+}
+
+/* Yapılan Date Kartı */
+.yapilan-date-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 18px 22px;
+  background: rgba(255, 255, 255, 0.85);
+  border: 2px solid var(--light-beige);
+  border-radius: 16px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  box-shadow: 0 2px 12px rgba(60, 42, 33, 0.1);
+}
+
+.yapilan-date-card:hover {
+  transform: scale(1.02) translateY(-3px);
+  background: rgba(255, 255, 255, 0.95);
+  border-color: var(--dark-blue);
+  box-shadow: 0 10px 30px rgba(60, 42, 33, 0.2);
+}
+
+/* Görsel alanı */
+.date-gorsel-wrapper {
+  width: 70px;
+  height: 70px;
+  border-radius: 12px;
+  overflow: hidden;
+  flex-shrink: 0;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.yapilan-date-card:hover .date-gorsel-wrapper {
+  width: 90px;
+  height: 90px;
+  border-radius: 14px;
+}
+
+.date-gorsel {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: all 0.4s ease;
+}
+
+.yapilan-date-card:hover .date-gorsel {
+  transform: scale(1.1);
+}
+
+.date-gorsel-placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--light-beige), var(--mid-blue));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+}
+
+/* Date bilgileri */
+.date-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.date-baslik {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  color: var(--text-primary);
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+
+.date-tarih {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+/* Date silme butonu */
+.btn-date-sil {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 100, 100, 0.2);
+  background: rgba(255, 100, 100, 0.08);
+  color: #ff8888;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.yapilan-date-card:hover .btn-date-sil {
+  opacity: 0.7;
+}
+
+.btn-date-sil:hover {
+  opacity: 1;
+  background: rgba(255, 100, 100, 0.2);
+  transform: translateY(-50%) scale(1.1);
+}
+
+/* Date Modal Özel Stilleri */
+.date-modal {
+  max-width: 450px;
+}
+
+/* -------- RESPONSIVE - DATELER -------- */
+@media (max-width: 768px) {
+  .dateler-container {
+    padding: 20px;
+  }
+  
+  .dateler-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+  
+  .dateler-header h2 {
+    font-size: 1.8rem;
+  }
+  
+  .btn-yeni-date {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .ister-listesi-box {
+    padding: 15px;
+  }
+  
+  .ister-item {
+    padding: 12px 15px;
+  }
+  
+  .ister-text {
+    font-size: 0.95rem;
+  }
+  
+  .ister-tarih {
+    display: none;
+  }
+  
+  .btn-ister-sil {
+    opacity: 0.6;
+  }
+  
+  .yapilan-date-card {
+    padding: 15px;
+    gap: 15px;
+  }
+  
+  .date-gorsel-wrapper {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .yapilan-date-card:hover .date-gorsel-wrapper {
+    width: 70px;
+    height: 70px;
+  }
+  
+  .date-baslik {
+    font-size: 1.1rem;
+  }
+  
+  .btn-date-sil {
+    opacity: 0.6;
+    position: static;
+    transform: none;
+  }
+  
+  .btn-date-sil:hover {
+    transform: scale(1.1);
+  }
+}
+
+@media (max-width: 480px) {
+  .dateler-header h2 {
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+  }
+  
+  .ister-checkbox-label {
+    gap: 10px;
+  }
+  
+  .ister-checkmark {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .yapilan-date-card {
+    flex-wrap: wrap;
+  }
+  
+  .date-gorsel-wrapper {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .yapilan-date-card:hover .date-gorsel-wrapper {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .date-info {
+    flex: 1;
+    min-width: 150px;
+  }
+}

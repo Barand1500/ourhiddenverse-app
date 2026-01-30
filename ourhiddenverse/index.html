@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OurHiddenVerse</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Google Fonts - Zarif fontlar -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Quicksand:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Hamburger Menü Butonu (Mobil için) -->
+  <button class="hamburger" id="hamburgerBtn" aria-label="Menüyü aç">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <!-- Karartma Overlay (Mobil menü açıkken) -->
+  <div class="overlay" id="overlay"></div>
+
+  <!-- Sol Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <!-- Logo / Site Adı -->
+    <div class="sidebar-logo">
+      <h1>B&B EVRENİ</h1>
+      <div class="logo-divider"></div>
+    </div>
+
+    <!-- Menü Öğeleri -->
+    <nav class="sidebar-nav">
+      <ul class="menu-list">
+        <li class="menu-item active">
+          <a href="#" data-page="home">
+            <span class="menu-icon">✦</span>
+            <span class="menu-text">Ana Sayfa</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="#" data-page="bb-dateler">
+            <span class="menu-icon">💕</span>
+            <span class="menu-text">BB-Dateler</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="#" data-page="filmler">
+            <span class="menu-icon">🎬</span>
+            <span class="menu-text">Filmler</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="#" data-page="diziler">
+            <span class="menu-icon">📺</span>
+            <span class="menu-text">Diziler</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Sidebar Alt Bilgi -->
+    <div class="sidebar-footer">
+      <p class="creators">Baran & Bahar</p>
+    </div>
+  </aside>
+
+  <!-- Sağ Ana İçerik Alanı -->
+  <main class="main-content" id="mainContent">
+    <!-- Ana Giriş Ekranı -->
+    <section class="welcome-section" id="welcomeSection">
+      <div class="welcome-container">
+        
+        <!-- Üst Kısım - Sayaç Alanı -->
+        <div class="time-together-section">
+          <p class="time-together-label">Birlikte Geçirdiğimiz Zaman</p>
+          <div class="time-counter" id="timeCounter">
+            <span class="time-unit">
+              <span class="time-value" id="years">0</span>
+              <span class="time-label">Yıl</span>
+            </span>
+            <span class="time-unit">
+              <span class="time-value" id="days">0</span>
+              <span class="time-label">Gün</span>
+            </span>
+            <span class="time-unit">
+              <span class="time-value" id="hours">0</span>
+              <span class="time-label">Saat</span>
+            </span>
+            <span class="time-unit">
+              <span class="time-value" id="minutes">0</span>
+              <span class="time-label">Dakika</span>
+            </span>
+            <span class="time-unit">
+              <span class="time-value" id="seconds">0</span>
+              <span class="time-label">Saniye</span>
+            </span>
+          </div>
+        </div>
+
+        <!-- Orta Merkez - Ana Başlık -->
+        <div class="main-title-section">
+          <h1 class="couple-names">BAHAR & BARAN</h1>
+          <p class="site-name">OurHiddenVerse</p>
+        </div>
+
+        <!-- İstatistik Kutuları -->
+        <div class="stats-section">
+          <div class="stat-box" id="statFilmler">
+            <span class="stat-number" id="filmCount">0</span>
+            <span class="stat-label">FİLM İZLENDİ</span>
+          </div>
+          <div class="stat-box" id="statDiziler">
+            <span class="stat-number" id="diziCount">0</span>
+            <span class="stat-label">DİZİ İZLENDİ</span>
+          </div>
+          <div class="stat-box" id="statDateler">
+            <span class="stat-number" id="dateCount">0</span>
+            <span class="stat-label">DATE YAPILDI</span>
+          </div>
+        </div>
+
+        <!-- Dekoratif Çizgi -->
+        <div class="decorative-line"></div>
+        
+        <!-- Menü Yönlendirmesi -->
+        <p class="menu-hint">Soldan bir menü seçerek başlayın</p>
+      </div>
+    </section>
+
+    <!-- Dinamik Sayfa İçerikleri (Sonradan doldurulacak) -->
+    <section class="page-content hidden" id="pageContent">
+      <!-- İçerikler buraya dinamik olarak yüklenecek -->
+    </section>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+      <p class="footer-credit">Baran & Bahar tarafından yapılmıştır</p>
+    </footer>
+  </main>
+
+  <!-- Firebase Modülü - AKTİF KULLANIM -->
+  <script type="module">
+    // Firebase SDK'larını import et
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
+    import { 
+      getFirestore, 
+      collection, 
+      addDoc,
+      getDocs,
+      deleteDoc,
+      doc,
+      updateDoc,
+      query,
+      orderBy,
+      serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-firestore.js";
+
+    // Firebase konfigürasyonu
+    const firebaseConfig = {
+      apiKey: "AIzaSyAguvp6zfXFcKrYBn8Un_aLd9MB0qk4Dm4",
+      authDomain: "ourhiddenverse-0901.firebaseapp.com",
+      projectId: "ourhiddenverse-0901",
+      storageBucket: "ourhiddenverse-0901.firebasestorage.app",
+      messagingSenderId: "861949749601",
+      appId: "1:861949749601:web:d839fc773796320bdfbd20"
+    };
+
+    // Firebase başlatma
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    console.log("🔥 Firebase Firestore bağlandı - Aktif kullanımda!");
+
+    // Firebase fonksiyonlarını global scope'a ekle
+    window.firebaseApp = app;
+    window.firebaseDb = db;
+    
+    // Firestore fonksiyonlarını global yap
+    window.firestoreCollection = collection;
+    window.firestoreAddDoc = addDoc;
+    window.firestoreGetDocs = getDocs;
+    window.firestoreDeleteDoc = deleteDoc;
+    window.firestoreDoc = doc;
+    window.firestoreUpdateDoc = updateDoc;
+    window.firestoreQuery = query;
+    window.firestoreOrderBy = orderBy;
+    window.firestoreServerTimestamp = serverTimestamp;
+    
+    // Firebase hazır bayrağı
+    window.firebaseReady = true;
+    
+    // Firebase hazır olduğunda event gönder
+    console.log("✅ Firebase hazır, event gönderiliyor...");
+    window.dispatchEvent(new CustomEvent('firebaseReady'));
+  </script>
+
+  <!-- Tema Seçici Çekmece -->
+  <div class="theme-picker-container">
+    <button class="theme-picker-toggle" id="themePickerToggle" title="Tema Seç">
+      <span class="theme-icon">🎨</span>
+    </button>
+    <div class="theme-picker-drawer" id="themePickerDrawer">
+      <div class="theme-picker-header">
+        <span>Tema Seç</span>
+      </div>
+      <div class="theme-options">
+        <button class="theme-option" data-theme="ocean-blue" title="Okyanus Mavisi">
+          <span class="theme-preview" style="background: linear-gradient(135deg, #6482AD, #7FA1C3);"></span>
+          <span class="theme-name">Okyanus Mavisi</span>
+        </button>
+        <button class="theme-option active" data-theme="sonbahar" title="Sonbahar">
+          <span class="theme-preview" style="background: linear-gradient(135deg, #1A120B, #3C2A21);"></span>
+          <span class="theme-name">Sonbahar</span>
+        </button>
+        <button class="theme-option" data-theme="forest-green" title="Orman Yeşili">
+          <span class="theme-preview" style="background: linear-gradient(135deg, #4A7C59, #8FBC8F);"></span>
+          <span class="theme-name">Orman Yeşili</span>
+        </button>
+        <button class="theme-option" data-theme="lavender-dream" title="Lavanta Rüyası">
+          <span class="theme-preview" style="background: linear-gradient(135deg, #7B68EE, #DDA0DD);"></span>
+          <span class="theme-name">Lavanta Rüyası</span>
+        </button>
+        <button class="theme-option" data-theme="warm-autumn" title="Sıcak Sonbahar">
+          <span class="theme-preview" style="background: linear-gradient(135deg, #D2691E, #F4A460);"></span>
+          <span class="theme-name">Sıcak Sonbahar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ana JavaScript - defer ile Firebase'den sonra yüklenir -->
+  <script src="script.js" defer></script>
+</body>
+</html>
