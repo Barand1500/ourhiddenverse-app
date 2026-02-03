@@ -46,21 +46,87 @@
           </a>
         </li>
         <li class="menu-item">
+          <a href="#" data-page="hikayemiz">
+            <span class="menu-icon">📖</span>
+            <span class="menu-text">Bizim Hikâyemiz</span>
+          </a>
+        </li>
+        <li class="menu-item">
           <a href="#" data-page="bb-dateler">
             <span class="menu-icon">💕</span>
             <span class="menu-text">BB-Dateler</span>
           </a>
         </li>
-        <li class="menu-item">
-          <a href="#" data-page="filmler">
+        
+        <!-- İzlediklerimiz Alt Menü -->
+        <li class="menu-item has-submenu">
+          <a href="#" class="submenu-toggle">
             <span class="menu-icon">🎬</span>
-            <span class="menu-text">Filmler</span>
+            <span class="menu-text">İzlediklerimiz</span>
+            <span class="submenu-arrow">▸</span>
+          </a>
+          <ul class="submenu">
+            <li class="submenu-item">
+              <a href="#" data-page="filmler">
+                <span class="submenu-icon">🎥</span>
+                <span class="submenu-text">Filmler</span>
+              </a>
+            </li>
+            <li class="submenu-item">
+              <a href="#" data-page="diziler">
+                <span class="submenu-icon">📺</span>
+                <span class="submenu-text">Diziler</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+        
+        <li class="menu-item">
+          <a href="#" data-page="oyunlar">
+            <span class="menu-icon">🎮</span>
+            <span class="menu-text">Oyunlar</span>
           </a>
         </li>
         <li class="menu-item">
-          <a href="#" data-page="diziler">
-            <span class="menu-icon">📺</span>
-            <span class="menu-text">Diziler</span>
+          <a href="#" data-page="kitaplar">
+            <span class="menu-icon">📚</span>
+            <span class="menu-text">Kitaplar</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="#" data-page="sarkilar">
+            <span class="menu-icon">🎵</span>
+            <span class="menu-text">Şarkılarımız</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="#" data-page="harita">
+            <span class="menu-icon">🗺️</span>
+            <span class="menu-text">Gittiğimiz Yerler</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="#" data-page="takvim">
+            <span class="menu-icon">🗓️</span>
+            <span class="menu-text">2026 Günlerimiz</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="#" data-page="ozel-gunler">
+            <span class="menu-icon">💝</span>
+            <span class="menu-text">Özel Günlerimiz</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="#" data-page="bucket-list">
+            <span class="menu-icon">🎯</span>
+            <span class="menu-text">Ortak Hedefler</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="#" data-page="gunluk-soru">
+            <span class="menu-icon">❓</span>
+            <span class="menu-text">Günlük Soru</span>
           </a>
         </li>
       </ul>
@@ -68,6 +134,12 @@
 
     <!-- Sidebar Alt Bilgi -->
     <div class="sidebar-footer">
+      <!-- PWA Install Button -->
+      <button class="pwa-install-btn" id="pwaInstallBtn" style="display: none;">
+        <span class="install-icon">📲</span>
+        <span class="install-text">Ana Ekrana Ekle</span>
+      </button>
+      
       <p class="creators">Baran & Bahar</p>
     </div>
   </aside>
@@ -107,8 +179,8 @@
 
         <!-- Orta Merkez - Ana Başlık -->
         <div class="main-title-section">
-          <h1 class="couple-names">BAHAR & BARAN</h1>
-          <p class="site-name">OurHiddenVerse</p>
+          <h1 class="couple-names">OurHiddenVerse</h1>
+          <p class="site-name">BAHAR & BARAN</p>
         </div>
 
         <!-- İstatistik Kutuları -->
@@ -124,6 +196,72 @@
           <div class="stat-box" id="statDateler">
             <span class="stat-number" id="dateCount">0</span>
             <span class="stat-label">DATE YAPILDI</span>
+          </div>
+          <div class="stat-box" id="statOyunlar">
+            <span class="stat-number" id="oyunCount">0</span>
+            <span class="stat-label">OYUN BİTİRİLDİ</span>
+          </div>
+          <div class="stat-box stat-box-dual" id="statKitaplar">
+            <span class="stat-label-top">📚 KİTAP BİTİRİLDİ</span>
+            <div class="stat-dual-content">
+              <div class="stat-dual-item bahar">
+                <span class="stat-number" id="kitapCountBahar">0</span>
+                <span class="stat-dual-name">👩 Bahar</span>
+              </div>
+              <div class="stat-dual-divider"></div>
+              <div class="stat-dual-item baran">
+                <span class="stat-number" id="kitapCountBaran">0</span>
+                <span class="stat-dual-name">👨 Baran</span>
+              </div>
+            </div>
+          </div>
+          <div class="stat-box" id="statSehirler">
+            <span class="stat-number" id="sehirCount">0</span>
+            <span class="stat-label">🗺️ ŞEHİR GEZİLDİ</span>
+          </div>
+          <div class="stat-box" id="statSarkilar">
+            <span class="stat-number" id="sarkiCount">0</span>
+            <span class="stat-label">🎵 ŞARKI EKLENDİ</span>
+          </div>
+          <div class="stat-box" id="statHedefler">
+            <span class="stat-number" id="hedefCount">0/0</span>
+            <span class="stat-label">🪣 HEDEF TAMAMLANDI</span>
+          </div>
+          <div class="stat-box" id="statOzelGunler">
+            <span class="stat-number" id="ozelGunCount">0</span>
+            <span class="stat-label">💝 ÖZEL GÜN</span>
+          </div>
+          <div class="stat-box stat-box-dual" id="stat2026Ozet">
+            <span class="stat-label-top">📅 2026 ÖZETİ</span>
+            <div class="stat-dual-content">
+              <div class="stat-dual-item bahar">
+                <span class="stat-mood-emoji" id="baharOzetEmoji">-</span>
+                <span class="stat-dual-name">👩 Bahar</span>
+                <span class="stat-mood-count" id="baharOzetCount"></span>
+              </div>
+              <div class="stat-dual-divider"></div>
+              <div class="stat-dual-item baran">
+                <span class="stat-mood-emoji" id="baranOzetEmoji">-</span>
+                <span class="stat-dual-name">👨 Baran</span>
+                <span class="stat-mood-count" id="baranOzetCount"></span>
+              </div>
+            </div>
+          </div>
+          <div class="stat-box stat-box-dual" id="statMektuplar">
+            <span class="stat-label-top">💌 MEKTUPLAR</span>
+            <div class="stat-dual-content">
+              <div class="stat-dual-item bahar">
+                <span class="stat-number" id="baharMektupCount">0</span>
+                <span class="stat-dual-name">👩 Bahar</span>
+                <span class="stat-mektup-durum" id="baharMektupDurum"></span>
+              </div>
+              <div class="stat-dual-divider"></div>
+              <div class="stat-dual-item baran">
+                <span class="stat-number" id="baranMektupCount">0</span>
+                <span class="stat-dual-name">👨 Baran</span>
+                <span class="stat-mektup-durum" id="baranMektupDurum"></span>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -154,7 +292,9 @@
       getFirestore, 
       collection, 
       addDoc,
+      setDoc,
       getDocs,
+      getDoc,
       deleteDoc,
       doc,
       updateDoc,
@@ -186,7 +326,9 @@
     // Firestore fonksiyonlarını global yap
     window.firestoreCollection = collection;
     window.firestoreAddDoc = addDoc;
+    window.firestoreSetDoc = setDoc;
     window.firestoreGetDocs = getDocs;
+    window.firestoreGetDoc = getDoc;
     window.firestoreDeleteDoc = deleteDoc;
     window.firestoreDoc = doc;
     window.firestoreUpdateDoc = updateDoc;
@@ -202,41 +344,22 @@
     window.dispatchEvent(new CustomEvent('firebaseReady'));
   </script>
 
-  <!-- Tema Seçici Çekmece -->
-  <div class="theme-picker-container">
-    <button class="theme-picker-toggle" id="themePickerToggle" title="Tema Seç">
-      <span class="theme-icon">🎨</span>
-    </button>
-    <div class="theme-picker-drawer" id="themePickerDrawer">
-      <div class="theme-picker-header">
-        <span>Tema Seç</span>
-      </div>
-      <div class="theme-options">
-        <button class="theme-option" data-theme="ocean-blue" title="Okyanus Mavisi">
-          <span class="theme-preview" style="background: linear-gradient(135deg, #6482AD, #7FA1C3);"></span>
-          <span class="theme-name">Okyanus Mavisi</span>
-        </button>
-        <button class="theme-option active" data-theme="sonbahar" title="Sonbahar">
-          <span class="theme-preview" style="background: linear-gradient(135deg, #1A120B, #3C2A21);"></span>
-          <span class="theme-name">Sonbahar</span>
-        </button>
-        <button class="theme-option" data-theme="forest-green" title="Orman Yeşili">
-          <span class="theme-preview" style="background: linear-gradient(135deg, #4A7C59, #8FBC8F);"></span>
-          <span class="theme-name">Orman Yeşili</span>
-        </button>
-        <button class="theme-option" data-theme="lavender-dream" title="Lavanta Rüyası">
-          <span class="theme-preview" style="background: linear-gradient(135deg, #7B68EE, #DDA0DD);"></span>
-          <span class="theme-name">Lavanta Rüyası</span>
-        </button>
-        <button class="theme-option" data-theme="warm-autumn" title="Sıcak Sonbahar">
-          <span class="theme-preview" style="background: linear-gradient(135deg, #D2691E, #F4A460);"></span>
-          <span class="theme-name">Sıcak Sonbahar</span>
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Ana JavaScript -->
-  <script src="script.js" defer></script>
+  <!-- Modüler JavaScript Dosyaları -->
+  <script src="js/utils.js" defer></script>
+  <script src="js/main.js" defer></script>
+  <script src="js/films.js" defer></script>
+  <script src="js/film-oneri.js" defer></script>
+  <script src="js/diziler.js" defer></script>
+  <script src="js/dizi-oneri.js" defer></script>
+  <script src="js/dateler.js" defer></script>
+  <script src="js/oyunlar.js" defer></script>
+  <script src="js/kitaplar.js" defer></script>
+  <script src="js/harita.js" defer></script>
+  <script src="js/takvim.js" defer></script>
+  <script src="js/ozelgunler.js" defer></script>
+  <script src="js/bucketlist.js" defer></script>
+  <script src="js/sarkilar.js" defer></script>
+  <script src="js/hikayemiz.js" defer></script>
+  <script src="js/gunluk-soru.js" defer></script>
 </body>
 </html>
