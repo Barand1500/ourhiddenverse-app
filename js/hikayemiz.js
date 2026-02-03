@@ -555,7 +555,7 @@ async function loadTimelineFromFirebase() {
     if (!baslangicVar) {
       timelineCache.unshift({
         id: 'baslangic',
-        tarih: '2026-01-09',
+        tarih: '2025-01-09',
         baslik: 'Her şeyin başlangıcı ✨',
         sabit: true
       });
@@ -583,7 +583,7 @@ function renderTimeline() {
     html += `
       <div class="timeline-item" data-id="${item.id}">
         <div class="timeline-item-header">
-          <span class="timeline-tarih">${item.sabit ? '9 Ocak 2026' : tarihStr}</span>
+          <span class="timeline-tarih">${item.sabit ? '9 Ocak 2025' : tarihStr}</span>
           ${!item.sabit ? `<button class="btn-timeline-sil" onclick="deleteTimelineItem('${item.id}')" title="Sil">🗑️</button>` : ''}
         </div>
         <span class="timeline-event">${item.baslik}</span>

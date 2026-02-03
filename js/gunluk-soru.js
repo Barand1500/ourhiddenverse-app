@@ -107,7 +107,7 @@ let puanlarCache = { baran: 0, bahar: 0 };
 
 // Ana sayfa yükleme
 async function loadGunlukSoruPage() {
-  const container = document.getElementById('page-content');
+  const container = document.getElementById('pageContent');
   if (!container) return;
   
   const soru = getSoruByTarih();
@@ -472,3 +472,8 @@ async function loadGecmis() {
     list.innerHTML = '<p class="error-msg">Yüklenirken hata oluştu</p>';
   }
 }
+
+// Global scope'a ekle
+window.loadGunlukSoruPage = loadGunlukSoruPage;
+window.gonderCevap = gonderCevap;
+window.oyVer = oyVer;
