@@ -3,7 +3,7 @@
    PWA için offline destek ve caching
    ============================================ */
 
-const CACHE_NAME = 'ourhiddenverse-v6';
+const CACHE_NAME = 'ourhiddenverse-v7';
 const urlsToCache = [
   './',
   './index.html',
@@ -24,6 +24,7 @@ const urlsToCache = [
   './js/sarkilar.js',
   './js/hikayemiz.js',
   './js/gunluk-soru.js',
+  './js/backup.js',
   './images/favicon.png',
   './images/apple-touch-icon.png',
   './manifest.json'

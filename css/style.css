@@ -9358,3 +9358,243 @@ body {
     flex-direction: column;
   }
 }
+
+/* ============================================
+   VERİ YEDEKLEME SİSTEMİ
+   ============================================ */
+
+/* Sidebar'daki Yedekleme Butonu */
+.backup-btn {
+  position: absolute;
+  bottom: 60px;
+  right: 15px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid #30363d;
+  background: #21262d;
+  color: #c9d1d9;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.backup-btn:hover {
+  background: var(--heading-gold);
+  border-color: var(--heading-gold);
+  transform: scale(1.1);
+}
+
+/* Yedekleme Modal */
+.backup-modal {
+  max-width: 450px;
+  padding: 0;
+  overflow: hidden;
+}
+
+.backup-header {
+  text-align: center;
+  padding: 30px 25px 20px;
+  background: linear-gradient(135deg, rgba(240, 180, 41, 0.15), rgba(240, 180, 41, 0.05));
+  border-bottom: 1px solid #30363d;
+}
+
+.backup-icon {
+  font-size: 3rem;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.backup-header h3 {
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+  color: var(--heading-gold);
+  margin-bottom: 5px;
+}
+
+.backup-subtitle {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.backup-body {
+  padding: 25px;
+}
+
+.backup-section {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.backup-section h4 {
+  font-size: 1.1rem;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.backup-section p {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-bottom: 15px;
+}
+
+.btn-backup {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 28px;
+  border: none;
+  border-radius: 12px;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.btn-backup.export {
+  background: linear-gradient(135deg, var(--heading-gold), #d69e2e);
+  color: #0d1117;
+}
+
+.btn-backup.export:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(240, 180, 41, 0.4);
+}
+
+.btn-backup.import {
+  background: linear-gradient(135deg, #58a6ff, #1f6feb);
+  color: white;
+}
+
+.btn-backup.import:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(88, 166, 255, 0.4);
+}
+
+.btn-backup:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+.backup-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #30363d, transparent);
+  margin: 20px 0;
+}
+
+.backup-status {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.backup-status .status-info {
+  color: #58a6ff;
+  font-size: 0.95rem;
+}
+
+.backup-status .status-success {
+  color: #3fb950;
+  font-size: 0.95rem;
+}
+
+.backup-status .status-error {
+  color: #f85149;
+  font-size: 0.95rem;
+}
+
+.import-preview {
+  background: #21262d;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: left;
+}
+
+.import-preview p {
+  margin: 8px 0;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.import-preview strong {
+  color: var(--text-primary);
+}
+
+.import-warning {
+  color: #f0b429 !important;
+  margin-top: 15px !important;
+  padding-top: 15px;
+  border-top: 1px solid #30363d;
+}
+
+.btn-confirm-import {
+  width: 100%;
+  margin-top: 15px;
+  padding: 14px;
+  background: linear-gradient(135deg, #238636, #2ea043);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-confirm-import:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(46, 160, 67, 0.4);
+}
+
+/* Spinner Animasyonu */
+.btn-backup .spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid transparent;
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Mobil için sidebar footer düzeltmesi */
+@media (max-width: 768px) {
+  .backup-btn {
+    bottom: 55px;
+    right: 10px;
+    width: 36px;
+    height: 36px;
+    font-size: 1rem;
+  }
+  
+  .backup-modal {
+    width: 95%;
+    max-height: 90vh;
+  }
+  
+  .backup-header {
+    padding: 25px 20px 15px;
+  }
+  
+  .backup-icon {
+    font-size: 2.5rem;
+  }
+  
+  .backup-header h3 {
+    font-size: 1.4rem;
+  }
+  
+  .backup-body {
+    padding: 20px;
+  }
+}

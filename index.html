@@ -134,6 +134,11 @@
 
     <!-- Sidebar Alt Bilgi -->
     <div class="sidebar-footer">
+      <!-- Yedekleme Butonu -->
+      <button class="backup-btn" onclick="openBackupModal()" title="Veri Yedekle">
+        <span>💾</span>
+      </button>
+      
       <!-- PWA Install Button -->
       <button class="pwa-install-btn" id="pwaInstallBtn" style="display: none;">
         <span class="install-icon">📲</span>
@@ -284,6 +289,45 @@
     </footer>
   </main>
 
+  <!-- Yedekleme Modal -->
+  <div class="modal-overlay" id="backupModal">
+    <div class="modal-content backup-modal">
+      <button class="btn-modal-close" onclick="closeBackupModal()">×</button>
+      
+      <div class="backup-header">
+        <span class="backup-icon">💾</span>
+        <h3>Veri Yedekleme</h3>
+        <p class="backup-subtitle">Tüm verilerinizi güvenle saklayın</p>
+      </div>
+      
+      <div class="backup-body">
+        <!-- Dışa Aktar -->
+        <div class="backup-section">
+          <h4>📤 Yedeği İndir</h4>
+          <p>Tüm verilerinizi JSON dosyası olarak indirin.</p>
+          <button class="btn-backup export" id="exportBtn" onclick="exportAllData()">
+            💾 Yedeği İndir
+          </button>
+        </div>
+        
+        <div class="backup-divider"></div>
+        
+        <!-- İçe Aktar -->
+        <div class="backup-section">
+          <h4>📥 Yedekten Geri Yükle</h4>
+          <p>Daha önce indirdiğiniz yedeği geri yükleyin.</p>
+          <input type="file" id="backupFileInput" accept=".json" onchange="importBackupFile(event)" hidden>
+          <button class="btn-backup import" id="importBtn" onclick="selectBackupFile()">
+            📂 Dosya Seç
+          </button>
+        </div>
+        
+        <!-- Durum Mesajları -->
+        <div class="backup-status" id="backupStatus"></div>
+      </div>
+    </div>
+  </div>
+
   <!-- Firebase Modülü - AKTİF KULLANIM -->
   <script type="module">
     // Firebase SDK'larını import et
@@ -363,5 +407,6 @@
   <script src="js/sarkilar.js" defer></script>
   <script src="js/hikayemiz.js" defer></script>
   <script src="js/gunluk-soru.js" defer></script>
+  <script src="js/backup.js" defer></script>
 </body>
 </html>
