@@ -9,29 +9,32 @@ let calendarCache = {};
 
 // Duygu renkleri (19 duygu + boş)
 const duygular = {
-  // Temel Duygular
-  mutlu: { renk: '#FFD93D', emoji: '😊', ad: 'Mutlu' },
-  uzgun: { renk: '#6EC6FF', emoji: '😢', ad: 'Üzgün' },
-  gergin: { renk: '#FF6B6B', emoji: '😤', ad: 'Gergin' },
-  huzurlu: { renk: '#7ED957', emoji: '😌', ad: 'Huzurlu' },
-  endiseli: { renk: '#C77DFF', emoji: '😰', ad: 'Endişeli' },
-  // Yeni Duygular
-  heyecanli: { renk: '#FF9F43', emoji: '🤩', ad: 'Heyecanlı' },
-  yorgun: { renk: '#576574', emoji: '😴', ad: 'Yorgun' },
-  kirgin: { renk: '#8395A7', emoji: '😔', ad: 'Kırgın' },
-  kafasikarisik: { renk: '#FFEAA7', emoji: '🤔', ad: 'Kafası Karışık' },
-  tilki: { renk: '#FF7F50', emoji: '🦊', ad: 'Tilki' },
-  tavsan: { renk: '#FFB6C1', emoji: '🐰', ad: 'Tavşan' },
-  kararsiz: { renk: '#DDA0DD', emoji: '😕', ad: 'Kararsız' },
-  sakin: { renk: '#48DBFB', emoji: '😌', ad: 'Sakin' },
-  kofteyagmuru: { renk: '#CD6155', emoji: '🍖', ad: 'Köfte Yağmuru' },
-  rahat: { renk: '#82CCDD', emoji: '😎', ad: 'Rahat' },
-  bunalmis: { renk: '#9B59B6', emoji: '😩', ad: 'Bunalmış' },
-  stresli: { renk: '#E74C3C', emoji: '😰', ad: 'Stresli' },
-  umutlu: { renk: '#F8C471', emoji: '🌟', ad: 'Umutlu' },
-  guvende: { renk: '#58D68D', emoji: '🛡️', ad: 'Güvende' },
+  // İyi Duygular
+  mutlu: { renk: '#fdcb04', emoji: '😊', ad: 'Mutlu' },
+  huzurlu: { renk: '#6cd140', emoji: '😌', ad: 'Huzurlu' },
+  heyecanli: { renk: '#ca932c', emoji: '🤩', ad: 'Heyecanlı' },
+  tilki: { renk: '#ec6331', emoji: '🦊', ad: 'Tilki' },
+  tavsan: { renk: '#f7d3d8', emoji: '🐰', ad: 'Tavşan' },
+  sakin: { renk: '#489eb1', emoji: '😌', ad: 'Sakin' },
+  kofteyagmuru: { renk: '#ed09a1', emoji: '🍖', ad: 'Köfte Yağmuru' },
+  rahat: { renk: '#a7e8f8', emoji: '😎', ad: 'Rahat' },
+  umutlu: { renk: '#f1acf5', emoji: '🌟', ad: 'Umutlu' },
+  guvende: { renk: '#aaf3a5', emoji: '🛡️', ad: 'Güvende' },
+
+
+  // Kötü Duygular
+  uzgun: { renk: '#264e69', emoji: '😢', ad: 'Üzgün' },
+  gergin: { renk: '#790101', emoji: '😤', ad: 'Gergin' },
+  endiseli: { renk: '#58009b', emoji: '😰', ad: 'Endişeli' },
+  yorgun: { renk: '#8f8e8c', emoji: '😴', ad: 'Yorgun' },
+  kirgin: { renk: '#0f0f0f', emoji: '😔', ad: 'Kırgın' },
+  kafasikarisik: { renk: '#968cb1', emoji: '🤔', ad: 'Kafası Karışık' },
+  kararsiz: { renk: '#aa69aa', emoji: '😕', ad: 'Kararsız' },
+  bunalmis: { renk: '#4f1e04', emoji: '😩', ad: 'Bunalmış' },
+  stresli: { renk: '#4e543d', emoji: '😰', ad: 'Stresli' },
+
   // Boş
-  bos: { renk: '#3d444d', emoji: '⚪', ad: 'Girilmedi' }
+  bos: { renk: '#51666d63', emoji: '⚪', ad: 'Girilmedi' }
 };
 
 const aylar = ['OCAK', 'ŞUBAT', 'MART', 'NİSAN', 'MAYIS', 'HAZİRAN', 'TEMMUZ', 'AĞUSTOS', 'EYLÜL', 'EKİM', 'KASIM', 'ARALIK'];

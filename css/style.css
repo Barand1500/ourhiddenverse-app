@@ -2034,7 +2034,7 @@ body {
 .date-baslik {
   font-family: var(--font-heading);
   font-size: 1.25rem;
-  color: var(--dark-blue);
+  color: #c9d1d9;
   font-weight: 600;
   letter-spacing: 0.5px;
   margin: 0;

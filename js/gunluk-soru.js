@@ -15,6 +15,7 @@ const SORU_HAVUZU = [
   { id: 7, kategori: 'yemek', soru: 'Sevgilinin en sevdiği atıştırmalık nedir?', emoji: '🍿' },
   { id: 8, kategori: 'yemek', soru: 'Sevgilinin en sevdiği dondurma çeşidi nedir?', emoji: '🍦' },
   
+  
   // 💫 Tercihler
   { id: 9, kategori: 'tercih', soru: 'Sevgilinin en sevdiği renk nedir?', emoji: '🎨' },
   { id: 10, kategori: 'tercih', soru: 'Sevgilinin en sevdiği mevsim hangisi?', emoji: '🌸' },
