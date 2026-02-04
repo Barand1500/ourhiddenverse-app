@@ -23,7 +23,8 @@ const KOLEKSIYONLAR = [
   'hikayeler',
   'mektuplar',
   'timeline',
-  'calendar'
+  'calendar',
+  'galeri'
 ];
 
 // Yedekleme Modal'ını Aç

@@ -516,6 +516,12 @@ async function loadPageContent(pageName) {
     return;
   }
   
+  // Galeri sayfası için özel içerik
+  if (pageName === 'galeri') {
+    await loadGaleriPage();
+    return;
+  }
+  
   // Diğer sayfalar için geçici içerik
   const pageContents = {};
   
