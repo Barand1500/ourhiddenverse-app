@@ -10221,3 +10221,109 @@ body {
     padding: 20px;
   }
 }
+
+/* ============================================
+   FOTOĞRAF YÜKLEME STİLLERİ (Ortak)
+   ============================================ */
+
+.foto-upload-wrapper {
+  width: 100%;
+}
+
+.foto-upload-box {
+  border: 2px dashed #30363d;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: #0d1117;
+  min-height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.foto-upload-box:hover {
+  border-color: #7c3aed;
+  background: rgba(124, 58, 237, 0.05);
+}
+
+.foto-upload-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.foto-upload-icon {
+  font-size: 2rem;
+  opacity: 0.7;
+}
+
+.foto-upload-text {
+  color: #8b949e;
+  font-size: 0.9rem;
+}
+
+.foto-upload-preview {
+  position: relative;
+  width: 100%;
+  max-width: 200px;
+  margin: 0 auto;
+}
+
+.foto-upload-preview img {
+  width: 100%;
+  height: auto;
+  max-height: 150px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.foto-remove-btn {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #ef4444;
+  color: white;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+}
+
+.foto-remove-btn:hover {
+  transform: scale(1.1);
+}
+
+.foto-upload-progress {
+  margin-top: 10px;
+}
+
+.foto-progress-bar {
+  height: 6px;
+  background: #21262d;
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 5px;
+}
+
+.foto-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #7c3aed, #a855f7);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+  width: 0%;
+}
+
+.foto-progress-text {
+  color: #8b949e;
+  font-size: 0.8rem;
+}

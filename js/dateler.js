@@ -242,10 +242,10 @@ function showYapildiModal(dateId, dateBaslik) {
             <input type="text" id="yapildiKonum" placeholder="Örn: Kadıköy Sahil, İstanbul..." required>
           </div>
           <div class="form-group">
-            <label for="yapildiGorsel">🖼️ Görsel URL (opsiyonel)</label>
-            <input type="text" id="yapildiGorsel" placeholder="https://...">
+            <label>📷 Fotoğraf (opsiyonel)</label>
+            ${createFotoUploadHTML('yapildiGorsel', 'yapildiGorselPreview')}
           </div>
-          <button type="submit" class="btn-kaydet">💕 Kaydet</button>
+          <button type="submit" class="btn-kaydet" id="btnYapildiKaydet">💕 Kaydet</button>
         </form>
       </div>
     </div>
@@ -274,11 +274,28 @@ function showYapildiModal(dateId, dateBaslik) {
     
     const tarih = document.getElementById('yapildiTarih').value;
     const konum = document.getElementById('yapildiKonum').value.trim();
-    const gorselUrl = document.getElementById('yapildiGorsel').value.trim();
+    const kaydetBtn = document.getElementById('btnYapildiKaydet');
     
     if (tarih && konum) {
-      await saveYapildiDate(dateId, tarih, konum, gorselUrl);
-      modal.remove();
+      kaydetBtn.disabled = true;
+      kaydetBtn.innerHTML = '<span class="spinner"></span> Kaydediliyor...';
+      
+      try {
+        // Fotoğraf seçildiyse Cloudinary'e yükle
+        let gorselUrl = '';
+        const fotoInput = document.getElementById('yapildiGorsel');
+        if (fotoInput && fotoInput.files && fotoInput.files[0]) {
+          gorselUrl = await uploadSelectedFoto('yapildiGorsel', 'dateler');
+        }
+        
+        await saveYapildiDate(dateId, tarih, konum, gorselUrl);
+        modal.remove();
+      } catch (error) {
+        console.error('Kaydetme hatası:', error);
+        alert('Kaydetme sırasında hata oluştu!');
+        kaydetBtn.disabled = false;
+        kaydetBtn.innerHTML = '💕 Kaydet';
+      }
     }
   });
 }

@@ -24,7 +24,7 @@ const KOLEKSIYONLAR = [
   'mektuplar',
   'timeline',
   'calendar',
-  'galeri'
+  'places'
 ];
 
 // Yedekleme Modal'ını Aç

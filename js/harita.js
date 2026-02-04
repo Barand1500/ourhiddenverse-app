@@ -125,10 +125,10 @@ async function loadHaritaPage() {
                   <textarea id="dateNot" placeholder="Kısa bir not..." rows="2"></textarea>
                 </div>
                 <div class="form-group">
-                  <label>📷 Fotoğraf URL (opsiyonel)</label>
-                  <input type="url" id="dateFoto" placeholder="https://...">
+                  <label>📷 Fotoğraf (opsiyonel)</label>
+                  ${createFotoUploadHTML('dateFoto', 'dateFotoPreview')}
                 </div>
-                <button type="submit" class="btn-kaydet">💾 Kaydet</button>
+                <button type="submit" class="btn-kaydet" id="btnHaritaKaydet">💾 Kaydet</button>
               </form>
             </div>
           </div>
@@ -382,7 +382,18 @@ function openSehirModal(sehirKodu, sehirAdi) {
   document.getElementById('dateTarih').value = new Date().toISOString().split('T')[0];
   document.getElementById('datePuan').value = 0;
   document.getElementById('dateNot').value = '';
-  document.getElementById('dateFoto').value = '';
+  // Fotoğraf alanını sıfırla
+  const fotoInput = document.getElementById('dateFoto');
+  if (fotoInput) fotoInput.value = '';
+  const fotoPreview = document.getElementById('dateFotoPreview');
+  if (fotoPreview) fotoPreview.style.display = 'none';
+  const fotoPlaceholder = document.getElementById('dateFotoPlaceholder');
+  if (fotoPlaceholder) fotoPlaceholder.style.display = 'flex';
+  const kaydetBtn = document.getElementById('btnHaritaKaydet');
+  if (kaydetBtn) {
+    kaydetBtn.disabled = false;
+    kaydetBtn.innerHTML = '💾 Kaydet';
+  }
   document.querySelectorAll('#dateStarRating .star').forEach(s => {
     s.textContent = '☆';
     s.classList.remove('filled');
@@ -405,16 +416,26 @@ async function handleDateEkle(e) {
   const tarih = document.getElementById('dateTarih').value;
   const puan = parseInt(document.getElementById('datePuan').value) || 0;
   const not = document.getElementById('dateNot').value.trim();
-  const fotoUrl = document.getElementById('dateFoto').value.trim();
+  const kaydetBtn = document.getElementById('btnHaritaKaydet');
   
   if (!baslik || !tarih || puan === 0) {
     alert('Lütfen başlık, tarih ve puan giriniz!');
     return;
   }
   
+  kaydetBtn.disabled = true;
+  kaydetBtn.innerHTML = '<span class="spinner"></span> Kaydediliyor...';
+  
   await waitForFirebase();
   
   try {
+    // Fotoğraf seçildiyse Cloudinary'e yükle
+    let fotoUrl = '';
+    const fotoInput = document.getElementById('dateFoto');
+    if (fotoInput && fotoInput.files && fotoInput.files[0]) {
+      fotoUrl = await uploadSelectedFoto('dateFoto', 'sehirler');
+    }
+    
     const db = window.firebaseDb;
     const docRef = await window.firestoreAddDoc(
       window.firestoreCollection(db, 'places'),
