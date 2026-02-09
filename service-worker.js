@@ -3,7 +3,7 @@
    PWA için offline destek ve caching
    ============================================ */
 
-const CACHE_NAME = 'ourhiddenverse-v10';
+const CACHE_NAME = 'ourhiddenverse-v11';
 const urlsToCache = [
   './',
   './index.html',

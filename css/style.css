@@ -2081,6 +2081,108 @@ body {
   max-width: 450px;
 }
 
+/* Date Detay Modal Stilleri */
+.date-detay-modal {
+  max-width: 500px;
+  padding: 0;
+  overflow: hidden;
+}
+
+.date-detay-modal .btn-modal-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  z-index: 10;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.5);
+  border: none;
+  color: #fff;
+  font-size: 1.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.date-detay-modal .btn-modal-close:hover {
+  background: rgba(0, 0, 0, 0.7);
+  transform: scale(1.1);
+}
+
+.date-detay-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.date-detay-gorsel {
+  width: 100%;
+  height: 220px;
+  overflow: hidden;
+  position: relative;
+}
+
+.date-detay-gorsel img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.date-detay-placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--light-beige), var(--mid-blue));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 4rem;
+}
+
+.date-detay-info {
+  padding: 25px;
+}
+
+.date-detay-baslik {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  color: var(--text-primary);
+  margin: 0 0 15px 0;
+  line-height: 1.4;
+  word-wrap: break-word;
+}
+
+.date-detay-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.date-detay-tarih,
+.date-detay-konum {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.date-detay-notlar {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin: 15px 0 0 0;
+  padding-top: 15px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Yapılan date kartları tıklanabilir */
+.yapilan-date-card {
+  cursor: pointer;
+}
+
 /* -------- RESPONSIVE - DATELER -------- */
 @media (max-width: 768px) {
   .dateler-container {
@@ -2278,6 +2380,29 @@ body {
   .section-title {
     font-size: 1.1rem;
     margin-bottom: 12px;
+  }
+
+  /* Detay modal mobil */
+  .date-detay-modal {
+    max-width: 95%;
+    margin: 20px;
+  }
+
+  .date-detay-gorsel {
+    height: 180px;
+  }
+
+  .date-detay-info {
+    padding: 20px;
+  }
+
+  .date-detay-baslik {
+    font-size: 1.3rem;
+  }
+
+  .date-detay-meta {
+    flex-direction: column;
+    gap: 8px;
   }
 }
 
@@ -9211,6 +9336,33 @@ body {
   color: var(--text-primary);
   font-style: italic;
   line-height: 1.6;
+}
+
+/* Answer Waiting - Cevap alındı bekleniyor */
+.answer-waiting {
+  padding: 30px 20px;
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, rgba(16, 185, 129, 0.05) 100%);
+  border-radius: 12px;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  text-align: center;
+}
+
+.answer-waiting .waiting-icon {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.answer-waiting .waiting-text {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #22c55e;
+  margin: 0 0 8px 0;
+}
+
+.answer-waiting .waiting-subtext {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin: 0;
 }
 
 /* Voting Area */

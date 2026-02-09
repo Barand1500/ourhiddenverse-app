@@ -56,6 +56,16 @@ async function loadDatelerPage() {
         </form>
       </div>
     </div>
+
+    <!-- Yapılan Date Detay Modal -->
+    <div class="modal-overlay" id="dateDetayModal">
+      <div class="modal-content date-detay-modal">
+        <button class="btn-modal-close" id="btnDateDetayClose">×</button>
+        <div class="date-detay-content" id="dateDetayContent">
+          <!-- İçerik dinamik olarak doldurulacak -->
+        </div>
+      </div>
+    </div>
   `;
 
   setupDatelerEventListeners();
@@ -97,6 +107,20 @@ function setupDatelerEventListeners() {
       await addDateToIsterListesi(baslik);
       yeniDateForm.reset();
       dateModal.classList.remove('active');
+    }
+  });
+
+  // Detay modal event listener'ları
+  const dateDetayModal = document.getElementById('dateDetayModal');
+  const btnDateDetayClose = document.getElementById('btnDateDetayClose');
+
+  btnDateDetayClose.addEventListener('click', () => {
+    dateDetayModal.classList.remove('active');
+  });
+
+  dateDetayModal.addEventListener('click', (e) => {
+    if (e.target === dateDetayModal) {
+      dateDetayModal.classList.remove('active');
     }
   });
 }
@@ -407,7 +431,7 @@ function renderYapilanDateler() {
   emptyDiv.style.display = 'none';
   
   container.innerHTML = yapilanDatelerCache.map(date => `
-    <div class="yapilan-date-card" data-id="${date.id}">
+    <div class="yapilan-date-card" data-id="${date.id}" onclick="showDateDetay('${date.id}')">
       <div class="date-gorsel-wrapper">
         ${date.gorselUrl 
           ? `<img src="${date.gorselUrl}" alt="${date.baslik}" class="date-gorsel" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
@@ -422,9 +446,38 @@ function renderYapilanDateler() {
           ${date.konum ? `<span class="date-konum">📍 ${date.konum}</span>` : ''}
         </div>
       </div>
-      <button class="btn-date-sil" onclick="deleteYapilanDate('${date.id}')" title="Sil">🗑️</button>
+      <button class="btn-date-sil" onclick="event.stopPropagation(); deleteYapilanDate('${date.id}')" title="Sil">🗑️</button>
     </div>
   `).join('');
+}
+
+// Date detay modal'ını göster
+function showDateDetay(dateId) {
+  const date = yapilanDatelerCache.find(d => d.id === dateId);
+  if (!date) return;
+  
+  const modal = document.getElementById('dateDetayModal');
+  const content = document.getElementById('dateDetayContent');
+  
+  content.innerHTML = `
+    <div class="date-detay-gorsel">
+      ${date.gorselUrl 
+        ? `<img src="${date.gorselUrl}" alt="${date.baslik}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+           <div class="date-detay-placeholder" style="display:none;">💕</div>`
+        : `<div class="date-detay-placeholder">💕</div>`
+      }
+    </div>
+    <div class="date-detay-info">
+      <h2 class="date-detay-baslik">${date.baslik}</h2>
+      <div class="date-detay-meta">
+        <span class="date-detay-tarih">📅 ${formatDateTarih(date.tarih)}</span>
+        ${date.konum ? `<span class="date-detay-konum">📍 ${date.konum}</span>` : ''}
+      </div>
+      ${date.notlar ? `<p class="date-detay-notlar">${date.notlar}</p>` : ''}
+    </div>
+  `;
+  
+  modal.classList.add('active');
 }
 
 // Global fonksiyonları dışa aktar
@@ -432,3 +485,4 @@ window.loadDatelerPage = loadDatelerPage;
 window.markDateAsYapildi = markDateAsYapildi;
 window.deleteIsterDate = deleteIsterDate;
 window.deleteYapilanDate = deleteYapilanDate;
+window.showDateDetay = showDateDetay;

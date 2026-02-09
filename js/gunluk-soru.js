@@ -105,6 +105,7 @@ function formatTarih(tarih) {
 // Cache
 let cevaplarCache = {};
 let puanlarCache = { baran: 0, bahar: 0 };
+let oylamaYapiliyor = false; // Çoklu tıklama engeli
 
 // Ana sayfa yükleme
 async function loadGunlukSoruPage() {
@@ -179,21 +180,11 @@ async function loadGunlukSoruPage() {
           <p>Yükleniyor...</p>
         </div>
       </div>
-      
-      <!-- Geçmiş -->
-      <div class="history-section">
-        <h3 class="history-title">
-          <span class="history-icon">📜</span>
-          Geçmiş Sorular
-        </h3>
-        <div class="history-list" id="history-list"></div>
-      </div>
     </div>
   `;
   
   await loadPuanlar();
   await loadCevaplar();
-  await loadGecmis();
 }
 
 // Puanları yükle
@@ -239,10 +230,13 @@ async function loadCevaplar() {
   }
 }
 
-// Cevapları render et
+// Cevapları render et - YENİ MANTIK
 function renderCevaplar(soru) {
   const section = document.getElementById('answers-section');
   const { baranCevap, baharCevap, baranOy, baharOy } = cevaplarCache;
+  
+  // İki taraf da cevap verdi mi?
+  const ikiTarafCevapladi = baranCevap && baharCevap;
   
   let html = '<div class="answer-cards">';
   
@@ -255,6 +249,7 @@ function renderCevaplar(soru) {
     <div class="card-body">`;
   
   if (!baranCevap) {
+    // Baran henüz cevap vermedi - input göster
     html += `
       <div class="answer-input-area">
         <textarea id="baran-input" placeholder="Bahar hakkında cevabını yaz..."></textarea>
@@ -262,11 +257,20 @@ function renderCevaplar(soru) {
           ✓ Gönder
         </button>
       </div>`;
+  } else if (!ikiTarafCevapladi) {
+    // Baran cevap verdi ama Bahar henüz vermedi - sadece onay mesajı
+    html += `
+      <div class="answer-waiting">
+        <div class="waiting-icon">✅</div>
+        <p class="waiting-text">Cevabınız alınmıştır!</p>
+        <p class="waiting-subtext">Bahar'ın cevabı bekleniyor...</p>
+      </div>`;
   } else {
+    // İki taraf da cevap verdi - cevabı göster
     html += `<div class="answer-display"><p>"${baranCevap}"</p></div>`;
     
-    // Bahar oylayacak
-    if (baharCevap && baharOy === undefined) {
+    // Bahar oylayacak (sadece oylamamışsa)
+    if (baharOy === undefined) {
       html += `
         <div class="voting-area">
           <p class="voting-question">👩 Bahar, bu cevap doğru mu?</p>
@@ -279,7 +283,8 @@ function renderCevaplar(soru) {
             </button>
           </div>
         </div>`;
-    } else if (baharOy !== undefined) {
+    } else {
+      // Oylama yapıldı
       html += `<div class="vote-result ${baharOy ? 'correct' : 'wrong'}">
         ${baharOy ? '✅ Doğru! +1 puan' : '❌ Yanlış cevap'}
       </div>`;
@@ -297,6 +302,7 @@ function renderCevaplar(soru) {
     <div class="card-body">`;
   
   if (!baharCevap) {
+    // Bahar henüz cevap vermedi - input göster
     html += `
       <div class="answer-input-area">
         <textarea id="bahar-input" placeholder="Baran hakkında cevabını yaz..."></textarea>
@@ -304,11 +310,20 @@ function renderCevaplar(soru) {
           ✓ Gönder
         </button>
       </div>`;
+  } else if (!ikiTarafCevapladi) {
+    // Bahar cevap verdi ama Baran henüz vermedi - sadece onay mesajı
+    html += `
+      <div class="answer-waiting">
+        <div class="waiting-icon">✅</div>
+        <p class="waiting-text">Cevabınız alınmıştır!</p>
+        <p class="waiting-subtext">Baran'ın cevabı bekleniyor...</p>
+      </div>`;
   } else {
+    // İki taraf da cevap verdi - cevabı göster
     html += `<div class="answer-display"><p>"${baharCevap}"</p></div>`;
     
-    // Baran oylayacak
-    if (baranCevap && baranOy === undefined) {
+    // Baran oylayacak (sadece oylamamışsa)
+    if (baranOy === undefined) {
       html += `
         <div class="voting-area">
           <p class="voting-question">👨 Baran, bu cevap doğru mu?</p>
@@ -321,7 +336,8 @@ function renderCevaplar(soru) {
             </button>
           </div>
         </div>`;
-    } else if (baranOy !== undefined) {
+    } else {
+      // Oylama yapıldı
       html += `<div class="vote-result ${baranOy ? 'correct' : 'wrong'}">
         ${baranOy ? '✅ Doğru! +1 puan' : '❌ Yanlış cevap'}
       </div>`;
@@ -372,10 +388,32 @@ async function gonderCevap(kisi) {
   }
 }
 
-// Oy ver (doğru/yanlış)
+// Oy ver (doğru/yanlış) - SADECE 1 KERE TIKLANABİLİR
 async function oyVer(oylayan, hedef, dogruMu) {
+  // Çoklu tıklama engeli
+  if (oylamaYapiliyor) {
+    showToast('İşlem devam ediyor...', 'info');
+    return;
+  }
+  
+  // Zaten oylanmış mı kontrol et
+  if (cevaplarCache[`${oylayan}Oy`] !== undefined) {
+    showToast('Bu cevabı zaten oyladınız!', 'warning');
+    return;
+  }
+  
+  oylamaYapiliyor = true;
+  
   const tarih = getTarihKey();
   const soru = getSoruByTarih();
+  
+  // Butonları hemen devre dışı bırak
+  const section = document.getElementById('answers-section');
+  const buttons = section.querySelectorAll('.voting-buttons button');
+  buttons.forEach(btn => {
+    btn.disabled = true;
+    btn.style.opacity = '0.5';
+  });
   
   try {
     await waitForFirebase();
@@ -404,73 +442,15 @@ async function oyVer(oylayan, hedef, dogruMu) {
       document.getElementById(`${hedef}-puan`).textContent = puanlarCache[hedef];
       showToast(`${hedef === 'baran' ? 'Baran' : 'Bahar'} +1 puan kazandı! 🎉`, 'success');
     } else {
-      showToast('Yanlış olarak işaretlendi', 'info');
+      showToast('Yanıtınız alınmıştır ❌', 'info');
     }
     
     renderCevaplar(soru);
   } catch (error) {
     console.error('Oylama hatası:', error);
     showToast('Bir hata oluştu!', 'error');
-  }
-}
-
-// Geçmiş yükle
-async function loadGecmis() {
-  const list = document.getElementById('history-list');
-  
-  try {
-    await waitForFirebase();
-    const db = window.firebaseDb;
-    
-    const snapshot = await window.firestoreGetDocs(
-      window.firestoreQuery(
-        window.firestoreCollection(db, 'quizCevaplar'),
-        window.firestoreOrderBy('tarih', 'desc'),
-        window.firestoreLimit(10)
-      )
-    );
-    
-    if (snapshot.empty) {
-      list.innerHTML = '<p class="empty-msg">Henüz geçmiş soru yok</p>';
-      return;
-    }
-    
-    const bugun = getTarihKey();
-    let html = '';
-    
-    snapshot.forEach(doc => {
-      const data = doc.data();
-      if (doc.id === bugun) return;
-      
-      const soru = SORU_HAVUZU.find(s => s.id === data.soruId) || { emoji: '❓', soru: data.soru };
-      
-      html += `
-        <div class="history-item">
-          <div class="history-header">
-            <span class="history-emoji">${soru.emoji}</span>
-            <span class="history-date">${formatTarih(data.tarih)}</span>
-          </div>
-          <p class="history-question">${soru.soru}</p>
-          <div class="history-answers">
-            <div class="history-answer">
-              <span class="ha-name">👨 Baran:</span>
-              <span class="ha-text">${data.baranCevap || '-'}</span>
-              ${data.baharOy !== undefined ? `<span class="ha-result ${data.baharOy ? 'correct' : 'wrong'}">${data.baharOy ? '✅' : '❌'}</span>` : ''}
-            </div>
-            <div class="history-answer">
-              <span class="ha-name">👩 Bahar:</span>
-              <span class="ha-text">${data.baharCevap || '-'}</span>
-              ${data.baranOy !== undefined ? `<span class="ha-result ${data.baranOy ? 'correct' : 'wrong'}">${data.baranOy ? '✅' : '❌'}</span>` : ''}
-            </div>
-          </div>
-        </div>
-      `;
-    });
-    
-    list.innerHTML = html || '<p class="empty-msg">Henüz geçmiş soru yok</p>';
-  } catch (error) {
-    console.error('Geçmiş yükleme hatası:', error);
-    list.innerHTML = '<p class="error-msg">Yüklenirken hata oluştu</p>';
+  } finally {
+    oylamaYapiliyor = false;
   }
 }
 
