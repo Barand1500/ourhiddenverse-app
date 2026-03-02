@@ -266,7 +266,35 @@ async function loadHomeStats() {
         '<span class="durum-yazmadi">⏳ Bugün yazmadı</span>';
     }
     
-    console.log(`📊 İstatistikler yüklendi: ${filmCount} film, ${diziCount} dizi, ${dateCount} date, ${oyunCount} oyun, ${kitapCountBahar}+${kitapCountBaran} kitap, ${sehirCount} şehir, ${sarkiCount} şarkı, ${tamamlananHedef}/${toplamHedef} hedef, ${ozelGunCount} özel gün, ${baharMektupSayi}+${baranMektupSayi} mektup`);
+    // Kumbara/Birikim verilerini al
+    const birikimDoc = await window.firestoreGetDoc(
+      window.firestoreDoc(db, 'birikim', 'toplam')
+    );
+    
+    let baharBirikim = 0;
+    let baranBirikim = 0;
+    
+    if (birikimDoc.exists()) {
+      const birikimData = birikimDoc.data();
+      baharBirikim = birikimData.bahar || 0;
+      baranBirikim = birikimData.baran || 0;
+    }
+    
+    // Kumbara DOM güncelle
+    const baharBirikimEl = document.getElementById('baharBirikimCount');
+    const baranBirikimEl = document.getElementById('baranBirikimCount');
+    
+    const formatParaKisa = (miktar) => {
+      if (miktar >= 1000) {
+        return (miktar / 1000).toFixed(1).replace('.0', '') + 'K ₺';
+      }
+      return miktar + ' ₺';
+    };
+    
+    if (baharBirikimEl) baharBirikimEl.textContent = formatParaKisa(baharBirikim);
+    if (baranBirikimEl) baranBirikimEl.textContent = formatParaKisa(baranBirikim);
+    
+    console.log(`📊 İstatistikler yüklendi: ${filmCount} film, ${diziCount} dizi, ${dateCount} date, ${oyunCount} oyun, ${kitapCountBahar}+${kitapCountBaran} kitap, ${sehirCount} şehir, ${sarkiCount} şarkı, ${tamamlananHedef}/${toplamHedef} hedef, ${ozelGunCount} özel gün, ${baharMektupSayi}+${baranMektupSayi} mektup, ${baharBirikim}+${baranBirikim}₺ birikim`);
     
   } catch (error) {
     console.error('❌ İstatistikler yüklenirken hata:', error);
@@ -495,6 +523,12 @@ async function loadPageContent(pageName) {
   // Bucket List sayfası için özel içerik
   if (pageName === 'bucket-list') {
     await loadBucketListPage();
+    return;
+  }
+  
+  // Birikim/Kumbara sayfası için özel içerik
+  if (pageName === 'birikim') {
+    await loadBirikimPage();
     return;
   }
   

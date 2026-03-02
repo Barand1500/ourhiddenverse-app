@@ -6,6 +6,15 @@
 let currentCalendarMonth = new Date().getMonth();
 let currentCalendarYear = 2026;
 let calendarCache = {};
+let sadeGorunumAktif = false;
+
+// Sade görünüm renkleri
+const SADE_IYI_RENK = '#ffd700'; // Sarı
+const SADE_KOTU_RENK = '#ff4444'; // Kırmızı
+
+// İyi ve kötü duygular listesi
+const iyiDuygular = ['mutlu', 'huzurlu', 'heyecanli', 'tilki', 'tavsan', 'sakin', 'kofteyagmuru', 'rahat', 'umutlu', 'guvende'];
+const kotuDuygular = ['uzgun', 'gergin', 'endiseli', 'yorgun', 'kirgin', 'kafasikarisik', 'kararsiz', 'bunalmis', 'stresli'];
 
 // Duygu renkleri (19 duygu + boş)
 const duygular = {
@@ -59,6 +68,18 @@ async function loadTakvimPage() {
         <button class="takvim-nav-btn" onclick="oncekiAy()" title="Önceki Ay">◀</button>
         <h2 class="takvim-ay-baslik" id="takvimAyBaslik">${aylar[currentCalendarMonth]} 2026</h2>
         <button class="takvim-nav-btn" onclick="sonrakiAy()" title="Sonraki Ay">▶</button>
+      </div>
+      
+      <!-- Sade Görünüm Butonu -->
+      <div class="sade-gorunum-container">
+        <button class="sade-gorunum-btn" id="sadeGorunumBtn" onclick="toggleSadeGorunum()">
+          <span class="sade-icon">🎨</span>
+          <span class="sade-text">Sade Görünüm</span>
+        </button>
+        <div class="sade-legend" id="sadeLegend" style="display: none;">
+          <span class="sade-legend-item"><span class="sade-dot iyi"></span> İyi Gün</span>
+          <span class="sade-legend-item"><span class="sade-dot kotu"></span> Kötü Gün</span>
+        </div>
       </div>
       
       <!-- Gün İsimleri -->
@@ -161,8 +182,16 @@ function renderCalendar() {
   for (let gun = 1; gun <= gunSayisi; gun++) {
     const tarih = `${currentCalendarYear}-${String(currentCalendarMonth + 1).padStart(2, '0')}-${String(gun).padStart(2, '0')}`;
     const gunData = calendarCache[tarih] || { bahar: 'bos', baran: 'bos', not: '' };
-    const baharRenk = duygular[gunData.bahar]?.renk || duygular.bos.renk;
-    const baranRenk = duygular[gunData.baran]?.renk || duygular.bos.renk;
+    
+    // Sade görünüm aktifse renkleri değiştir
+    let baharRenk, baranRenk;
+    if (sadeGorunumAktif) {
+      baharRenk = getSadeRenk(gunData.bahar);
+      baranRenk = getSadeRenk(gunData.baran);
+    } else {
+      baharRenk = duygular[gunData.bahar]?.renk || duygular.bos.renk;
+      baranRenk = duygular[gunData.baran]?.renk || duygular.bos.renk;
+    }
     const notVar = gunData.not && gunData.not.trim() !== '';
     
     const bugunMu = tarih === bugunStr;
@@ -331,6 +360,35 @@ async function loadCalendarFromFirebase() {
   }
 }
 
+// Sade görünüm için renk döndür
+function getSadeRenk(duygu) {
+  if (duygu === 'bos') return duygular.bos.renk;
+  if (iyiDuygular.includes(duygu)) return SADE_IYI_RENK;
+  if (kotuDuygular.includes(duygu)) return SADE_KOTU_RENK;
+  return duygular.bos.renk;
+}
+
+// Sade görünüm toggle
+function toggleSadeGorunum() {
+  sadeGorunumAktif = !sadeGorunumAktif;
+  
+  const btn = document.getElementById('sadeGorunumBtn');
+  const legend = document.getElementById('sadeLegend');
+  const normalLegend = document.querySelector('.takvim-legend');
+  
+  if (sadeGorunumAktif) {
+    btn.classList.add('aktif');
+    if (legend) legend.style.display = 'flex';
+    if (normalLegend) normalLegend.style.display = 'none';
+  } else {
+    btn.classList.remove('aktif');
+    if (legend) legend.style.display = 'none';
+    if (normalLegend) normalLegend.style.display = 'flex';
+  }
+  
+  renderCalendar();
+}
+
 // Global fonksiyonlar - Takvim
 window.loadTakvimPage = loadTakvimPage;
 window.oncekiAy = oncekiAy;
@@ -340,3 +398,4 @@ window.closeDuygularModal = closeDuygularModal;
 window.selectDuygu = selectDuygu;
 window.saveDuygular = saveDuygular;
 window.updateNotKarakterSayisi = updateNotKarakterSayisi;
+window.toggleSadeGorunum = toggleSadeGorunum;
