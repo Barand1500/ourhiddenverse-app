@@ -87,6 +87,34 @@ async function loadTakvimPage() {
         </div>
       </div>
       
+      <!-- Streak Paneli -->
+      <div class="streak-panel" id="streakPanel">
+        <div class="streak-card mevcut">
+          <div class="streak-icon">🔥</div>
+          <div class="streak-info">
+            <span class="streak-label">Mevcut Seri</span>
+            <span class="streak-value" id="mevcutStreak">0</span>
+            <span class="streak-unit">gün</span>
+          </div>
+        </div>
+        <div class="streak-card rekor">
+          <div class="streak-icon">🏆</div>
+          <div class="streak-info">
+            <span class="streak-label">En Uzun Seri</span>
+            <span class="streak-value" id="rekorStreak">0</span>
+            <span class="streak-unit">gün</span>
+          </div>
+        </div>
+        <div class="streak-card toplam">
+          <div class="streak-icon">✨</div>
+          <div class="streak-info">
+            <span class="streak-label">Toplam İyi Gün</span>
+            <span class="streak-value" id="toplamIyiGunler">0</span>
+            <span class="streak-unit">gün</span>
+          </div>
+        </div>
+      </div>
+      
       <!-- Gün İsimleri -->
       <div class="takvim-gunler">
         ${gunler.map(g => `<div class="takvim-gun-isim">${g}</div>`).join('')}
@@ -162,6 +190,7 @@ async function loadTakvimPage() {
   
   await loadCalendarFromFirebase();
   renderCalendar();
+  updateStreakDisplay();
 }
 
 // Takvimi render et
@@ -341,6 +370,7 @@ async function saveDuygular() {
     
     closeDuygularModal();
     renderCalendar();
+    updateStreakDisplay();
     
     console.log(`🗓️ ${tarih} duyguları ve notu kaydedildi`);
   } catch (error) {
@@ -520,6 +550,123 @@ function renderYillikTakvim() {
   grid.innerHTML = html;
 }
 
+/* ============================================
+   STREAK SİSTEMİ
+   ============================================ */
+
+// Bir günün "iyi gün" olup olmadığını kontrol et (ikisi de iyi duygudaysa)
+function gunIyiMi(gunData) {
+  if (!gunData) return false;
+  const baharIyi = iyiDuygular.includes(gunData.bahar);
+  const baranIyi = iyiDuygular.includes(gunData.baran);
+  // İkisi de iyi duygudaysa iyi gün sayılır
+  return baharIyi && baranIyi;
+}
+
+// Streak hesaplama
+function hesaplaStreakler() {
+  const bugun = new Date();
+  const bugunStr = `${bugun.getFullYear()}-${String(bugun.getMonth() + 1).padStart(2, '0')}-${String(bugun.getDate()).padStart(2, '0')}`;
+  
+  // Tüm günleri tarihe göre sırala (1 Ocak 2026'dan bugüne)
+  const baslangicTarihi = new Date(2026, 0, 1);
+  const gunler = [];
+  
+  let tarih = new Date(baslangicTarihi);
+  while (tarih <= bugun) {
+    const tarihStr = `${tarih.getFullYear()}-${String(tarih.getMonth() + 1).padStart(2, '0')}-${String(tarih.getDate()).padStart(2, '0')}`;
+    gunler.push(tarihStr);
+    tarih.setDate(tarih.getDate() + 1);
+  }
+  
+  // Mevcut streak (bugünden geriye doğru)
+  let mevcutStreak = 0;
+  for (let i = gunler.length - 1; i >= 0; i--) {
+    const gunData = calendarCache[gunler[i]];
+    if (gunIyiMi(gunData)) {
+      mevcutStreak++;
+    } else if (gunData && (gunData.bahar !== 'bos' || gunData.baran !== 'bos')) {
+      // Gün girilmiş ama iyi gün değil - streak kırıldı
+      break;
+    } else if (gunler[i] === bugunStr) {
+      // Bugün henüz girilmemiş, devam et (dün kontrol edilecek)
+      continue;
+    } else {
+      // Geçmiş gün girilmemiş - streak kırıldı sayılır
+      break;
+    }
+  }
+  
+  // En uzun streak ve toplam iyi gün
+  let enUzunStreak = 0;
+  let toplamIyiGun = 0;
+  let geciciStreak = 0;
+  
+  for (let i = 0; i < gunler.length; i++) {
+    const gunData = calendarCache[gunler[i]];
+    if (gunIyiMi(gunData)) {
+      geciciStreak++;
+      toplamIyiGun++;
+      if (geciciStreak > enUzunStreak) {
+        enUzunStreak = geciciStreak;
+      }
+    } else if (gunData && (gunData.bahar !== 'bos' || gunData.baran !== 'bos')) {
+      // Gün girilmiş ama iyi gün değil
+      geciciStreak = 0;
+    } else {
+      // Gün girilmemiş - streak kırılır
+      geciciStreak = 0;
+    }
+  }
+  
+  return {
+    mevcut: mevcutStreak,
+    rekor: enUzunStreak,
+    toplamIyi: toplamIyiGun
+  };
+}
+
+// Streak görünümünü güncelle
+function updateStreakDisplay() {
+  const streakler = hesaplaStreakler();
+  
+  const mevcutEl = document.getElementById('mevcutStreak');
+  const rekorEl = document.getElementById('rekorStreak');
+  const toplamEl = document.getElementById('toplamIyiGunler');
+  
+  if (mevcutEl) {
+    mevcutEl.textContent = streakler.mevcut;
+    // Animasyon efekti
+    mevcutEl.parentElement.parentElement.classList.remove('pulse');
+    if (streakler.mevcut > 0) {
+      setTimeout(() => {
+        mevcutEl.parentElement.parentElement.classList.add('pulse');
+      }, 100);
+    }
+  }
+  
+  if (rekorEl) {
+    rekorEl.textContent = streakler.rekor;
+  }
+  
+  if (toplamEl) {
+    toplamEl.textContent = streakler.toplamIyi;
+  }
+  
+  // Mevcut streak yüksekse özel efektler
+  const streakPanel = document.getElementById('streakPanel');
+  if (streakPanel) {
+    streakPanel.classList.remove('streak-5', 'streak-10', 'streak-30');
+    if (streakler.mevcut >= 30) {
+      streakPanel.classList.add('streak-30');
+    } else if (streakler.mevcut >= 10) {
+      streakPanel.classList.add('streak-10');
+    } else if (streakler.mevcut >= 5) {
+      streakPanel.classList.add('streak-5');
+    }
+  }
+}
+
 // Global fonksiyonlar - Takvim
 window.loadTakvimPage = loadTakvimPage;
 window.oncekiAy = oncekiAy;
@@ -531,3 +678,4 @@ window.saveDuygular = saveDuygular;
 window.updateNotKarakterSayisi = updateNotKarakterSayisi;
 window.toggleSadeGorunum = toggleSadeGorunum;
 window.toggleYillikGorunum = toggleYillikGorunum;
+window.updateStreakDisplay = updateStreakDisplay;
