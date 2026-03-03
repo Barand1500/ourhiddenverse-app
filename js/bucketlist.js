@@ -1,12 +1,13 @@
 /* ============================================
    ORTAK HEDEFLER - MACERA YOLCULUĞU
-   🗺️ Yeni Tasarım - Quest Board Style
+   🗺️ Grid & Timeline Görünüm
    ============================================ */
 
 // State
 let bucketCache = [];
-let activeTab = 'aktif'; // aktif, tamamlanan, hepsi
+let activeTab = 'aktif';
 let activeKategori = null;
+let viewMode = localStorage.getItem('questViewMode') || 'grid'; // grid veya timeline
 
 // Kategoriler
 const kategoriler = {
@@ -24,22 +25,18 @@ const kategoriler = {
 async function loadBucketListPage() {
   const pageContent = document.getElementById('pageContent');
   
-  // Yıl seçenekleri
   const buYil = new Date().getFullYear();
   let yilOps = '<option value="">Yıl</option>';
   for (let y = buYil; y <= buYil + 15; y++) yilOps += `<option value="${y}">${y}</option>`;
   
-  // Ay seçenekleri  
   const ayIsim = ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'];
   let ayOps = '<option value="">Ay</option>';
   ayIsim.forEach((a, i) => ayOps += `<option value="${i+1}">${a}</option>`);
   
-  // Kategori seçenekleri
   let katOps = Object.entries(kategoriler).map(([k, v]) => 
     `<option value="${k}">${v.icon} ${v.isim}</option>`
   ).join('');
   
-  // Kategori filtreleri
   let katFiltre = Object.entries(kategoriler).map(([k, v]) =>
     `<button class="kat-btn" data-kat="${k}" style="--kat-renk: ${v.renk}">${v.icon}</button>`
   ).join('');
@@ -47,7 +44,7 @@ async function loadBucketListPage() {
   pageContent.innerHTML = `
     <div class="quest-page">
       
-      <!-- Hero Banner -->
+      <!-- Hero -->
       <div class="quest-hero">
         <div class="quest-hero-bg"></div>
         <div class="quest-hero-content">
@@ -58,7 +55,7 @@ async function loadBucketListPage() {
             </h1>
             <p class="quest-subtitle">Birlikte keşfedilecek hayaller</p>
           </div>
-          <div class="quest-hero-stats" id="questHeroStats">
+          <div class="quest-hero-stats">
             <div class="hero-stat">
               <span class="hero-stat-num" id="statAktif">0</span>
               <span class="hero-stat-label">Aktif</span>
@@ -72,8 +69,8 @@ async function loadBucketListPage() {
         <div class="quest-mascots">🐧🐰</div>
       </div>
       
-      <!-- Progress Journey -->
-      <div class="journey-progress" id="journeyProgress">
+      <!-- Journey Progress -->
+      <div class="journey-progress">
         <div class="journey-track">
           <div class="journey-fill" id="journeyFill"></div>
           <div class="journey-markers">
@@ -87,7 +84,7 @@ async function loadBucketListPage() {
         <p class="journey-text" id="journeyText">Yolculuk başlıyor...</p>
       </div>
       
-      <!-- Yeni Hedef Ekleme -->
+      <!-- Ekleme Formu -->
       <div class="quest-add-section">
         <div class="quest-add-toggle" onclick="toggleAddForm()">
           <span class="add-icon">✨</span>
@@ -123,34 +120,56 @@ async function loadBucketListPage() {
         </form>
       </div>
       
-      <!-- Tab Navigation -->
-      <div class="quest-tabs">
-        <button class="quest-tab active" data-tab="aktif">
-          <span>⏳</span> Devam Eden
-        </button>
-        <button class="quest-tab" data-tab="tamamlanan">
-          <span>✅</span> Başarılan
-        </button>
-        <button class="quest-tab" data-tab="hepsi">
-          <span>📋</span> Tümü
-        </button>
+      <!-- Tabs + View Toggle -->
+      <div class="quest-controls-row">
+        <div class="quest-tabs">
+          <button class="quest-tab active" data-tab="aktif">
+            <span>⏳</span> Devam Eden
+          </button>
+          <button class="quest-tab" data-tab="tamamlanan">
+            <span>✅</span> Başarılan
+          </button>
+          <button class="quest-tab" data-tab="hepsi">
+            <span>📋</span> Tümü
+          </button>
+        </div>
+        <div class="view-toggle">
+          <button class="view-btn ${viewMode === 'grid' ? 'active' : ''}" data-view="grid" title="Kart Görünümü">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <rect x="3" y="3" width="7" height="7" rx="1"/>
+              <rect x="14" y="3" width="7" height="7" rx="1"/>
+              <rect x="3" y="14" width="7" height="7" rx="1"/>
+              <rect x="14" y="14" width="7" height="7" rx="1"/>
+            </svg>
+          </button>
+          <button class="view-btn ${viewMode === 'timeline' ? 'active' : ''}" data-view="timeline" title="Timeline Görünümü">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <circle cx="6" cy="6" r="3"/>
+              <circle cx="6" cy="12" r="3"/>
+              <circle cx="6" cy="18" r="3"/>
+              <rect x="11" y="4" width="10" height="4" rx="1"/>
+              <rect x="11" y="10" width="10" height="4" rx="1"/>
+              <rect x="11" y="16" width="10" height="4" rx="1"/>
+            </svg>
+          </button>
+        </div>
       </div>
       
-      <!-- Kategori Filtreleri -->
+      <!-- Kategori Filter -->
       <div class="quest-kategori-bar">
         <button class="kat-btn active" data-kat="">Tümü</button>
         ${katFiltre}
       </div>
       
-      <!-- Quest Cards Container -->
-      <div class="quest-container" id="questContainer">
+      <!-- Container -->
+      <div class="quest-container ${viewMode}" id="questContainer">
         <div class="quest-loading">
           <div class="loading-bounce">🗺️</div>
           <p>Haritanız yükleniyor...</p>
         </div>
       </div>
       
-      <!-- Tamamlama Modal -->
+      <!-- Modals -->
       <div class="quest-modal" id="tamamlaModal">
         <div class="modal-overlay" onclick="closeModal('tamamlaModal')"></div>
         <div class="modal-box celebrate">
@@ -169,7 +188,6 @@ async function loadBucketListPage() {
         </div>
       </div>
       
-      <!-- Alt Hedef Modal -->
       <div class="quest-modal" id="altHedefModal">
         <div class="modal-overlay" onclick="closeModal('altHedefModal')"></div>
         <div class="modal-box">
@@ -193,7 +211,6 @@ async function loadBucketListPage() {
         </div>
       </div>
       
-      <!-- Success Celebration -->
       <div class="quest-celebration" id="celebration">
         <div class="celebration-content">
           <div class="celebration-confetti"></div>
@@ -207,7 +224,7 @@ async function loadBucketListPage() {
     </div>
   `;
   
-  // Event Listeners
+  // Events
   document.getElementById('questForm').addEventListener('submit', handleAddQuest);
   
   document.querySelectorAll('.quest-tab').forEach(tab => {
@@ -228,16 +245,27 @@ async function loadBucketListPage() {
     });
   });
   
+  // View toggle
+  document.querySelectorAll('.view-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      viewMode = btn.dataset.view;
+      localStorage.setItem('questViewMode', viewMode);
+      const container = document.getElementById('questContainer');
+      container.className = `quest-container ${viewMode}`;
+      renderQuests();
+    });
+  });
+  
   await loadQuests();
 }
 
-// Form toggle
 function toggleAddForm() {
-  const form = document.getElementById('questForm');
-  form.classList.toggle('collapsed');
+  document.getElementById('questForm').classList.toggle('collapsed');
 }
 
-// Firebase'den yükle
+// Firebase yükle
 async function loadQuests() {
   await waitForFirebase();
   
@@ -269,7 +297,7 @@ async function loadQuests() {
   }
 }
 
-// İstatistikleri güncelle
+// İstatistik
 function updateStats() {
   const aktif = bucketCache.filter(q => q.durum !== 'tamamlandi').length;
   const bitti = bucketCache.filter(q => q.durum === 'tamamlandi').length;
@@ -278,60 +306,53 @@ function updateStats() {
   document.getElementById('statAktif').textContent = aktif;
   document.getElementById('statBitti').textContent = bitti;
   
-  // Journey progress
   const yuzde = toplam > 0 ? Math.round((bitti / toplam) * 100) : 0;
   document.getElementById('journeyFill').style.width = `${yuzde}%`;
   
-  // Journey text
-  let journeyMsg = 'Yolculuk başlıyor...';
-  if (bitti >= 1 && bitti < 3) journeyMsg = `${bitti} hayal gerçek oldu! Devam 🌱`;
-  else if (bitti >= 3 && bitti < 7) journeyMsg = `${bitti} macera tamamlandı! Harika gidiyorsunuz 🗺️`;
-  else if (bitti >= 7 && bitti < 15) journeyMsg = `${bitti} başarı! Gerçek kaşiflersiniz ⭐`;
-  else if (bitti >= 15 && bitti < 25) journeyMsg = `${bitti} hayal gerçek! Muhteşem duo 🏆`;
-  else if (bitti >= 25) journeyMsg = `${bitti} başarı! Efsanesiniz! 💫`;
+  let msg = 'Yolculuk başlıyor...';
+  if (bitti >= 1 && bitti < 3) msg = `${bitti} hayal gerçek oldu! Devam 🌱`;
+  else if (bitti >= 3 && bitti < 7) msg = `${bitti} macera tamamlandı! 🗺️`;
+  else if (bitti >= 7 && bitti < 15) msg = `${bitti} başarı! Kaşifler ⭐`;
+  else if (bitti >= 15 && bitti < 25) msg = `${bitti} hayal! Muhteşem 🏆`;
+  else if (bitti >= 25) msg = `${bitti} başarı! Efsane! 💫`;
   
-  document.getElementById('journeyText').textContent = journeyMsg;
+  document.getElementById('journeyText').textContent = msg;
   
-  // Markers
   document.querySelectorAll('.journey-marker').forEach(m => {
     const at = parseInt(m.dataset.at) || 0;
     m.classList.toggle('active', yuzde >= at);
   });
 }
 
-// Questleri render et
+// Render
 function renderQuests() {
   const container = document.getElementById('questContainer');
   
   let filtered = [...bucketCache];
   
-  // Tab filter
   if (activeTab === 'aktif') {
     filtered = filtered.filter(q => q.durum !== 'tamamlandi');
   } else if (activeTab === 'tamamlanan') {
     filtered = filtered.filter(q => q.durum === 'tamamlandi');
   }
   
-  // Kategori filter
   if (activeKategori) {
     filtered = filtered.filter(q => q.kategori === activeKategori);
   }
   
-  // Sort by hedef tarihi, then createdAt
+  // Sort
   filtered.sort((a, b) => {
     const aY = a.hedefTarihi?.yil || 9999;
     const bY = b.hedefTarihi?.yil || 9999;
     const aM = a.hedefTarihi?.ay || 0;
     const bM = b.hedefTarihi?.ay || 0;
-    const aScore = aY * 12 + aM;
-    const bScore = bY * 12 + bM;
-    if (aScore !== bScore) return aScore - bScore;
+    if (aY * 12 + aM !== bY * 12 + bM) return (aY * 12 + aM) - (bY * 12 + bM);
     return (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0);
   });
   
   if (filtered.length === 0) {
     const msg = activeTab === 'tamamlanan' 
-      ? 'Henüz tamamlanan hedef yok. İlk maceraya başla!'
+      ? 'Henüz tamamlanan hedef yok.'
       : activeTab === 'aktif'
       ? 'Aktif hedef yok. Yeni bir hayal ekle!'
       : 'Henüz hedef eklenmemiş.';
@@ -345,26 +366,97 @@ function renderQuests() {
     return;
   }
   
-  container.innerHTML = filtered.map((q, i) => renderQuestCard(q, i)).join('');
+  if (viewMode === 'timeline') {
+    container.innerHTML = `<div class="timeline-wrapper">${filtered.map((q, i) => renderTimelineItem(q, i)).join('')}</div>`;
+  } else {
+    container.innerHTML = filtered.map((q, i) => renderQuestCard(q, i)).join('');
+  }
 }
 
-// Tek quest kartı
+// Timeline Item
+function renderTimelineItem(quest, idx) {
+  const kat = kategoriler[quest.kategori] || kategoriler.diger;
+  const done = quest.durum === 'tamamlandi';
+  const kisiIcon = quest.ekleyen === 'Baran' ? '🐧' : quest.ekleyen === 'Bahar' ? '🐰' : '🐧🐰';
+  const hedefTarih = formatTarih(quest.hedefTarihi);
+  const tamamTarih = quest.tamamlanmaTarihi ? formatTimestamp(quest.tamamlanmaTarihi) : '';
+  
+  // Alt hedefler
+  const altHedefler = (quest.altHedefler || []).slice().sort((a, b) => {
+    const aY = a.hedefTarihi?.yil || 9999;
+    const bY = b.hedefTarihi?.yil || 9999;
+    return (aY * 12 + (a.hedefTarihi?.ay || 0)) - (bY * 12 + (b.hedefTarihi?.ay || 0));
+  });
+  
+  const altDone = altHedefler.filter(a => a.durum === 'tamamlandi').length;
+  const altTotal = altHedefler.length;
+  const isBuyuk = quest.buyukHedef || altTotal > 0;
+  
+  let altHTML = '';
+  if (isBuyuk && !done && altTotal > 0) {
+    altHTML = `
+      <div class="tl-checkpoints">
+        ${altHedefler.map(alt => `
+          <div class="tl-cp ${alt.durum === 'tamamlandi' ? 'done' : ''}" onclick="toggleCheckpoint('${quest.id}', '${alt.id}')">
+            <span class="tl-cp-check">${alt.durum === 'tamamlandi' ? '✓' : '○'}</span>
+            <span>${alt.baslik}</span>
+            ${alt.hedefTarihi ? `<span class="tl-cp-date">${formatTarih(alt.hedefTarihi)}</span>` : ''}
+          </div>
+        `).join('')}
+        <button class="tl-add-cp" onclick="openAltModal('${quest.id}')">+ Checkpoint</button>
+      </div>
+    `;
+  } else if (isBuyuk && !done) {
+    altHTML = `<button class="tl-add-cp solo" onclick="openAltModal('${quest.id}')">+ Checkpoint Ekle</button>`;
+  }
+  
+  return `
+    <div class="timeline-item ${done ? 'completed' : ''}" style="--delay: ${idx * 0.08}s; --kat-renk: ${kat.renk}">
+      <div class="tl-dot" style="background: ${kat.renk}">
+        ${done ? '✓' : kat.icon}
+      </div>
+      <div class="tl-line"></div>
+      <div class="tl-content">
+        <div class="tl-header">
+          <span class="tl-kat" style="color: ${kat.renk}">${kat.icon} ${kat.isim}</span>
+          <span class="tl-kisi">${kisiIcon}</span>
+          ${hedefTarih ? `<span class="tl-target">🎯 ${hedefTarih}</span>` : ''}
+        </div>
+        <h3 class="tl-title">${quest.baslik}</h3>
+        ${isBuyuk ? '<span class="tl-big-badge">🏔️ Büyük Hedef</span>' : ''}
+        ${quest.aciklama ? `<p class="tl-desc">${quest.aciklama}</p>` : ''}
+        
+        ${altHTML}
+        
+        ${done ? `
+          <div class="tl-completed">
+            <span class="tl-done-badge">✓ Başarıldı</span>
+            ${tamamTarih ? `<span class="tl-done-date">🎉 ${tamamTarih}</span>` : ''}
+            ${quest.not ? `<p class="tl-note">"${quest.not}"</p>` : ''}
+          </div>
+        ` : `
+          <div class="tl-actions">
+            <button class="tl-btn-complete" onclick="openTamamlaModal('${quest.id}')">✨ Tamamla</button>
+            <button class="tl-btn-delete" onclick="deleteQuest('${quest.id}')">🗑️</button>
+          </div>
+        `}
+      </div>
+    </div>
+  `;
+}
+
+// Grid Card
 function renderQuestCard(quest, idx) {
   const kat = kategoriler[quest.kategori] || kategoriler.diger;
   const done = quest.durum === 'tamamlandi';
   const kisiIcon = quest.ekleyen === 'Baran' ? '🐧' : quest.ekleyen === 'Bahar' ? '🐰' : '🐧🐰';
-  
-  // Tarih format
   const hedefTarih = formatTarih(quest.hedefTarihi);
   const tamamTarih = quest.tamamlanmaTarihi ? formatTimestamp(quest.tamamlanmaTarihi) : '';
   
-  // Alt hedefler - ID bazlı sort
   const altHedefler = (quest.altHedefler || []).slice().sort((a, b) => {
     const aY = a.hedefTarihi?.yil || 9999;
     const bY = b.hedefTarihi?.yil || 9999;
-    const aM = a.hedefTarihi?.ay || 0;
-    const bM = b.hedefTarihi?.ay || 0;
-    return (aY * 12 + aM) - (bY * 12 + bM);
+    return (aY * 12 + (a.hedefTarihi?.ay || 0)) - (bY * 12 + (b.hedefTarihi?.ay || 0));
   });
   
   const altDone = altHedefler.filter(a => a.durum === 'tamamlandi').length;
@@ -372,7 +464,6 @@ function renderQuestCard(quest, idx) {
   const altPct = altTotal > 0 ? Math.round((altDone / altTotal) * 100) : 0;
   const isBuyuk = quest.buyukHedef || altTotal > 0;
   
-  // Alt hedef listesi HTML - ÖNEMLİ: index yerine ID kullanıyoruz!
   let altHTML = '';
   if (isBuyuk && !done) {
     altHTML = `
@@ -382,9 +473,7 @@ function renderQuestCard(quest, idx) {
           ${altTotal > 0 ? `<span class="cp-count">${altDone}/${altTotal}</span>` : ''}
         </div>
         ${altTotal > 0 ? `
-          <div class="cp-progress-bar">
-            <div class="cp-progress-fill" style="width: ${altPct}%"></div>
-          </div>
+          <div class="cp-progress-bar"><div class="cp-progress-fill" style="width: ${altPct}%"></div></div>
           <div class="cp-list">
             ${altHedefler.map(alt => `
               <div class="cp-item ${alt.durum === 'tamamlandi' ? 'done' : ''}" onclick="toggleCheckpoint('${quest.id}', '${alt.id}')">
@@ -401,25 +490,16 @@ function renderQuestCard(quest, idx) {
   }
   
   return `
-    <div class="quest-card ${done ? 'completed' : ''} ${isBuyuk ? 'big' : ''}" 
-         style="--delay: ${idx * 0.05}s; --kat-renk: ${kat.renk}">
-      
+    <div class="quest-card ${done ? 'completed' : ''} ${isBuyuk ? 'big' : ''}" style="--delay: ${idx * 0.05}s; --kat-renk: ${kat.renk}">
       <div class="quest-card-top">
-        <span class="quest-kat" style="background: ${kat.renk}22; color: ${kat.renk}">
-          ${kat.icon} ${kat.isim}
-        </span>
+        <span class="quest-kat" style="background: ${kat.renk}22; color: ${kat.renk}">${kat.icon} ${kat.isim}</span>
         <span class="quest-kisi">${kisiIcon}</span>
       </div>
-      
       ${isBuyuk ? '<div class="big-badge">🏔️ Büyük Hedef</div>' : ''}
-      
       <h3 class="quest-title-text">${quest.baslik}</h3>
-      
       ${hedefTarih ? `<div class="quest-target">🎯 ${hedefTarih}</div>` : ''}
       ${quest.aciklama ? `<p class="quest-desc">${quest.aciklama}</p>` : ''}
-      
       ${altHTML}
-      
       ${done ? `
         <div class="quest-completed-info">
           <div class="completed-badge">✓ Başarıldı</div>
@@ -428,20 +508,15 @@ function renderQuestCard(quest, idx) {
         </div>
       ` : `
         <div class="quest-actions">
-          <button class="btn-complete" onclick="openTamamlaModal('${quest.id}')">
-            ✨ Tamamla
-          </button>
-          <button class="btn-delete" onclick="deleteQuest('${quest.id}')" title="Sil">
-            🗑️
-          </button>
+          <button class="btn-complete" onclick="openTamamlaModal('${quest.id}')">✨ Tamamla</button>
+          <button class="btn-delete" onclick="deleteQuest('${quest.id}')" title="Sil">🗑️</button>
         </div>
       `}
-      
     </div>
   `;
 }
 
-// Tarih formatları
+// Tarih formatları - Invalid Date fix!
 function formatTarih(t) {
   if (!t || !t.yil) return '';
   const aylar = ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'];
@@ -450,15 +525,34 @@ function formatTarih(t) {
 
 function formatTimestamp(ts) {
   if (!ts) return '';
+  
   let d;
-  if (ts.seconds) d = new Date(ts.seconds * 1000);
-  else if (ts instanceof Date) d = ts;
-  else d = new Date(ts);
-  const aylar = ['Oca','Şub','Mar','Nis','May','Haz','Tem','Ağu','Eyl','Eki','Kas','Ara'];
-  return `${d.getDate()} ${aylar[d.getMonth()]} ${d.getFullYear()}`;
+  try {
+    if (ts.seconds) {
+      d = new Date(ts.seconds * 1000);
+    } else if (ts.toDate && typeof ts.toDate === 'function') {
+      d = ts.toDate();
+    } else if (ts instanceof Date) {
+      d = ts;
+    } else if (typeof ts === 'string') {
+      d = new Date(ts);
+    } else if (typeof ts === 'number') {
+      d = new Date(ts);
+    } else {
+      return '';
+    }
+    
+    // Invalid Date check
+    if (isNaN(d.getTime())) return '';
+    
+    const aylar = ['Oca','Şub','Mar','Nis','May','Haz','Tem','Ağu','Eyl','Eki','Kas','Ara'];
+    return `${d.getDate()} ${aylar[d.getMonth()]} ${d.getFullYear()}`;
+  } catch (e) {
+    return '';
+  }
 }
 
-// Yeni hedef ekle
+// Hedef ekle
 async function handleAddQuest(e) {
   e.preventDefault();
   
@@ -509,7 +603,7 @@ async function handleAddQuest(e) {
   }
 }
 
-// Modal işlemleri
+// Modal
 let currentQuestId = null;
 
 function openTamamlaModal(id) {
@@ -539,7 +633,7 @@ function closeModal(id) {
   currentQuestId = null;
 }
 
-// Tamamlamayı onayla
+// Tamamla
 async function confirmTamamla() {
   if (!currentQuestId) return;
   
@@ -618,7 +712,7 @@ async function confirmAltHedef() {
   }
 }
 
-// Checkpoint toggle - ID BAZLI (bug fix!)
+// Checkpoint toggle - ID bazlı
 async function toggleCheckpoint(questId, altId) {
   await waitForFirebase();
   
@@ -627,7 +721,6 @@ async function toggleCheckpoint(questId, altId) {
     const quest = bucketCache.find(q => q.id === questId);
     if (!quest || !quest.altHedefler) return;
     
-    // ID ile bul (index yerine!)
     const altHedefler = quest.altHedefler.map(alt => {
       if (alt.id === altId) {
         return {
@@ -644,7 +737,6 @@ async function toggleCheckpoint(questId, altId) {
       { altHedefler }
     );
     
-    // Tamamlandı mı kontrol et
     const toggled = altHedefler.find(a => a.id === altId);
     if (toggled?.durum === 'tamamlandi') {
       showToast('🎯 Checkpoint tamamlandı!');
@@ -657,7 +749,7 @@ async function toggleCheckpoint(questId, altId) {
   }
 }
 
-// Hedef sil
+// Sil
 async function deleteQuest(id) {
   if (!confirm('Bu hayali silmek istediğine emin misin?')) return;
   
@@ -698,7 +790,6 @@ function showCelebration(title) {
   document.getElementById('celebrationText').textContent = `"${title}" gerçek oldu!`;
   el.classList.add('active');
   
-  // Confetti
   const confetti = el.querySelector('.celebration-confetti');
   confetti.innerHTML = '';
   const emojis = ['🎉','🎊','✨','💫','⭐','🌟','💕','🎯'];
@@ -716,7 +807,7 @@ function closeCelebration() {
   document.getElementById('celebration').classList.remove('active');
 }
 
-// Global exports
+// Global
 window.loadBucketListPage = loadBucketListPage;
 window.toggleAddForm = toggleAddForm;
 window.openTamamlaModal = openTamamlaModal;
