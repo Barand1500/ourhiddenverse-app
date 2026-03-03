@@ -4715,6 +4715,196 @@ body {
   font-size: 1.2rem;
 }
 
+/* Yıllık Özet Butonu */
+.yillik-ozet-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: #21262d;
+  border: 2px solid #30363d;
+  border-radius: 25px;
+  color: #c9d1d9;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.yillik-ozet-btn:hover {
+  background: #30363d;
+  border-color: #a371f7;
+}
+
+.yillik-ozet-btn.aktif {
+  background: linear-gradient(135deg, #a371f7 0%, #ec6cb9 100%);
+  border-color: transparent;
+  color: #fff;
+  font-weight: 600;
+}
+
+.yillik-ozet-btn .yillik-icon {
+  font-size: 1.2rem;
+}
+
+/* Yıllık Özet Container */
+.yillik-ozet-container {
+  padding: 10px;
+}
+
+.yillik-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+@media (max-width: 1200px) {
+  .yillik-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .yillik-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .yillik-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Yıllık Ay Kartı */
+.yillik-ay-kart {
+  background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+  border: 1px solid #30363d;
+  border-radius: 16px;
+  padding: 15px;
+  transition: all 0.3s ease;
+}
+
+.yillik-ay-kart:hover {
+  border-color: #a371f7;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(163, 113, 247, 0.2);
+}
+
+.yillik-ay-baslik {
+  text-align: center;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #a371f7;
+  margin-bottom: 12px;
+  letter-spacing: 1px;
+}
+
+.yillik-ay-gunler {
+  background: #0d1117;
+  border-radius: 10px;
+  padding: 8px;
+}
+
+.yillik-gun-isimleri {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+  margin-bottom: 5px;
+}
+
+.yillik-gun-isimleri span {
+  text-align: center;
+  font-size: 0.65rem;
+  color: #8b949e;
+  font-weight: 600;
+}
+
+.yillik-gun-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 3px;
+}
+
+.yillik-gun {
+  aspect-ratio: 1;
+  border-radius: 4px;
+  overflow: hidden;
+  display: flex;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.yillik-gun:hover:not(.bos):not(.gelecek) {
+  transform: scale(1.2);
+  z-index: 10;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5);
+}
+
+.yillik-gun.bos {
+  background: transparent;
+  cursor: default;
+}
+
+.yillik-gun.bugun {
+  outline: 2px solid #58a6ff;
+  outline-offset: 1px;
+}
+
+.yillik-gun.gelecek {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.yillik-duygu-yarisi {
+  width: 50%;
+  height: 100%;
+}
+
+.yillik-duygu-yarisi.bahar {
+  border-radius: 4px 0 0 4px;
+}
+
+.yillik-duygu-yarisi.baran {
+  border-radius: 0 4px 4px 0;
+}
+
+/* Yıllık Ay İstatistikleri */
+.yillik-ay-stats {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.stat-item {
+  font-size: 0.75rem;
+  padding: 3px 8px;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+.stat-item.dolu {
+  background: #30363d;
+  color: #c9d1d9;
+}
+
+.stat-item.iyi {
+  background: rgba(255, 215, 0, 0.2);
+  color: #ffd700;
+}
+
+.stat-item.kotu {
+  background: rgba(255, 68, 68, 0.2);
+  color: #ff4444;
+}
+
+/* Takvim Header Yıllık Mode */
+.takvim-header.yillik-mode .takvim-nav-btn {
+  visibility: hidden;
+}
+
 .sade-legend {
   display: flex;
   align-items: center;

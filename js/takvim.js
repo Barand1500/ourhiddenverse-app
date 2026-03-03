@@ -7,6 +7,7 @@ let currentCalendarMonth = new Date().getMonth();
 let currentCalendarYear = 2026;
 let calendarCache = {};
 let sadeGorunumAktif = false;
+let yillikGorunumAktif = false;
 
 // Sade görünüm renkleri
 const SADE_IYI_RENK = '#ffd700'; // Sarı
@@ -70,11 +71,15 @@ async function loadTakvimPage() {
         <button class="takvim-nav-btn" onclick="sonrakiAy()" title="Sonraki Ay">▶</button>
       </div>
       
-      <!-- Sade Görünüm Butonu -->
+      <!-- Sade Görünüm ve Yıllık Özet Butonları -->
       <div class="sade-gorunum-container">
         <button class="sade-gorunum-btn" id="sadeGorunumBtn" onclick="toggleSadeGorunum()">
           <span class="sade-icon">🎨</span>
           <span class="sade-text">Sade Görünüm</span>
+        </button>
+        <button class="yillik-ozet-btn" id="yillikOzetBtn" onclick="toggleYillikGorunum()">
+          <span class="yillik-icon">📅</span>
+          <span class="yillik-text">Yıllık Özet</span>
         </button>
         <div class="sade-legend" id="sadeLegend" style="display: none;">
           <span class="sade-legend-item"><span class="sade-dot iyi"></span> İyi Gün</span>
@@ -89,6 +94,11 @@ async function loadTakvimPage() {
       
       <!-- Takvim Grid -->
       <div class="takvim-grid" id="takvimGrid"></div>
+      
+      <!-- Yıllık Özet Grid -->
+      <div class="yillik-ozet-container" id="yillikOzetContainer" style="display: none;">
+        <div class="yillik-grid" id="yillikGrid"></div>
+      </div>
       
       <!-- Renk Açıklaması -->
       <div class="takvim-legend">
@@ -386,7 +396,128 @@ function toggleSadeGorunum() {
     if (normalLegend) normalLegend.style.display = 'flex';
   }
   
-  renderCalendar();
+  if (yillikGorunumAktif) {
+    renderYillikTakvim();
+  } else {
+    renderCalendar();
+  }
+}
+
+// Yıllık görünüm toggle
+function toggleYillikGorunum() {
+  yillikGorunumAktif = !yillikGorunumAktif;
+  
+  const btn = document.getElementById('yillikOzetBtn');
+  const takvimHeader = document.querySelector('.takvim-header');
+  const takvimGunler = document.querySelector('.takvim-gunler');
+  const takvimGrid = document.getElementById('takvimGrid');
+  const yillikContainer = document.getElementById('yillikOzetContainer');
+  const baslikEl = document.getElementById('takvimAyBaslik');
+  
+  if (yillikGorunumAktif) {
+    btn.classList.add('aktif');
+    if (takvimHeader) takvimHeader.classList.add('yillik-mode');
+    if (takvimGunler) takvimGunler.style.display = 'none';
+    if (takvimGrid) takvimGrid.style.display = 'none';
+    if (yillikContainer) yillikContainer.style.display = 'block';
+    if (baslikEl) baslikEl.textContent = '2026 YILLIK ÖZET';
+    renderYillikTakvim();
+  } else {
+    btn.classList.remove('aktif');
+    if (takvimHeader) takvimHeader.classList.remove('yillik-mode');
+    if (takvimGunler) takvimGunler.style.display = 'grid';
+    if (takvimGrid) takvimGrid.style.display = 'grid';
+    if (yillikContainer) yillikContainer.style.display = 'none';
+    if (baslikEl) baslikEl.textContent = `${aylar[currentCalendarMonth]} ${currentCalendarYear}`;
+    renderCalendar();
+  }
+}
+
+// Yıllık takvimi render et
+function renderYillikTakvim() {
+  const grid = document.getElementById('yillikGrid');
+  if (!grid) return;
+  
+  const bugun = new Date();
+  const bugunStr = `${bugun.getFullYear()}-${String(bugun.getMonth() + 1).padStart(2, '0')}-${String(bugun.getDate()).padStart(2, '0')}`;
+  
+  let html = '';
+  
+  // Her ay için bir kart oluştur
+  for (let ay = 0; ay < 12; ay++) {
+    const ilkGun = new Date(2026, ay, 1);
+    const sonGun = new Date(2026, ay + 1, 0);
+    const gunSayisi = sonGun.getDate();
+    
+    let baslangicGunu = ilkGun.getDay() - 1;
+    if (baslangicGunu < 0) baslangicGunu = 6;
+    
+    // Ay istatistikleri
+    let iyiGunSayisi = 0;
+    let kotuGunSayisi = 0;
+    let doluGunSayisi = 0;
+    
+    html += `<div class="yillik-ay-kart">
+      <div class="yillik-ay-baslik">${aylar[ay]}</div>
+      <div class="yillik-ay-gunler">
+        <div class="yillik-gun-isimleri">
+          ${gunler.map(g => `<span>${g.charAt(0)}</span>`).join('')}
+        </div>
+        <div class="yillik-gun-grid">`;
+    
+    // Boş günler
+    for (let i = 0; i < baslangicGunu; i++) {
+      html += '<div class="yillik-gun bos"></div>';
+    }
+    
+    // Günler
+    for (let gun = 1; gun <= gunSayisi; gun++) {
+      const tarih = `2026-${String(ay + 1).padStart(2, '0')}-${String(gun).padStart(2, '0')}`;
+      const gunData = calendarCache[tarih] || { bahar: 'bos', baran: 'bos' };
+      
+      // Renk hesapla (ikisinin ortalaması veya baskın)
+      let baharRenk, baranRenk;
+      if (sadeGorunumAktif) {
+        baharRenk = getSadeRenk(gunData.bahar);
+        baranRenk = getSadeRenk(gunData.baran);
+      } else {
+        baharRenk = duygular[gunData.bahar]?.renk || duygular.bos.renk;
+        baranRenk = duygular[gunData.baran]?.renk || duygular.bos.renk;
+      }
+      
+      // İstatistikler için
+      if (gunData.bahar !== 'bos' || gunData.baran !== 'bos') {
+        doluGunSayisi++;
+        const baharIyi = iyiDuygular.includes(gunData.bahar);
+        const baranIyi = iyiDuygular.includes(gunData.baran);
+        if (baharIyi && baranIyi) iyiGunSayisi++;
+        else if (!baharIyi && !baranIyi && gunData.bahar !== 'bos' && gunData.baran !== 'bos') kotuGunSayisi++;
+      }
+      
+      const bugunMu = tarih === bugunStr;
+      const gelecekMi = new Date(tarih) > new Date(bugunStr);
+      
+      html += `
+        <div class="yillik-gun ${bugunMu ? 'bugun' : ''} ${gelecekMi ? 'gelecek' : ''}" 
+             title="${gun} ${aylar[ay]}"
+             ${!gelecekMi ? `onclick="openDuygularModal('${tarih}')"` : ''}>
+          <div class="yillik-duygu-yarisi bahar" style="background: ${baharRenk}"></div>
+          <div class="yillik-duygu-yarisi baran" style="background: ${baranRenk}"></div>
+        </div>
+      `;
+    }
+    
+    html += `</div>
+      </div>
+      <div class="yillik-ay-stats">
+        <span class="stat-item dolu">${doluGunSayisi} gün</span>
+        ${iyiGunSayisi > 0 ? `<span class="stat-item iyi">✓ ${iyiGunSayisi}</span>` : ''}
+        ${kotuGunSayisi > 0 ? `<span class="stat-item kotu">✗ ${kotuGunSayisi}</span>` : ''}
+      </div>
+    </div>`;
+  }
+  
+  grid.innerHTML = html;
 }
 
 // Global fonksiyonlar - Takvim
@@ -399,3 +530,4 @@ window.selectDuygu = selectDuygu;
 window.saveDuygular = saveDuygular;
 window.updateNotKarakterSayisi = updateNotKarakterSayisi;
 window.toggleSadeGorunum = toggleSadeGorunum;
+window.toggleYillikGorunum = toggleYillikGorunum;
