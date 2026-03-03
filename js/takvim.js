@@ -113,6 +113,14 @@ async function loadTakvimPage() {
             <span class="streak-unit">gün</span>
           </div>
         </div>
+        <div class="streak-card kotu">
+          <div class="streak-icon">💔</div>
+          <div class="streak-info">
+            <span class="streak-label">Toplam Kötü Gün</span>
+            <span class="streak-value" id="toplamKotuGunler">0</span>
+            <span class="streak-unit">gün</span>
+          </div>
+        </div>
       </div>
       
       <!-- Gün İsimleri -->
@@ -597,9 +605,10 @@ function hesaplaStreakler() {
     }
   }
   
-  // En uzun streak ve toplam iyi gün
+  // En uzun streak ve toplam iyi/kötü gün
   let enUzunStreak = 0;
   let toplamIyiGun = 0;
+  let toplamKotuGun = 0;
   let geciciStreak = 0;
   
   for (let i = 0; i < gunler.length; i++) {
@@ -611,8 +620,14 @@ function hesaplaStreakler() {
         enUzunStreak = geciciStreak;
       }
     } else if (gunData && (gunData.bahar !== 'bos' || gunData.baran !== 'bos')) {
-      // Gün girilmiş ama iyi gün değil
+      // Gün girilmiş ama iyi gün değil - kötü gün sayılır
       geciciStreak = 0;
+      // İkisi de kötü duygudaysa kötü gün
+      const baharKotu = kotuDuygular.includes(gunData.bahar);
+      const baranKotu = kotuDuygular.includes(gunData.baran);
+      if (baharKotu && baranKotu) {
+        toplamKotuGun++;
+      }
     } else {
       // Gün girilmemiş - streak kırılır
       geciciStreak = 0;
@@ -622,7 +637,8 @@ function hesaplaStreakler() {
   return {
     mevcut: mevcutStreak,
     rekor: enUzunStreak,
-    toplamIyi: toplamIyiGun
+    toplamIyi: toplamIyiGun,
+    toplamKotu: toplamKotuGun
   };
 }
 
@@ -633,6 +649,7 @@ function updateStreakDisplay() {
   const mevcutEl = document.getElementById('mevcutStreak');
   const rekorEl = document.getElementById('rekorStreak');
   const toplamEl = document.getElementById('toplamIyiGunler');
+  const toplamKotuEl = document.getElementById('toplamKotuGunler');
   
   if (mevcutEl) {
     mevcutEl.textContent = streakler.mevcut;
@@ -651,6 +668,10 @@ function updateStreakDisplay() {
   
   if (toplamEl) {
     toplamEl.textContent = streakler.toplamIyi;
+  }
+  
+  if (toplamKotuEl) {
+    toplamKotuEl.textContent = streakler.toplamKotu;
   }
   
   // Mevcut streak yüksekse özel efektler

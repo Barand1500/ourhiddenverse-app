@@ -4805,6 +4805,15 @@ body {
   box-shadow: 0 8px 25px rgba(167, 139, 250, 0.3);
 }
 
+.streak-card.kotu {
+  border-color: #ef4444;
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(239, 68, 68, 0.05) 100%);
+}
+
+.streak-card.kotu:hover {
+  box-shadow: 0 8px 25px rgba(239, 68, 68, 0.3);
+}
+
 .streak-icon {
   font-size: 2rem;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
@@ -4850,6 +4859,13 @@ body {
 
 .streak-card.toplam .streak-value {
   background: linear-gradient(135deg, #a78bfa 0%, #c4b5fd 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.streak-card.kotu .streak-value {
+  background: linear-gradient(135deg, #ef4444 0%, #f87171 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
