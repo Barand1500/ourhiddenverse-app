@@ -538,6 +538,12 @@ async function loadPageContent(pageName) {
     return;
   }
   
+  // Çift Oyunları sayfası için özel içerik
+  if (pageName === 'cift-oyunlari') {
+    await loadCiftOyunlariPage();
+    return;
+  }
+  
   // Şarkılar sayfası için özel içerik
   if (pageName === 'sarkilar') {
     await loadSarkilarPage();
