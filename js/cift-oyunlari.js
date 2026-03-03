@@ -58,31 +58,54 @@ async function loadCiftOyunlariPage() {
         <h2 class="cark-baslik">🎡 Baran mı Bahar mı?</h2>
         <p class="cark-alt-baslik">Çarkı çevir, karar veren seçilsin!</p>
         
-        <div class="cark-container">
-          <!-- Ok işareti -->
-          <div class="cark-ok">▼</div>
+        <div class="cark-wrapper">
+          <!-- Işık efekti -->
+          <div class="cark-glow"></div>
           
-          <!-- Çark -->
-          <div class="cark-wheel" id="carkWheel">
-            <div class="cark-dilim baran-dilim">
-              <span class="dilim-text">💙 Baran</span>
+          <!-- Dış çerçeve -->
+          <div class="cark-cerceve">
+            <!-- Dekoratif noktalar -->
+            <div class="cerceve-dots"></div>
+            
+            <!-- Ok işareti -->
+            <div class="cark-ok-container">
+              <div class="cark-ok"></div>
             </div>
-            <div class="cark-dilim bahar-dilim">
-              <span class="dilim-text">💖 Bahar</span>
-            </div>
-            <div class="cark-dilim baran-dilim">
-              <span class="dilim-text">💙 Baran</span>
-            </div>
-            <div class="cark-dilim bahar-dilim">
-              <span class="dilim-text">💖 Bahar</span>
+            
+            <!-- Ana Çark -->
+            <div class="cark-wheel" id="carkWheel">
+              <div class="cark-dilimler">
+                <div class="dilim dilim-baran" style="--i: 0;">
+                  <span class="dilim-icerik">💙<br>Baran</span>
+                </div>
+                <div class="dilim dilim-bahar" style="--i: 1;">
+                  <span class="dilim-icerik">💖<br>Bahar</span>
+                </div>
+                <div class="dilim dilim-baran" style="--i: 2;">
+                  <span class="dilim-icerik">💙<br>Baran</span>
+                </div>
+                <div class="dilim dilim-bahar" style="--i: 3;">
+                  <span class="dilim-icerik">💖<br>Bahar</span>
+                </div>
+                <div class="dilim dilim-baran" style="--i: 4;">
+                  <span class="dilim-icerik">💙<br>Baran</span>
+                </div>
+                <div class="dilim dilim-bahar" style="--i: 5;">
+                  <span class="dilim-icerik">💖<br>Bahar</span>
+                </div>
+              </div>
+              
+              <!-- Merkez -->
+              <div class="cark-merkez">
+                <button class="cark-merkez-btn" id="carkCevirBtn" onclick="cevirCark()">
+                  <div class="merkez-ic">
+                    <span class="merkez-icon">🎰</span>
+                    <span class="merkez-text">ÇEVİR</span>
+                  </div>
+                </button>
+              </div>
             </div>
           </div>
-          
-          <!-- Merkez butonu -->
-          <button class="cark-merkez-btn" id="carkCevirBtn" onclick="cevirCark()">
-            <span class="cark-merkez-icon">🎯</span>
-            <span class="cark-merkez-text">ÇEVİR!</span>
-          </button>
         </div>
         
         <!-- Sonuç Alanı -->
@@ -96,13 +119,14 @@ async function loadCiftOyunlariPage() {
             <span class="istat-isim">💙 Baran</span>
             <span class="istat-sayi" id="baranSayisi">0</span>
           </div>
+          <div class="istat-vs">VS</div>
           <div class="istat-item bahar-istat">
             <span class="istat-isim">💖 Bahar</span>
             <span class="istat-sayi" id="baharSayisi">0</span>
           </div>
         </div>
         
-        <button class="btn-sifirla" onclick="sifirlaIstatistik()">🔄 İstatistikleri Sıfırla</button>
+        <button class="btn-sifirla" onclick="sifirlaIstatistik()">🔄 Sıfırla</button>
       </div>
     </div>
   `;
@@ -182,18 +206,21 @@ function cevirCark() {
   
   // Butonu devre dışı bırak
   btn.classList.add('donuyor');
-  btn.innerHTML = '<span class="cark-merkez-icon">🌀</span><span class="cark-merkez-text">...</span>';
+  btn.querySelector('.merkez-ic').innerHTML = '<span class="merkez-icon">🌀</span><span class="merkez-text">...</span>';
+  
+  // Ses efekti (opsiyonel)
+  playSpinSound();
   
   // Sonucu gizle
   sonucEl.classList.remove('goster');
   
-  // Rastgele dönüş açısı (en az 5 tur + rastgele açı)
-  const turSayisi = 5 + Math.random() * 3; // 5-8 tur
+  // Rastgele dönüş açısı (en az 6 tur + rastgele açı)
+  const turSayisi = 6 + Math.random() * 4; // 6-10 tur
   const rastgeleAci = Math.random() * 360;
   const toplamAci = mevcutAci + (turSayisi * 360) + rastgeleAci;
   
   // CSS ile animasyonu uygula
-  cark.style.transition = 'transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99)';
+  cark.style.transition = 'transform 5s cubic-bezier(0.2, 0.8, 0.2, 1)';
   cark.style.transform = `rotate(${toplamAci}deg)`;
   
   mevcutAci = toplamAci;
@@ -203,21 +230,16 @@ function cevirCark() {
     // Normalize açı (0-360)
     const normalAci = toplamAci % 360;
     
-    // Hangi dilimde durduğunu hesapla (90 derece dilimler)
-    // Ok yukarıda, yani 0 derece en üst
-    let kazanan;
+    // 6 dilimli çark (her dilim 60 derece)
+    // Dilim 0 (Baran): 0-60
+    // Dilim 1 (Bahar): 60-120
+    // Dilim 2 (Baran): 120-180
+    // Dilim 3 (Bahar): 180-240
+    // Dilim 4 (Baran): 240-300
+    // Dilim 5 (Bahar): 300-360
     
-    // Çarkın yapısına göre:
-    // 0-90: Bahar (sağ üst)
-    // 90-180: Baran (sağ alt)
-    // 180-270: Bahar (sol alt)
-    // 270-360: Baran (sol üst)
-    
-    if ((normalAci >= 0 && normalAci < 90) || (normalAci >= 180 && normalAci < 270)) {
-      kazanan = 'bahar';
-    } else {
-      kazanan = 'baran';
-    }
+    const dilimIndex = Math.floor(normalAci / 60);
+    const kazanan = (dilimIndex % 2 === 0) ? 'baran' : 'bahar';
     
     // Sonucu göster
     if (kazanan === 'baran') {
@@ -241,14 +263,55 @@ function cevirCark() {
     
     // Butonu tekrar aktif et
     btn.classList.remove('donuyor');
-    btn.innerHTML = '<span class="cark-merkez-icon">🎯</span><span class="cark-merkez-text">ÇEVİR!</span>';
+    btn.querySelector('.merkez-ic').innerHTML = '<span class="merkez-icon">🎰</span><span class="merkez-text">ÇEVİR</span>';
     
     carkDonuyor = false;
     
     // Konfeti efekti
     createCarkKonfeti(kazanan);
     
-  }, 4100);
+  }, 5200);
+}
+
+// Ses efekti (basit tick sesi simulasyonu)
+function playSpinSound() {
+  // Web Audio API ile basit bir tik sesi
+  try {
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    let tickCount = 0;
+    const maxTicks = 40;
+    
+    const playTick = () => {
+      if (tickCount >= maxTicks) return;
+      
+      const oscillator = audioCtx.createOscillator();
+      const gainNode = audioCtx.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioCtx.destination);
+      
+      oscillator.frequency.value = 800 + Math.random() * 400;
+      oscillator.type = 'sine';
+      
+      gainNode.gain.value = 0.05;
+      gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
+      
+      oscillator.start();
+      oscillator.stop(audioCtx.currentTime + 0.05);
+      
+      tickCount++;
+      
+      // Yavaşlayan aralıklar
+      const delay = 50 + (tickCount * tickCount * 0.5);
+      if (tickCount < maxTicks) {
+        setTimeout(playTick, delay);
+      }
+    };
+    
+    playTick();
+  } catch (e) {
+    // Ses desteği yoksa sessiz devam et
+  }
 }
 
 // Mini konfeti efekti
