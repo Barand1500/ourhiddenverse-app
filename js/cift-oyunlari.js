@@ -25,6 +25,14 @@ async function loadCiftOyunlariPage() {
           <span class="oyun-karti-etiket">Şans Çarkı</span>
         </div>
 
+        <!-- Taş Kağıt Makas -->
+        <div class="oyun-karti" onclick="openTasKagitMakas()">
+          <div class="oyun-karti-icon">✊</div>
+          <h3 class="oyun-karti-baslik">Taş Kağıt Makas</h3>
+          <p class="oyun-karti-aciklama">Klasik oyun! Her iki taraf seçim yapsın, kim kazanacak?</p>
+          <span class="oyun-karti-etiket">Canlı Oyun</span>
+        </div>
+
         <!-- Yakında Eklenecek Oyunlar -->
         <div class="oyun-karti oyun-yakinda">
           <div class="oyun-karti-icon">🎲</div>
@@ -349,3 +357,367 @@ window.openBaranBaharCark = openBaranBaharCark;
 window.closeBaranBaharCark = closeBaranBaharCark;
 window.cevirCark = cevirCark;
 window.sifirlaIstatistik = sifirlaIstatistik;
+window.openTasKagitMakas = openTasKagitMakas;
+window.closeTasKagitMakas = closeTasKagitMakas;
+window.tkmSelect = tkmSelect;
+window.tkmNewRound = tkmNewRound;
+
+/* ============================================
+   TAŞ KAĞIT MAKAS OYUNU
+   ============================================ */
+
+const TKM_EMOJIS = {
+  tas: '🪨',
+  kagit: '📄',
+  makas: '✂️'
+};
+
+let tkmState = {
+  baranSecim: null,
+  baharSecim: null,
+  sonuc: null,
+  aktif: true
+};
+let tkmUnsubscribe = null;
+let tkmStatsCache = { baran: 0, bahar: 0, berabere: 0 };
+
+// TKM Modalını aç
+function openTasKagitMakas() {
+  // Modal yoksa oluştur
+  if (!document.getElementById('tkmModal')) {
+    createTKMModal();
+  }
+  
+  document.getElementById('tkmModal').classList.add('active');
+  initTKM();
+}
+
+// TKM Modalını kapat
+function closeTasKagitMakas() {
+  const modal = document.getElementById('tkmModal');
+  if (modal) modal.classList.remove('active');
+  
+  if (tkmUnsubscribe) {
+    tkmUnsubscribe();
+    tkmUnsubscribe = null;
+  }
+}
+
+// TKM Modal HTML oluştur
+function createTKMModal() {
+  const modalHTML = `
+    <div class="modal-overlay tkm-modal-overlay" id="tkmModal">
+      <div class="tkm-modal-content">
+        <button class="btn-modal-close tkm-close" onclick="closeTasKagitMakas()">×</button>
+        
+        <div class="tkm-modal-header">
+          <h2>✊ Taş Kağıt Makas</h2>
+          <span class="tkm-live-badge">🔴 CANLI</span>
+        </div>
+        
+        <div class="tkm-arena">
+          <!-- Baran Tarafı -->
+          <div class="tkm-player baran-side">
+            <div class="tkm-player-header">
+              <span class="tkm-avatar">🐧</span>
+              <span class="tkm-name">Baran</span>
+              <span class="tkm-wins" id="tkmBaranWins">0 🏆</span>
+            </div>
+            <div class="tkm-choices" id="tkmBaranChoices">
+              <button class="tkm-choice" data-player="baran" data-choice="tas" onclick="tkmSelect('baran', 'tas')">
+                <span class="tkm-emoji">🪨</span>
+                <span class="tkm-label">Taş</span>
+              </button>
+              <button class="tkm-choice" data-player="baran" data-choice="kagit" onclick="tkmSelect('baran', 'kagit')">
+                <span class="tkm-emoji">📄</span>
+                <span class="tkm-label">Kağıt</span>
+              </button>
+              <button class="tkm-choice" data-player="baran" data-choice="makas" onclick="tkmSelect('baran', 'makas')">
+                <span class="tkm-emoji">✂️</span>
+                <span class="tkm-label">Makas</span>
+              </button>
+            </div>
+            <div class="tkm-status" id="tkmBaranStatus">⏳ Seçim bekliyor...</div>
+          </div>
+          
+          <!-- VS Ortası -->
+          <div class="tkm-vs-center">
+            <div class="tkm-vs-box" id="tkmVsBox">
+              <span class="tkm-vs-text">VS</span>
+            </div>
+            <div class="tkm-battle-display" id="tkmBattleDisplay" style="display: none;">
+              <div class="tkm-battle-item baran-battle">
+                <span id="tkmBaranBattle">❓</span>
+              </div>
+              <div class="tkm-battle-spark">⚡</div>
+              <div class="tkm-battle-item bahar-battle">
+                <span id="tkmBaharBattle">❓</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Bahar Tarafı -->
+          <div class="tkm-player bahar-side">
+            <div class="tkm-player-header">
+              <span class="tkm-avatar">🐰</span>
+              <span class="tkm-name">Bahar</span>
+              <span class="tkm-wins" id="tkmBaharWins">0 🏆</span>
+            </div>
+            <div class="tkm-choices" id="tkmBaharChoices">
+              <button class="tkm-choice" data-player="bahar" data-choice="tas" onclick="tkmSelect('bahar', 'tas')">
+                <span class="tkm-emoji">🪨</span>
+                <span class="tkm-label">Taş</span>
+              </button>
+              <button class="tkm-choice" data-player="bahar" data-choice="kagit" onclick="tkmSelect('bahar', 'kagit')">
+                <span class="tkm-emoji">📄</span>
+                <span class="tkm-label">Kağıt</span>
+              </button>
+              <button class="tkm-choice" data-player="bahar" data-choice="makas" onclick="tkmSelect('bahar', 'makas')">
+                <span class="tkm-emoji">✂️</span>
+                <span class="tkm-label">Makas</span>
+              </button>
+            </div>
+            <div class="tkm-status" id="tkmBaharStatus">⏳ Seçim bekliyor...</div>
+          </div>
+        </div>
+        
+        <!-- Sonuç Alanı -->
+        <div class="tkm-result-area" id="tkmResultArea" style="display: none;">
+          <div class="tkm-result-box" id="tkmResultBox">
+            <span class="tkm-result-emoji" id="tkmResultEmoji">🎉</span>
+            <span class="tkm-result-text" id="tkmResultText">Sonuç</span>
+          </div>
+          <button class="tkm-new-round" onclick="tkmNewRound()">🔄 Yeni Tur</button>
+        </div>
+        
+        <!-- İstatistikler -->
+        <div class="tkm-stats-bar">
+          <div class="tkm-stat baran-stat">
+            <span class="tkm-stat-emoji">🐧</span>
+            <span class="tkm-stat-count" id="tkmStatBaran">0</span>
+          </div>
+          <div class="tkm-stat draw-stat">
+            <span class="tkm-stat-emoji">🤝</span>
+            <span class="tkm-stat-count" id="tkmStatDraw">0</span>
+          </div>
+          <div class="tkm-stat bahar-stat">
+            <span class="tkm-stat-emoji">🐰</span>
+            <span class="tkm-stat-count" id="tkmStatBahar">0</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+  
+  document.body.insertAdjacentHTML('beforeend', modalHTML);
+}
+
+// TKM Başlat
+async function initTKM() {
+  await waitForFirebase();
+  
+  const db = window.firebaseDb;
+  const tkmDocRef = window.firestoreDoc(db, 'miniOyunlar', 'tasKagitMakas');
+  
+  // İlk kontrol - belge yoksa oluştur
+  try {
+    const docSnap = await window.firestoreGetDoc(tkmDocRef);
+    if (!docSnap.exists()) {
+      await window.firestoreSetDoc(tkmDocRef, {
+        baranSecim: null,
+        baharSecim: null,
+        sonuc: null,
+        aktif: true,
+        stats: { baran: 0, bahar: 0, berabere: 0 }
+      });
+    }
+  } catch (e) {
+    console.error('TKM init error:', e);
+  }
+  
+  // Real-time dinle
+  tkmUnsubscribe = window.firestoreOnSnapshot(tkmDocRef, (doc) => {
+    if (doc.exists()) {
+      const data = doc.data();
+      tkmState = {
+        baranSecim: data.baranSecim,
+        baharSecim: data.baharSecim,
+        sonuc: data.sonuc,
+        aktif: data.aktif !== false
+      };
+      tkmStatsCache = data.stats || { baran: 0, bahar: 0, berabere: 0 };
+      updateTKMUI();
+    }
+  });
+}
+
+// TKM UI Güncelle
+function updateTKMUI() {
+  const baranStatus = document.getElementById('tkmBaranStatus');
+  const baharStatus = document.getElementById('tkmBaharStatus');
+  const baranChoices = document.getElementById('tkmBaranChoices');
+  const baharChoices = document.getElementById('tkmBaharChoices');
+  
+  if (!baranStatus) return;
+  
+  // Baran durumu
+  if (tkmState.baranSecim) {
+    baranStatus.innerHTML = '✅ Seçim yapıldı!';
+    baranStatus.classList.add('selected');
+    baranChoices.querySelectorAll('.tkm-choice').forEach(btn => {
+      btn.classList.remove('selected');
+      if (tkmState.sonuc && btn.dataset.choice === tkmState.baranSecim) {
+        btn.classList.add('revealed');
+      }
+    });
+  } else {
+    baranStatus.innerHTML = '⏳ Seçim bekliyor...';
+    baranStatus.classList.remove('selected');
+    baranChoices.querySelectorAll('.tkm-choice').forEach(btn => {
+      btn.classList.remove('selected', 'revealed');
+    });
+  }
+  
+  // Bahar durumu
+  if (tkmState.baharSecim) {
+    baharStatus.innerHTML = '✅ Seçim yapıldı!';
+    baharStatus.classList.add('selected');
+    baharChoices.querySelectorAll('.tkm-choice').forEach(btn => {
+      btn.classList.remove('selected');
+      if (tkmState.sonuc && btn.dataset.choice === tkmState.baharSecim) {
+        btn.classList.add('revealed');
+      }
+    });
+  } else {
+    baharStatus.innerHTML = '⏳ Seçim bekliyor...';
+    baharStatus.classList.remove('selected');
+    baharChoices.querySelectorAll('.tkm-choice').forEach(btn => {
+      btn.classList.remove('selected', 'revealed');
+    });
+  }
+  
+  // Sonuç göster
+  const resultArea = document.getElementById('tkmResultArea');
+  const battleDisplay = document.getElementById('tkmBattleDisplay');
+  const vsBox = document.getElementById('tkmVsBox');
+  
+  if (tkmState.sonuc) {
+    vsBox.style.display = 'none';
+    battleDisplay.style.display = 'flex';
+    resultArea.style.display = 'flex';
+    
+    document.getElementById('tkmBaranBattle').textContent = TKM_EMOJIS[tkmState.baranSecim] || '❓';
+    document.getElementById('tkmBaharBattle').textContent = TKM_EMOJIS[tkmState.baharSecim] || '❓';
+    
+    const resultBox = document.getElementById('tkmResultBox');
+    const resultEmoji = document.getElementById('tkmResultEmoji');
+    const resultText = document.getElementById('tkmResultText');
+    
+    resultBox.className = 'tkm-result-box';
+    
+    if (tkmState.sonuc === 'baran') {
+      resultEmoji.textContent = '🐧🏆';
+      resultText.textContent = 'Baran Kazandı!';
+      resultBox.classList.add('winner-baran');
+    } else if (tkmState.sonuc === 'bahar') {
+      resultEmoji.textContent = '🐰🏆';
+      resultText.textContent = 'Bahar Kazandı!';
+      resultBox.classList.add('winner-bahar');
+    } else {
+      resultEmoji.textContent = '🤝';
+      resultText.textContent = 'Berabere!';
+      resultBox.classList.add('draw');
+    }
+  } else {
+    vsBox.style.display = 'flex';
+    battleDisplay.style.display = 'none';
+    resultArea.style.display = 'none';
+  }
+  
+  // İstatistikler
+  document.getElementById('tkmStatBaran').textContent = tkmStatsCache.baran || 0;
+  document.getElementById('tkmStatBahar').textContent = tkmStatsCache.bahar || 0;
+  document.getElementById('tkmStatDraw').textContent = tkmStatsCache.berabere || 0;
+  document.getElementById('tkmBaranWins').textContent = `${tkmStatsCache.baran || 0} 🏆`;
+  document.getElementById('tkmBaharWins').textContent = `${tkmStatsCache.bahar || 0} 🏆`;
+}
+
+// Seçim yap
+async function tkmSelect(player, choice) {
+  if (tkmState.sonuc) return;
+  
+  await waitForFirebase();
+  
+  const db = window.firebaseDb;
+  const tkmDocRef = window.firestoreDoc(db, 'miniOyunlar', 'tasKagitMakas');
+  
+  const choiceBtn = document.querySelector(`.tkm-choice[data-player="${player}"][data-choice="${choice}"]`);
+  if (choiceBtn) {
+    document.querySelectorAll(`.tkm-choice[data-player="${player}"]`).forEach(btn => btn.classList.remove('selecting'));
+    choiceBtn.classList.add('selecting');
+  }
+  
+  try {
+    const updateData = {};
+    updateData[`${player}Secim`] = choice;
+    
+    await window.firestoreUpdateDoc(tkmDocRef, updateData);
+    
+    const docSnap = await window.firestoreGetDoc(tkmDocRef);
+    const currentData = docSnap.data();
+    
+    const baranSec = player === 'baran' ? choice : currentData.baranSecim;
+    const baharSec = player === 'bahar' ? choice : currentData.baharSecim;
+    
+    if (baranSec && baharSec) {
+      const sonuc = hesaplaTKMSonuc(baranSec, baharSec);
+      const newStats = { ...currentData.stats } || { baran: 0, bahar: 0, berabere: 0 };
+      
+      if (sonuc === 'baran') newStats.baran = (newStats.baran || 0) + 1;
+      else if (sonuc === 'bahar') newStats.bahar = (newStats.bahar || 0) + 1;
+      else newStats.berabere = (newStats.berabere || 0) + 1;
+      
+      await window.firestoreUpdateDoc(tkmDocRef, {
+        sonuc: sonuc,
+        stats: newStats
+      });
+    }
+    
+  } catch (err) {
+    console.error('TKM seçim hatası:', err);
+  }
+}
+
+// Sonuç hesapla
+function hesaplaTKMSonuc(baran, bahar) {
+  if (baran === bahar) return 'berabere';
+  
+  if (
+    (baran === 'tas' && bahar === 'makas') ||
+    (baran === 'kagit' && bahar === 'tas') ||
+    (baran === 'makas' && bahar === 'kagit')
+  ) {
+    return 'baran';
+  }
+  
+  return 'bahar';
+}
+
+// Yeni tur
+async function tkmNewRound() {
+  await waitForFirebase();
+  
+  const db = window.firebaseDb;
+  const tkmDocRef = window.firestoreDoc(db, 'miniOyunlar', 'tasKagitMakas');
+  
+  try {
+    await window.firestoreUpdateDoc(tkmDocRef, {
+      baranSecim: null,
+      baharSecim: null,
+      sonuc: null,
+      aktif: true
+    });
+  } catch (err) {
+    console.error('Yeni tur hatası:', err);
+  }
+}

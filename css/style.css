@@ -3298,6 +3298,94 @@ body {
    TAŞ KAĞIT MAKAS OYUNU
    ============================================ */
 
+/* TKM Modal */
+.tkm-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(10px);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.tkm-modal-overlay.active {
+  display: flex;
+}
+
+.tkm-modal-content {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  border-radius: 24px;
+  width: 100%;
+  max-width: 900px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  border: 2px solid rgba(100, 255, 218, 0.2);
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
+  animation: tkmModalIn 0.4s ease;
+}
+
+@keyframes tkmModalIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.tkm-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: #fff;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.tkm-close:hover {
+  background: rgba(239, 68, 68, 0.3);
+  transform: rotate(90deg);
+}
+
+.tkm-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  padding: 25px;
+  background: linear-gradient(135deg, rgba(100, 255, 218, 0.1), transparent);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tkm-modal-header h2 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #f5f5f5;
+  margin: 0;
+}
+
+/* Section stilleri artık modal içinde de çalışsın */
+.tkm-modal-content .tkm-live-badge {
+  margin-left: 0;
+}
+
 .tkm-section {
   background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
   border: 2px solid rgba(100, 255, 218, 0.2);
@@ -3644,8 +3732,16 @@ body {
   padding: 20px;
   background: rgba(0, 0, 0, 0.2);
   border-top: 1px solid rgba(255, 255, 255, 0.1);
-  margin: 0 -25px -25px;
   border-radius: 0 0 18px 18px;
+}
+
+.tkm-section .tkm-stats-bar {
+  margin: 0 -25px -25px;
+}
+
+.tkm-modal-content .tkm-stats-bar {
+  margin: 0;
+  border-radius: 0 0 22px 22px;
 }
 
 .tkm-stat {
@@ -3781,6 +3877,25 @@ body {
   
   .tkm-stat-count {
     font-size: 1.1rem;
+  }
+  
+  /* TKM Modal Responsive */
+  .tkm-modal-content {
+    max-height: 95vh;
+    border-radius: 16px;
+  }
+  
+  .tkm-modal-header {
+    padding: 18px;
+  }
+  
+  .tkm-modal-header h2 {
+    font-size: 1.3rem;
+  }
+  
+  .tkm-modal-content .tkm-stats-bar {
+    margin: 0;
+    border-radius: 0 0 14px 14px;
   }
 }
 
