@@ -17,6 +17,9 @@ let izlenenDizilerCache = [];
 let currentDiziSortField = null;
 let currentDiziSortOrder = 'desc';
 
+// Puan görünüm modu (yildiz veya sayi)
+let diziPuanGorunumu = localStorage.getItem('diziPuanGorunumu') || 'yildiz';
+
 // Diziler sayfasını yükle
 async function loadDizilerPage() {
   await waitForFirebase();
@@ -28,6 +31,10 @@ async function loadDizilerPage() {
       <div class="filmler-header">
         <h2>📺 Diziler</h2>
         <div class="filmler-header-buttons">
+          <button class="btn-puan-toggle" id="btnPuanToggleDizi" onclick="toggleDiziPuanGorunumu()" title="Puan görünümünü değiştir">
+            <span class="toggle-icon">${diziPuanGorunumu === 'yildiz' ? '⭐' : '🔢'}</span>
+            <span class="toggle-text">${diziPuanGorunumu === 'yildiz' ? 'Yıldız' : 'Sayı'}</span>
+          </button>
           <button class="btn-film-oneri" id="btnDiziOneri">
             <span class="btn-icon">🎲</span>
             <span>Dizi Öner</span>
@@ -689,6 +696,39 @@ async function finishDizi() {
    İZLENEN DİZİLER FONKSİYONLARI
    ============================================ */
 
+// Sayı HTML'i oluştur (diziler için)
+function generateDiziSayiHTML(puan, isOrtak = false) {
+  const className = isOrtak ? 'puan-sayi ortak' : 'puan-sayi';
+  return `<span class="${className}">${puan.toFixed(1)}</span>`;
+}
+
+// Puan görünümüne göre HTML oluştur (diziler için)
+function generateDiziPuanHTML(puan, isOrtak = false) {
+  if (diziPuanGorunumu === 'yildiz') {
+    return generateStarHTML(puan, 'small');
+  } else {
+    return generateDiziSayiHTML(puan, isOrtak);
+  }
+}
+
+// Puan görünümünü değiştir (diziler için)
+function toggleDiziPuanGorunumu() {
+  diziPuanGorunumu = diziPuanGorunumu === 'yildiz' ? 'sayi' : 'yildiz';
+  localStorage.setItem('diziPuanGorunumu', diziPuanGorunumu);
+  
+  // Butonu güncelle
+  const btn = document.getElementById('btnPuanToggleDizi');
+  if (btn) {
+    btn.innerHTML = `
+      <span class="toggle-icon">${diziPuanGorunumu === 'yildiz' ? '⭐' : '🔢'}</span>
+      <span class="toggle-text">${diziPuanGorunumu === 'yildiz' ? 'Yıldız' : 'Sayı'}</span>
+    `;
+  }
+  
+  // Tabloyu yeniden render et
+  renderIzlenenDiziler();
+}
+
 async function loadIzlenenDizilerFromFirestore() {
   try {
     const db = window.firebaseDb;
@@ -735,17 +775,17 @@ function renderIzlenenDiziler() {
       <td class="col-gun"><span class="gun-badge">${dizi.gunSayisi}</span></td>
       <td class="col-puan">
         <div class="puan-yildiz-wrapper" title="${dizi.baranPuani}/5">
-          ${generateStarHTML(dizi.baranPuani, 'small')}
+          ${generateDiziPuanHTML(dizi.baranPuani, false)}
         </div>
       </td>
       <td class="col-puan">
         <div class="puan-yildiz-wrapper" title="${dizi.baharPuani}/5">
-          ${generateStarHTML(dizi.baharPuani, 'small')}
+          ${generateDiziPuanHTML(dizi.baharPuani, false)}
         </div>
       </td>
       <td class="col-puan">
         <div class="puan-yildiz-wrapper ortak" title="${dizi.ortalamaPuan}/5">
-          ${generateStarHTML(dizi.ortalamaPuan, 'small')}
+          ${generateDiziPuanHTML(dizi.ortalamaPuan, true)}
         </div>
       </td>
       <td class="col-sil">

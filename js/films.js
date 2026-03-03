@@ -15,6 +15,9 @@ let izlenenFilmlerCache = [];
 let currentSortField = null;
 let currentSortOrder = 'desc';
 
+// Puan görünüm modu (yildiz veya sayi)
+let filmPuanGorunumu = localStorage.getItem('filmPuanGorunumu') || 'yildiz';
+
 // Filmler sayfasını yükle
 async function loadFilmlerPage() {
   await waitForFirebase();
@@ -27,6 +30,10 @@ async function loadFilmlerPage() {
       <div class="filmler-header">
         <h2>Filmler</h2>
         <div class="filmler-header-buttons">
+          <button class="btn-puan-toggle" id="btnPuanToggleFilm" onclick="toggleFilmPuanGorunumu()" title="Puan görünümünü değiştir">
+            <span class="toggle-icon">${filmPuanGorunumu === 'yildiz' ? '⭐' : '🔢'}</span>
+            <span class="toggle-text">${filmPuanGorunumu === 'yildiz' ? 'Yıldız' : 'Sayı'}</span>
+          </button>
           <button class="btn-film-oneri" id="btnFilmOneri">
             <span class="btn-icon">🎲</span>
             <span>Film Öner</span>
@@ -399,6 +406,39 @@ function generateStarHTML(puan, size = 'normal') {
   return html;
 }
 
+// Sayı HTML'i oluştur
+function generateSayiHTML(puan, isOrtak = false) {
+  const className = isOrtak ? 'puan-sayi ortak' : 'puan-sayi';
+  return `<span class="${className}">${puan.toFixed(1)}</span>`;
+}
+
+// Puan görünümüne göre HTML oluştur
+function generatePuanHTML(puan, isOrtak = false) {
+  if (filmPuanGorunumu === 'yildiz') {
+    return generateStarHTML(puan, 'small');
+  } else {
+    return generateSayiHTML(puan, isOrtak);
+  }
+}
+
+// Puan görünümünü değiştir
+function toggleFilmPuanGorunumu() {
+  filmPuanGorunumu = filmPuanGorunumu === 'yildiz' ? 'sayi' : 'yildiz';
+  localStorage.setItem('filmPuanGorunumu', filmPuanGorunumu);
+  
+  // Butonu güncelle
+  const btn = document.getElementById('btnPuanToggleFilm');
+  if (btn) {
+    btn.innerHTML = `
+      <span class="toggle-icon">${filmPuanGorunumu === 'yildiz' ? '⭐' : '🔢'}</span>
+      <span class="toggle-text">${filmPuanGorunumu === 'yildiz' ? 'Yıldız' : 'Sayı'}</span>
+    `;
+  }
+  
+  // Tabloyu yeniden render et
+  renderIzlenenFilmler();
+}
+
 // İzlenen filmleri render et
 function renderIzlenenFilmler() {
   const tbody = document.getElementById('izlenenFilmlerTbody');
@@ -425,17 +465,17 @@ function renderIzlenenFilmler() {
       </td>
       <td class="col-puan">
         <div class="puan-yildiz-wrapper" title="${film.baranPuani}/5">
-          ${generateStarHTML(film.baranPuani, 'small')}
+          ${generatePuanHTML(film.baranPuani, false)}
         </div>
       </td>
       <td class="col-puan">
         <div class="puan-yildiz-wrapper" title="${film.baharPuani}/5">
-          ${generateStarHTML(film.baharPuani, 'small')}
+          ${generatePuanHTML(film.baharPuani, false)}
         </div>
       </td>
       <td class="col-puan">
         <div class="puan-yildiz-wrapper ortak" title="${film.ortalamaPuan}/5">
-          ${generateStarHTML(film.ortalamaPuan, 'small')}
+          ${generatePuanHTML(film.ortalamaPuan, true)}
         </div>
       </td>
       <td class="col-sil">

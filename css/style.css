@@ -8693,6 +8693,55 @@ body {
   align-items: center;
 }
 
+/* Puan Görünümü Toggle Butonu */
+.btn-puan-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px;
+  background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(255, 107, 157, 0.3);
+}
+
+.btn-puan-toggle:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(255, 107, 157, 0.5);
+}
+
+.btn-puan-toggle .toggle-icon {
+  font-size: 1.1rem;
+}
+
+.btn-puan-toggle .toggle-text {
+  font-size: 0.85rem;
+}
+
+/* Sayı Puan Görünümü */
+.puan-sayi {
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--primary);
+  background: linear-gradient(135deg, rgba(255, 107, 157, 0.15), rgba(196, 69, 105, 0.15));
+  padding: 6px 12px;
+  border-radius: 8px;
+  display: inline-block;
+}
+
+.puan-sayi.ortak {
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.25), rgba(255, 165, 0, 0.25));
+  color: #e6a800;
+  font-size: 1.2rem;
+}
+
 .btn-film-oneri {
   display: flex;
   align-items: center;
