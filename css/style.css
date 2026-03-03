@@ -11419,3 +11419,392 @@ body {
     border-top: 1px solid #30363d;
   }
 }
+
+/* ============================================
+   DEVAM EDEN DİZİLER
+   ============================================ */
+
+.devam-eden-section {
+  margin: 30px 0;
+}
+
+.devam-eden-liste {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 20px;
+}
+
+.devam-empty {
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(139, 92, 246, 0.05));
+  border: 1px dashed rgba(124, 58, 237, 0.3);
+  border-radius: 16px;
+  padding: 40px;
+  text-align: center;
+  color: #8b949e;
+}
+
+.devam-empty-icon {
+  font-size: 48px;
+  margin-bottom: 15px;
+  display: block;
+}
+
+.devam-empty p {
+  margin: 5px 0;
+}
+
+.devam-empty-alt {
+  font-size: 13px;
+  opacity: 0.7;
+}
+
+.devam-dizi-card {
+  background: linear-gradient(135deg, #161b22, #1c2129);
+  border: 1px solid #30363d;
+  border-radius: 16px;
+  padding: 20px;
+  transition: all 0.3s ease;
+}
+
+.devam-dizi-card:hover {
+  border-color: #7c3aed;
+  box-shadow: 0 8px 25px rgba(124, 58, 237, 0.15);
+  transform: translateY(-2px);
+}
+
+.devam-dizi-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 15px;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.devam-dizi-ad {
+  font-size: 18px;
+  font-weight: 600;
+  color: #e6edf3;
+  margin: 0;
+}
+
+.devam-dizi-tarih {
+  font-size: 12px;
+  color: #8b949e;
+  background: rgba(139, 148, 158, 0.1);
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+
+.devam-dizi-progress {
+  margin-bottom: 20px;
+}
+
+.progress-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.sezon-bolum-text {
+  color: #e6edf3;
+  font-size: 15px;
+}
+
+.sezon-bolum-text strong {
+  color: #a78bfa;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.of-text {
+  color: #8b949e;
+  font-size: 13px;
+  margin-left: 5px;
+}
+
+.genel-progress-text {
+  font-size: 13px;
+  color: #8b949e;
+}
+
+.progress-bar-container {
+  width: 100%;
+}
+
+.progress-bar {
+  height: 8px;
+  background: #21262d;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #7c3aed, #a78bfa);
+  border-radius: 8px;
+  transition: width 0.5s ease;
+}
+
+.devam-dizi-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.sezon-bolum-kontrol {
+  display: flex;
+  gap: 20px;
+}
+
+.kontrol-grup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.kontrol-label {
+  font-size: 11px;
+  color: #8b949e;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.kontrol-butonlar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #21262d;
+  padding: 6px 10px;
+  border-radius: 10px;
+}
+
+.btn-kontrol {
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-kontrol.minus {
+  background: rgba(248, 81, 73, 0.2);
+  color: #f85149;
+}
+
+.btn-kontrol.minus:hover:not(:disabled) {
+  background: rgba(248, 81, 73, 0.4);
+}
+
+.btn-kontrol.plus {
+  background: rgba(63, 185, 80, 0.2);
+  color: #3fb950;
+}
+
+.btn-kontrol.plus:hover:not(:disabled) {
+  background: rgba(63, 185, 80, 0.4);
+}
+
+.btn-kontrol:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.kontrol-deger {
+  font-size: 16px;
+  font-weight: 700;
+  color: #e6edf3;
+  min-width: 30px;
+  text-align: center;
+}
+
+.devam-dizi-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-dizi-bitir {
+  background: linear-gradient(135deg, #238636, #2ea043);
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-dizi-bitir:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(35, 134, 54, 0.4);
+}
+
+.btn-dizi-iptal {
+  background: rgba(248, 81, 73, 0.1);
+  color: #f85149;
+  border: 1px solid rgba(248, 81, 73, 0.3);
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-dizi-iptal:hover {
+  background: rgba(248, 81, 73, 0.2);
+}
+
+/* İstek Listesinde Başlat Butonu */
+.btn-baslat-dizi {
+  background: linear-gradient(135deg, #7c3aed, #a78bfa);
+  border: none;
+  padding: 5px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-right: 10px;
+  transition: all 0.2s ease;
+}
+
+.btn-baslat-dizi:hover {
+  transform: scale(1.1);
+  box-shadow: 0 3px 10px rgba(124, 58, 237, 0.4);
+}
+
+/* Dizi Başlatma Modal Stilleri */
+.dizi-baslat-info {
+  text-align: center;
+  margin-bottom: 20px;
+  padding: 15px;
+  background: rgba(124, 58, 237, 0.1);
+  border-radius: 12px;
+  border: 1px solid rgba(124, 58, 237, 0.2);
+}
+
+.dizi-baslat-ad {
+  font-size: 22px;
+  font-weight: 700;
+  color: #a78bfa;
+}
+
+.sezon-bolum-ayar {
+  margin-top: 20px;
+  padding: 15px;
+  background: #0d1117;
+  border-radius: 12px;
+  border: 1px solid #30363d;
+}
+
+.sezon-bolum-ayar > label {
+  display: block;
+  margin-bottom: 15px;
+  font-weight: 600;
+  color: #e6edf3;
+}
+
+.sezon-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 200px;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+.sezon-input-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sezon-label {
+  min-width: 70px;
+  color: #8b949e;
+  font-size: 14px;
+}
+
+.sezon-bolum-input {
+  background: #21262d;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  padding: 8px 12px;
+  color: #e6edf3;
+  width: 80px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.sezon-bolum-input:focus {
+  outline: none;
+  border-color: #7c3aed;
+}
+
+.bolum-label {
+  color: #8b949e;
+  font-size: 13px;
+}
+
+.btn-baslat {
+  background: linear-gradient(135deg, #7c3aed, #a78bfa) !important;
+}
+
+.btn-baslat:hover {
+  box-shadow: 0 5px 20px rgba(124, 58, 237, 0.4) !important;
+}
+
+/* Dizi Bitirme Modal Stilleri */
+.bitir-tarih-info {
+  text-align: center;
+  padding: 15px;
+  background: rgba(35, 134, 54, 0.1);
+  border-radius: 10px;
+  margin-bottom: 20px;
+  color: #8b949e;
+}
+
+.bitir-tarih-info strong {
+  color: #3fb950;
+}
+
+.btn-bitir {
+  background: linear-gradient(135deg, #238636, #2ea043) !important;
+}
+
+.btn-bitir:hover {
+  box-shadow: 0 5px 20px rgba(35, 134, 54, 0.4) !important;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .devam-eden-liste {
+    grid-template-columns: 1fr;
+  }
+  
+  .devam-dizi-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .sezon-bolum-kontrol {
+    justify-content: center;
+  }
+  
+  .devam-dizi-actions {
+    justify-content: center;
+  }
+  
+  .devam-dizi-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
