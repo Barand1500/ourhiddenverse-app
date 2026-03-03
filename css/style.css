@@ -12847,3 +12847,1199 @@ body {
     font-size: 26px;
   }
 }
+
+/* ============================================
+   BUCKET LIST V2 - MOTİVASYONLU STİLLER
+   ✨ Yeni ve Geliştirilmiş
+   ============================================ */
+
+/* Hero Bölümü */
+.bucket-hero {
+  background: linear-gradient(135deg, rgba(240, 180, 41, 0.15), rgba(236, 72, 153, 0.1));
+  border: 1px solid rgba(240, 180, 41, 0.25);
+  border-radius: 20px;
+  padding: 35px;
+  margin-bottom: 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.bucket-hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(240, 180, 41, 0.1) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.bucket-hero-content {
+  flex: 1;
+  z-index: 1;
+}
+
+.bucket-hero-title {
+  font-family: var(--font-heading);
+  font-size: 2.5rem;
+  color: var(--heading-gold);
+  letter-spacing: 3px;
+  margin-bottom: 15px;
+}
+
+.bucket-motivasyon {
+  max-width: 500px;
+}
+
+.motivasyon-soz {
+  color: var(--text-secondary);
+  font-size: 1.15rem;
+  font-style: italic;
+  line-height: 1.6;
+  margin-bottom: 8px;
+}
+
+.motivasyon-yazar {
+  display: block;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  text-align: right;
+}
+
+.bucket-hero-deco {
+  z-index: 1;
+}
+
+.deco-icon {
+  font-size: 4rem;
+  opacity: 0.8;
+  animation: floatSoft 4s ease-in-out infinite;
+}
+
+@keyframes floatSoft {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* Progress Card - Seviye ve İstatistik */
+.bucket-progress-card {
+  background: linear-gradient(145deg, #1e2630, #161b22);
+  border: 1px solid #30363d;
+  border-radius: 18px;
+  padding: 25px 30px;
+  margin-bottom: 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 25px;
+}
+
+.seviye-kismi {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex: 1;
+  min-width: 300px;
+}
+
+.seviye-badge {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(16, 185, 129, 0.05));
+  border: 2px solid #10b981;
+  border-radius: 16px;
+  padding: 12px 20px;
+  transition: all 0.3s ease;
+}
+
+.seviye-icon {
+  font-size: 1.8rem;
+}
+
+.seviye-isim {
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  color: var(--text-primary);
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.seviye-ilerleme {
+  flex: 1;
+  min-width: 200px;
+}
+
+.seviye-bar {
+  height: 10px;
+  background: #21262d;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.seviye-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #10b981, #3b82f6);
+  border-radius: 10px;
+  transition: width 0.8s ease;
+}
+
+.seviye-text {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.seviye-text strong {
+  color: var(--text-secondary);
+}
+
+/* İstatistik Bölümü */
+.istatistik-kismi {
+  display: flex;
+  gap: 20px;
+}
+
+.mini-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  padding: 12px 20px;
+  min-width: 80px;
+}
+
+.mini-stat-sayi {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--heading-gold);
+}
+
+.mini-stat-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Rozetler Bölümü */
+.bucket-rozetler-section {
+  background: linear-gradient(145deg, #1a1f26, #161b22);
+  border: 1px solid #30363d;
+  border-radius: 18px;
+  padding: 25px 30px;
+  margin-bottom: 25px;
+}
+
+.rozetler-baslik {
+  font-family: var(--font-heading);
+  font-size: 1.3rem;
+  color: var(--text-primary);
+  margin-bottom: 20px;
+  letter-spacing: 1px;
+}
+
+.rozetler-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 15px;
+}
+
+.rozet-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 15px 10px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid #30363d;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  cursor: default;
+  position: relative;
+}
+
+.rozet-item.kazanildi {
+  background: linear-gradient(135deg, rgba(240, 180, 41, 0.1), rgba(240, 180, 41, 0.05));
+  border-color: rgba(240, 180, 41, 0.3);
+}
+
+.rozet-item.kazanildi:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(240, 180, 41, 0.15);
+}
+
+.rozet-item.kilitli {
+  opacity: 0.5;
+}
+
+.rozet-item.kilitli:hover {
+  opacity: 0.7;
+}
+
+.rozet-icon {
+  font-size: 2rem;
+}
+
+.rozet-isim {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  text-align: center;
+  font-weight: 500;
+}
+
+.rozet-sart {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  text-align: center;
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  padding: 4px 8px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.2s ease;
+}
+
+.rozet-item.kilitli:hover .rozet-sart {
+  opacity: 1;
+  bottom: -25px;
+}
+
+/* Hedef Ekleme Kartı V2 */
+.bucket-ekle-card {
+  background: linear-gradient(145deg, #1e2630, #161b22);
+  border: 1px solid #30363d;
+  border-radius: 18px;
+  padding: 25px 30px;
+  margin-bottom: 25px;
+}
+
+.ekle-card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.ekle-icon {
+  font-size: 1.5rem;
+}
+
+.ekle-card-header h3 {
+  font-family: var(--font-heading);
+  font-size: 1.3rem;
+  color: var(--text-primary);
+  letter-spacing: 1px;
+}
+
+.bucket-form-row.compact {
+  grid-template-columns: 1fr 1fr 1.5fr;
+}
+
+.bucket-form-baslik input {
+  font-size: 1.05rem;
+  padding: 14px 16px;
+}
+
+.priority-group select {
+  background: #0d1117;
+  border-color: #30363d;
+}
+
+.bucket-form-aciklama {
+  flex: 1;
+}
+
+/* Bucket Section Başlıkları */
+.bucket-section {
+  margin-bottom: 30px;
+}
+
+.bucket-section-title {
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  color: var(--text-secondary);
+  margin-bottom: 18px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #30363d;
+}
+
+.bucket-section.tamamlananlar .bucket-section-title {
+  color: #3fb950;
+}
+
+.completed-grid .bucket-card {
+  opacity: 0.85;
+}
+
+.completed-grid .bucket-card:hover {
+  opacity: 1;
+}
+
+/* Kart Öncelik Stilleri */
+.bucket-card.oncelik-yuksek {
+  border-left: 3px solid #ef4444;
+}
+
+.bucket-card.oncelik-yakinda {
+  border-left: 3px solid #f59e0b;
+  animation: yakinPulse 3s ease infinite;
+}
+
+@keyframes yakinPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
+  50% { box-shadow: 0 0 15px 2px rgba(245, 158, 11, 0.15); }
+}
+
+.oncelik-badge {
+  position: absolute;
+  top: -8px;
+  left: 15px;
+  background: #ef4444;
+  padding: 3px 10px;
+  border-radius: 10px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  z-index: 2;
+}
+
+.oncelik-badge.yuksek {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: white;
+}
+
+.oncelik-badge.yakinda {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: white;
+}
+
+/* Kart İçi Footer Düzeni */
+.bucket-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.btn-bucket-tamamla {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(135deg, #10b981, #059669);
+  border: none;
+  border-radius: 10px;
+  padding: 10px 18px;
+  color: white;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: auto;
+}
+
+.btn-bucket-tamamla:hover {
+  transform: scale(1.05);
+  box-shadow: 0 5px 15px rgba(16, 185, 129, 0.35);
+}
+
+.tamamla-icon {
+  font-size: 1rem;
+}
+
+/* Tamamlandı Badge Güncellemesi */
+.bucket-tamamlandi-info {
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  border-radius: 12px;
+  padding: 15px;
+  margin-top: 15px;
+}
+
+.bucket-tamamlandi-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.check-icon {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+/* Modal Tarih Input */
+.bucket-modal-tarih {
+  margin-top: 15px;
+}
+
+.bucket-modal-tarih label {
+  display: block;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+}
+
+.bucket-modal-tarih input {
+  width: 100%;
+  background: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 10px;
+  padding: 12px 15px;
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+}
+
+/* Celebration Modal */
+.celebration-modal {
+  background: linear-gradient(145deg, #1a2420, #162218);
+  border: 2px solid rgba(16, 185, 129, 0.3);
+  overflow: hidden;
+}
+
+.confetti-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.modal-confetti-piece {
+  position: absolute;
+  top: -20px;
+  font-size: 1.2rem;
+  animation: confettiFall 3s ease-out infinite;
+}
+
+@keyframes confettiFall {
+  0% { 
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% { 
+    transform: translateY(200px) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+.bounce {
+  animation: bounceEmoji 0.6s ease infinite alternate;
+}
+
+@keyframes bounceEmoji {
+  from { transform: translateY(0); }
+  to { transform: translateY(-10px); }
+}
+
+/* Mega Celebration Overlay */
+.mega-celebration {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s ease;
+}
+
+.mega-celebration.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.mega-celebration-content {
+  text-align: center;
+  position: relative;
+  animation: megaPop 0.5s ease;
+}
+
+@keyframes megaPop {
+  0% { transform: scale(0.5); opacity: 0; }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.mega-confetti {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.mega-confetti-piece {
+  position: absolute;
+  top: -20px;
+  animation: megaConfettiFall 4s ease-out forwards;
+}
+
+@keyframes megaConfettiFall {
+  0% {
+    transform: translateY(-20px) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(1080deg);
+    opacity: 0;
+  }
+}
+
+.mega-emoji {
+  font-size: 6rem;
+  display: block;
+  margin-bottom: 20px;
+  animation: megaBounce 0.8s ease infinite alternate;
+}
+
+@keyframes megaBounce {
+  from { transform: translateY(0) scale(1); }
+  to { transform: translateY(-20px) scale(1.1); }
+}
+
+.mega-title {
+  font-family: var(--font-heading);
+  font-size: 3rem;
+  color: var(--heading-gold);
+  letter-spacing: 8px;
+  margin-bottom: 15px;
+  text-shadow: 0 0 30px rgba(240, 180, 41, 0.5);
+}
+
+.mega-text {
+  color: var(--text-primary);
+  font-size: 1.3rem;
+  max-width: 400px;
+  margin: 0 auto 25px;
+  line-height: 1.6;
+}
+
+.mega-text small {
+  display: block;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-top: 5px;
+}
+
+.mega-stats {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 30px;
+}
+
+.mega-stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.mega-stat-icon {
+  font-size: 2.5rem;
+}
+
+.mega-stat-number {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--heading-gold);
+}
+
+.mega-stat-text {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.mega-close-btn {
+  background: linear-gradient(135deg, var(--heading-gold), #d69e2e);
+  color: #0d1117;
+  border: none;
+  border-radius: 14px;
+  padding: 16px 40px;
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.mega-close-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 30px rgba(240, 180, 41, 0.4);
+}
+
+/* Mini Toast Notification */
+.bucket-mini-toast {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: linear-gradient(135deg, #1a1f26, #161b22);
+  border: 1px solid var(--heading-gold);
+  border-radius: 12px;
+  padding: 14px 28px;
+  color: var(--text-primary);
+  font-size: 1rem;
+  font-weight: 500;
+  z-index: 9999;
+  opacity: 0;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+}
+
+.bucket-mini-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Kart Animasyonları */
+.bucket-card {
+  animation: cardFadeIn 0.4s ease backwards;
+}
+
+@keyframes cardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Güncellemeler V2 */
+@media (max-width: 900px) {
+  .bucket-progress-card {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .seviye-kismi {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .seviye-badge {
+    justify-content: center;
+  }
+  
+  .istatistik-kismi {
+    justify-content: center;
+  }
+  
+  .rozetler-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .bucket-hero {
+    flex-direction: column;
+    text-align: center;
+    padding: 25px;
+  }
+  
+  .bucket-hero-title {
+    font-size: 2rem;
+  }
+  
+  .motivasyon-yazar {
+    text-align: center;
+  }
+  
+  .bucket-hero-deco {
+    display: none;
+  }
+  
+  .bucket-form-row.compact {
+    grid-template-columns: 1fr;
+  }
+  
+  .rozetler-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+  
+  .rozet-item {
+    padding: 10px 5px;
+  }
+  
+  .rozet-icon {
+    font-size: 1.5rem;
+  }
+  
+  .rozet-isim {
+    font-size: 0.7rem;
+  }
+  
+  .mega-title {
+    font-size: 2rem;
+    letter-spacing: 4px;
+  }
+  
+  .mega-emoji {
+    font-size: 4rem;
+  }
+  
+  .mega-stats {
+    flex-direction: column;
+    gap: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .bucket-hero {
+    padding: 20px 15px;
+  }
+  
+  .bucket-hero-title {
+    font-size: 1.6rem;
+  }
+  
+  .motivasyon-soz {
+    font-size: 1rem;
+  }
+  
+  .seviye-badge {
+    padding: 10px 15px;
+  }
+  
+  .seviye-isim {
+    font-size: 1rem;
+  }
+  
+  .mini-stat-sayi {
+    font-size: 1.5rem;
+  }
+  
+  .rozetler-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  
+  .bucket-card-footer {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .btn-bucket-tamamla {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* ============================================
+   BUCKET LIST V3 - ALT HEDEFLER VE TARİH
+   🏔️ Büyük Hedef Sistemi
+   ============================================ */
+
+/* Yeni Motivasyon Stili */
+.motivasyon-soz {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  color: var(--heading-gold);
+  letter-spacing: 3px;
+  margin-bottom: 10px;
+}
+
+.motivasyon-detay {
+  color: var(--text-secondary);
+  font-size: 1.05rem;
+  letter-spacing: 2px;
+  word-spacing: 4px;
+}
+
+/* Tarih Seçim Alanı */
+.tarih-row {
+  grid-template-columns: 1.5fr 2fr !important;
+  align-items: flex-end;
+}
+
+.tarih-row label {
+  display: block;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  margin-bottom: 8px;
+}
+
+.tarih-selects {
+  display: flex;
+  gap: 10px;
+}
+
+.tarih-selects select {
+  flex: 1;
+  background: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 10px;
+  padding: 10px 12px;
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+}
+
+/* Büyük Hedef Toggle */
+.buyuk-hedef-toggle {
+  display: flex;
+  align-items: center;
+}
+
+.toggle-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.toggle-label input[type="checkbox"] {
+  display: none;
+}
+
+.toggle-switch {
+  width: 44px;
+  height: 24px;
+  background: #30363d;
+  border-radius: 12px;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.toggle-switch::after {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  background: #8b949e;
+  border-radius: 50%;
+  top: 3px;
+  left: 3px;
+  transition: all 0.3s ease;
+}
+
+.toggle-label input:checked + .toggle-switch {
+  background: linear-gradient(135deg, var(--heading-gold), #d69e2e);
+}
+
+.toggle-label input:checked + .toggle-switch::after {
+  left: 23px;
+  background: white;
+}
+
+.toggle-text {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+/* Hedef Tarihi Badge */
+.bucket-hedef-tarih {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(59, 130, 246, 0.15);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  color: #79c0ff;
+  margin-bottom: 12px;
+}
+
+.hedef-tarih-icon {
+  font-size: 0.9rem;
+}
+
+/* Büyük Hedef Badge */
+.buyuk-hedef-badge {
+  position: absolute;
+  top: -10px;
+  right: 15px;
+  background: linear-gradient(135deg, #8b5cf6, #6366f1);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  z-index: 3;
+}
+
+.bucket-card.buyuk-hedef {
+  border: 2px solid rgba(139, 92, 246, 0.3);
+  background: linear-gradient(145deg, #1e1a2e, #161b22);
+}
+
+.bucket-card.buyuk-hedef:hover {
+  border-color: rgba(139, 92, 246, 0.5);
+}
+
+/* Alt Hedefler Bölümü */
+.alt-hedefler-section {
+  background: rgba(139, 92, 246, 0.08);
+  border: 1px solid rgba(139, 92, 246, 0.2);
+  border-radius: 12px;
+  padding: 15px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.alt-hedefler-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.alt-hedefler-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.alt-hedefler-progress {
+  font-size: 0.85rem;
+  color: #a78bfa;
+  font-weight: 600;
+}
+
+/* Alt Hedef İlerleme Çubuğu */
+.alt-hedef-ilerleme-bar {
+  height: 8px;
+  background: rgba(139, 92, 246, 0.2);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 15px;
+}
+
+.alt-hedef-ilerleme-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #8b5cf6, #a78bfa);
+  border-radius: 4px;
+  transition: width 0.5s ease;
+}
+
+/* Alt Hedefler Listesi */
+.alt-hedefler-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 15px;
+}
+
+.alt-hedef-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.alt-hedef-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.alt-hedef-item.tamamlandi {
+  opacity: 0.7;
+}
+
+.alt-hedef-item.tamamlandi .alt-hedef-baslik {
+  text-decoration: line-through;
+  color: var(--text-muted);
+}
+
+.alt-hedef-check {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid #8b5cf6;
+  background: transparent;
+  color: transparent;
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.alt-hedef-item.tamamlandi .alt-hedef-check {
+  background: #8b5cf6;
+  color: white;
+  border-color: #8b5cf6;
+}
+
+.alt-hedef-check:hover {
+  background: rgba(139, 92, 246, 0.2);
+}
+
+.alt-hedef-baslik {
+  flex: 1;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+}
+
+.alt-hedef-tarih {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  background: rgba(139, 92, 246, 0.15);
+  padding: 3px 8px;
+  border-radius: 10px;
+}
+
+.alt-hedef-bos {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-style: italic;
+  text-align: center;
+  padding: 15px;
+}
+
+/* Alt Hedef Ekleme Butonu */
+.btn-alt-hedef-ekle {
+  width: 100%;
+  background: rgba(139, 92, 246, 0.15);
+  border: 1px dashed rgba(139, 92, 246, 0.4);
+  border-radius: 8px;
+  padding: 10px;
+  color: #a78bfa;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.btn-alt-hedef-ekle:hover {
+  background: rgba(139, 92, 246, 0.25);
+  border-color: #8b5cf6;
+}
+
+/* Alt Hedef Modal Özel Stiller */
+.alt-hedef-ana-baslik {
+  background: rgba(139, 92, 246, 0.1);
+  border: 1px solid rgba(139, 92, 246, 0.2);
+  border-radius: 10px;
+  padding: 12px 15px;
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  margin-bottom: 20px;
+}
+
+.alt-hedef-ana-baslik strong {
+  color: #a78bfa;
+}
+
+.alt-hedef-tarih {
+  margin-top: 15px;
+}
+
+.alt-hedef-tarih .tarih-selects {
+  margin-top: 10px;
+}
+
+.bucket-modal-form input[type="text"] {
+  width: 100%;
+  background: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 10px;
+  padding: 12px 15px;
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  margin-top: 10px;
+}
+
+.bucket-modal-form input[type="text"]:focus {
+  outline: none;
+  border-color: #8b5cf6;
+}
+
+/* Responsive - Alt Hedefler */
+@media (max-width: 768px) {
+  .tarih-row {
+    grid-template-columns: 1fr !important;
+    gap: 15px;
+  }
+  
+  .buyuk-hedef-toggle {
+    margin-top: 5px;
+  }
+  
+  .toggle-text {
+    font-size: 0.85rem;
+  }
+  
+  .alt-hedef-item {
+    padding: 8px 10px;
+  }
+  
+  .alt-hedef-baslik {
+    font-size: 0.85rem;
+  }
+  
+  .motivasyon-soz {
+    font-size: 1.5rem;
+  }
+  
+  .motivasyon-detay {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .motivasyon-soz {
+    font-size: 1.3rem;
+    letter-spacing: 2px;
+  }
+  
+  .motivasyon-detay {
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+  }
+  
+  .bucket-hedef-tarih {
+    font-size: 0.8rem;
+    padding: 5px 10px;
+  }
+  
+  .buyuk-hedef-badge {
+    font-size: 0.7rem;
+    padding: 3px 10px;
+  }
+}
