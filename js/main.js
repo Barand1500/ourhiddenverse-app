@@ -556,6 +556,12 @@ async function loadPageContent(pageName) {
     return;
   }
   
+  // Yediklerimiz sayfası için özel içerik
+  if (pageName === 'yediklerimiz') {
+    await loadYediklerimizPage();
+    return;
+  }
+  
   // Diğer sayfalar için geçici içerik
   const pageContents = {};
   

@@ -16417,3 +16417,614 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
+/* ============================================
+   YEDİKLERİMİZ - RESTORAN DEĞERLENDİRME
+   ============================================ */
+
+.yediklerimiz-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.yediklerimiz-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.yediklerimiz-header h2 {
+  font-family: var(--font-heading);
+  font-size: 2.5rem;
+  color: var(--text-primary);
+  margin-bottom: 10px;
+}
+
+.yediklerimiz-subtitle {
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+}
+
+.yediklerimiz-header-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn-yeni-restoran {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #f0b429, #d4a017);
+  color: #0d1117;
+  border: none;
+  border-radius: 25px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-normal) ease;
+}
+
+.btn-yeni-restoran:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(240, 180, 41, 0.4);
+}
+
+.btn-yeni-restoran .btn-icon {
+  font-size: 1.2rem;
+}
+
+/* Filtre ve Sıralama */
+.yediklerimiz-filters {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  padding: 15px 20px;
+  background: #161b22;
+  border-radius: 12px;
+  border: 1px solid #30363d;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.filter-group label {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.filter-group select {
+  padding: 8px 15px;
+  background: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.filter-stats {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+/* Restoran Kartları Grid */
+.restoranlar-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 25px;
+}
+
+.restoran-card {
+  background: #161b22;
+  border-radius: 16px;
+  border: 1px solid #30363d;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all var(--transition-normal) ease;
+}
+
+.restoran-card:hover {
+  transform: translateY(-5px);
+  border-color: #f0b429;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.restoran-foto {
+  height: 180px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+.restoran-foto.no-foto {
+  background: linear-gradient(135deg, #21262d, #161b22);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.restoran-foto.no-foto span {
+  font-size: 3rem;
+  opacity: 0.3;
+}
+
+.restoran-card-content {
+  padding: 20px;
+}
+
+.restoran-ad {
+  font-family: var(--font-heading);
+  font-size: 1.3rem;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+}
+
+.restoran-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 15px;
+}
+
+.restoran-tarih,
+.restoran-konum {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.restoran-konum {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.restoran-puanlar {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding-top: 15px;
+  border-top: 1px solid #30363d;
+}
+
+.puan-item {
+  flex: 1;
+  text-align: center;
+}
+
+.puan-label {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+}
+
+.puan-value {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.puan-item.baran .puan-value {
+  color: #58a6ff;
+}
+
+.puan-item.bahar .puan-value {
+  color: #f78166;
+}
+
+.puan-item.ortalama .puan-value {
+  color: #f0b429;
+}
+
+.puan-bos {
+  color: #484f58;
+}
+
+.puan-yildiz {
+  letter-spacing: -2px;
+}
+
+.puan-sayi {
+  font-weight: 700;
+}
+
+.puan-sayi.ortalama-sayi {
+  color: #f0b429;
+}
+
+/* Boş durum */
+.restoranlar-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+.restoranlar-empty .empty-icon {
+  font-size: 4rem;
+  margin-bottom: 20px;
+  opacity: 0.5;
+}
+
+.restoranlar-empty p {
+  margin: 5px 0;
+}
+
+/* Restoran Form Modal */
+.restoran-modal {
+  max-width: 600px;
+  width: 95%;
+}
+
+.restoran-form {
+  padding: 20px;
+}
+
+.form-row {
+  display: flex;
+  gap: 15px;
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
+.restoran-form .form-group {
+  margin-bottom: 18px;
+}
+
+.restoran-form label {
+  display: block;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+}
+
+.restoran-form input[type="text"],
+.restoran-form input[type="date"],
+.restoran-form textarea,
+.restoran-form select {
+  width: 100%;
+  padding: 12px 15px;
+  background: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  color: var(--text-primary);
+  font-size: 1rem;
+  transition: border-color var(--transition-fast) ease;
+}
+
+.restoran-form input:focus,
+.restoran-form textarea:focus {
+  outline: none;
+  border-color: #f0b429;
+}
+
+.restoran-form textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+/* Puan Seçici */
+.puanlama-row {
+  display: flex;
+  gap: 20px;
+  margin-top: 10px;
+}
+
+.puan-group {
+  flex: 1;
+}
+
+.puan-selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.puan-btn {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #21262d;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast) ease;
+}
+
+.puan-btn:hover {
+  background: #30363d;
+  color: var(--text-primary);
+}
+
+.puan-btn.selected {
+  background: #f0b429;
+  border-color: #f0b429;
+  color: #0d1117;
+}
+
+.puan-group:first-child .puan-btn.selected {
+  background: #58a6ff;
+  border-color: #58a6ff;
+}
+
+.puan-group:last-child .puan-btn.selected {
+  background: #f78166;
+  border-color: #f78166;
+}
+
+/* Form Actions */
+.form-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #30363d;
+}
+
+.btn-iptal {
+  padding: 10px 20px;
+  background: transparent;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast) ease;
+}
+
+.btn-iptal:hover {
+  background: #21262d;
+  color: var(--text-primary);
+}
+
+/* Restoran Detay Modal */
+.restoran-detay-modal {
+  max-width: 700px;
+  width: 95%;
+  padding: 0;
+  overflow: hidden;
+}
+
+.detay-foto {
+  height: 250px;
+  background-size: cover;
+  background-position: center;
+}
+
+.detay-body {
+  padding: 25px;
+}
+
+.detay-title {
+  font-family: var(--font-heading);
+  font-size: 1.8rem;
+  color: var(--text-primary);
+  margin-bottom: 20px;
+}
+
+.detay-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.detay-info-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-secondary);
+}
+
+.info-icon {
+  font-size: 1.1rem;
+}
+
+.detay-neyedik {
+  background: linear-gradient(135deg, rgba(240, 180, 41, 0.1), rgba(255, 100, 100, 0.1));
+  border: 1px solid rgba(240, 180, 41, 0.3);
+  border-radius: 12px;
+  padding: 15px 20px;
+  margin-bottom: 15px;
+}
+
+.detay-neyedik h4 {
+  color: #f0b429;
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+.detay-neyedik p {
+  color: var(--text-primary);
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+.detay-aciklama {
+  background: #0d1117;
+  border-radius: 12px;
+  padding: 15px 20px;
+  margin-bottom: 25px;
+}
+
+.detay-aciklama h4 {
+  color: var(--text-primary);
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+.detay-aciklama p {
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* Detay Puanlar */
+.detay-puanlar {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.detay-puan-box {
+  background: #0d1117;
+  border-radius: 10px;
+  padding: 15px 20px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.puan-kisi {
+  min-width: 100px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.detay-puan-box.baran .puan-kisi {
+  color: #58a6ff;
+}
+
+.detay-puan-box.bahar .puan-kisi {
+  color: #f78166;
+}
+
+.detay-puan-box.ortalama .puan-kisi {
+  color: #f0b429;
+}
+
+.puan-deger {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--text-primary);
+  min-width: 50px;
+}
+
+.puan-bar {
+  flex: 1;
+  height: 8px;
+  background: #21262d;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.puan-bar-fill {
+  height: 100%;
+  background: #58a6ff;
+  border-radius: 4px;
+  transition: width 0.5s ease;
+}
+
+.detay-puan-box.bahar .puan-bar-fill {
+  background: #f78166;
+}
+
+.puan-bar-fill.ortalama {
+  background: linear-gradient(90deg, #f0b429, #ffd93d);
+}
+
+/* Detay Actions */
+.detay-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  padding-top: 20px;
+  border-top: 1px solid #30363d;
+}
+
+.btn-duzenle,
+.btn-sil {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-fast) ease;
+}
+
+.btn-duzenle {
+  background: #21262d;
+  color: var(--text-primary);
+}
+
+.btn-duzenle:hover {
+  background: #30363d;
+}
+
+.btn-sil {
+  background: rgba(248, 81, 73, 0.15);
+  color: #f85149;
+}
+
+.btn-sil:hover {
+  background: rgba(248, 81, 73, 0.25);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .yediklerimiz-header h2 {
+    font-size: 2rem;
+  }
+  
+  .restoranlar-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+  
+  .puanlama-row {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .detay-foto {
+    height: 180px;
+  }
+  
+  .detay-puan-box {
+    flex-wrap: wrap;
+  }
+  
+  .puan-bar {
+    width: 100%;
+    order: 3;
+  }
+  
+  .yediklerimiz-filters {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .filter-group {
+    justify-content: space-between;
+  }
+  
+  .filter-group select {
+    flex: 1;
+  }
+}

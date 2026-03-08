@@ -24,7 +24,8 @@ const KOLEKSIYONLAR = [
   'mektuplar',
   'timeline',
   'calendar',
-  'places'
+  'places',
+  'restoranlar'
 ];
 
 // Yedekleme Modal'ını Aç
