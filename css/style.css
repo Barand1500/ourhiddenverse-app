@@ -2412,7 +2412,7 @@ body {
 
 /* ============================================
    OYUNLAR SAYFASI STİLLERİ
-   IMDB tarzı yıldız puanlama sistemi
+   Online & Hikaye oyun takip sistemi
    ============================================ */
 
 /* Oyunlar Container */
@@ -2421,7 +2421,7 @@ body {
   padding: 30px;
 }
 
-/* Section Card - Her bölüm için kart */
+/* Section Card */
 .oyun-section-card {
   background: #161b22;
   border-radius: 16px;
@@ -2513,7 +2513,60 @@ body {
   box-shadow: 0 0 0 3px var(--glow-primary);
 }
 
-/* Oyuna Başla Butonu - Şık */
+/* ---- TÜR SEÇİM ---- */
+.oyun-tur-secim {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.oyun-tur-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 18px 14px;
+  background: #21262d;
+  border: 2px solid var(--glow-soft);
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.oyun-tur-option input[type="radio"] {
+  display: none;
+}
+
+.oyun-tur-option:hover {
+  border-color: var(--mid-blue);
+  background: rgba(88, 166, 255, 0.05);
+}
+
+.oyun-tur-option.selected {
+  border-color: var(--mid-blue);
+  background: rgba(88, 166, 255, 0.1);
+  box-shadow: 0 0 20px var(--glow-primary);
+}
+
+.oyun-tur-option .tur-icon {
+  font-size: 2rem;
+}
+
+.oyun-tur-option .tur-label {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  color: var(--text-primary);
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.oyun-tur-option .tur-desc {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+/* Oyuna Başla Butonu */
 .btn-oyun-baslat {
   display: flex;
   align-items: center;
@@ -2545,6 +2598,66 @@ body {
 
 .btn-oyun-baslat .btn-icon {
   font-size: 1.2rem;
+}
+
+/* ---- FİLTRE BAR ---- */
+.oyun-filtre-bar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 25px;
+  padding: 6px;
+  background: #161b22;
+  border-radius: 14px;
+  border: 1px solid var(--glow-soft);
+  flex-wrap: wrap;
+}
+
+.oyun-filtre-tab {
+  flex: 1;
+  min-width: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: transparent;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  font-weight: 600;
+  font-family: var(--font-heading);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  letter-spacing: 0.5px;
+}
+
+.oyun-filtre-tab:hover {
+  color: var(--text-primary);
+  background: rgba(88, 166, 255, 0.05);
+}
+
+.oyun-filtre-tab.active {
+  background: rgba(88, 166, 255, 0.12);
+  border-color: var(--mid-blue);
+  color: var(--mid-blue);
+  box-shadow: 0 0 15px var(--glow-primary);
+}
+
+.filtre-count {
+  background: #30363d;
+  color: var(--text-muted);
+  padding: 2px 9px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  min-width: 20px;
+  text-align: center;
+}
+
+.oyun-filtre-tab.active .filtre-count {
+  background: var(--mid-blue);
+  color: #fff;
 }
 
 /* Oyunlar Grid */
@@ -2582,7 +2695,7 @@ body {
   color: var(--text-muted);
 }
 
-/* Oyun Kartı - Oynanıyor */
+/* ---- OYUN KARTLARI ---- */
 .oyun-card {
   background: #161b22;
   border-radius: 14px;
@@ -2597,13 +2710,37 @@ body {
   border-color: var(--mid-blue);
 }
 
-.oyun-card.oynaniyor {
+/* Aktif kart */
+.oyun-card.durum-aktif {
   border-left: 5px solid #4CAF50;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 20px;
   gap: 15px;
+}
+
+/* Mola kart */
+.oyun-card.durum-mola {
+  border-left: 5px solid #FF9800;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  gap: 15px;
+  opacity: 0.85;
+}
+
+.oyun-card.durum-mola:hover {
+  opacity: 1;
+}
+
+/* Bitirildi kart */
+.oyun-card.durum-bitirildi {
+  border-left: 5px solid var(--mid-blue);
+  padding: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .oyun-card-left {
@@ -2620,9 +2757,16 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, rgba(76, 175, 80, 0.15), rgba(76, 175, 80, 0.05));
   border-radius: 12px;
   flex-shrink: 0;
+}
+
+.oyun-icon-box.aktif-icon {
+  background: linear-gradient(135deg, rgba(76, 175, 80, 0.15), rgba(76, 175, 80, 0.05));
+}
+
+.oyun-icon-box.mola-icon {
+  background: linear-gradient(135deg, rgba(255, 152, 0, 0.15), rgba(255, 152, 0, 0.05));
 }
 
 .oyun-icon-box.trophy {
@@ -2633,6 +2777,13 @@ body {
   display: flex;
   flex-direction: column;
   gap: 8px;
+}
+
+.oyun-name-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
 .oyun-ad {
@@ -2646,65 +2797,175 @@ body {
 .oyun-meta {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 10px;
   align-items: center;
 }
 
 .oyun-tarih {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: var(--text-muted);
 }
 
+.oyun-sure-badge {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  background: rgba(76, 175, 80, 0.1);
+  padding: 3px 10px;
+  border-radius: 12px;
+}
+
+.oyun-mola-sure {
+  font-size: 0.85rem;
+  color: #FF9800;
+  font-weight: 500;
+}
+
+/* Tür Badge */
+.oyun-tur-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.oyun-tur-badge.online-badge {
+  background: rgba(0, 188, 212, 0.12);
+  color: #00BCD4;
+  border: 1px solid rgba(0, 188, 212, 0.25);
+}
+
+.oyun-tur-badge.hikaye-badge {
+  background: rgba(156, 39, 176, 0.12);
+  color: #CE93D8;
+  border: 1px solid rgba(156, 39, 176, 0.25);
+}
+
+/* Status Badge */
 .oyun-status-badge {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  padding: 4px 12px;
-  background: rgba(76, 175, 80, 0.15);
-  color: #2E7D32;
+  padding: 3px 10px;
   border-radius: 20px;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-weight: 600;
 }
 
-/* Oyun Actions - Oynanıyor */
-.oyun-card.oynaniyor .oyun-actions {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+.oyun-status-badge.durum-aktif-badge {
+  background: rgba(76, 175, 80, 0.15);
+  color: #66BB6A;
 }
 
-/* Bitir Butonu - Şık */
-.btn-oyun-tamamla {
+.oyun-status-badge.durum-mola-badge {
+  background: rgba(255, 152, 0, 0.15);
+  color: #FFB74D;
+}
+
+/* Tekrar Badge */
+.tekrar-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  background: rgba(255, 193, 7, 0.12);
+  color: #FFD54F;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.bitis-sayisi-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  background: rgba(255, 193, 7, 0.15);
+  color: #FFD54F;
+  border-radius: 12px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+/* ---- OYUN ACTIONS ---- */
+.oyun-actions {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 12px 20px;
-  background: linear-gradient(135deg, var(--mid-blue), var(--dark-blue));
-  color: #fff;
+  flex-shrink: 0;
+}
+
+.btn-oyun-action {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px;
   border: none;
   border-radius: 10px;
-  font-size: 0.95rem;
+  font-size: 0.88rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.btn-oyun-action:hover {
+  transform: translateY(-2px);
+}
+
+.btn-oyun-action.btn-bitir {
+  background: linear-gradient(135deg, var(--mid-blue), var(--dark-blue));
+  color: #fff;
   box-shadow: 0 3px 12px var(--glow-primary);
 }
 
-.btn-oyun-tamamla:hover {
-  transform: translateY(-2px) scale(1.02);
+.btn-oyun-action.btn-bitir:hover {
   box-shadow: 0 6px 20px var(--glow-primary);
 }
 
-.btn-oyun-tamamla .btn-icon {
-  font-size: 1.1rem;
+.btn-oyun-action.btn-mola {
+  background: rgba(255, 152, 0, 0.15);
+  color: #FFB74D;
+  border: 1px solid rgba(255, 152, 0, 0.3);
 }
 
-.btn-oyun-tamamla .btn-label {
-  letter-spacing: 0.5px;
+.btn-oyun-action.btn-mola:hover {
+  background: rgba(255, 152, 0, 0.25);
 }
 
-/* Sil Butonu */
+.btn-oyun-action.btn-devam {
+  background: linear-gradient(135deg, #4CAF50, #2E7D32);
+  color: #fff;
+  box-shadow: 0 3px 12px rgba(76, 175, 80, 0.3);
+}
+
+.btn-oyun-action.btn-devam:hover {
+  box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+}
+
+.btn-oyun-action.btn-tekrar {
+  background: linear-gradient(135deg, #FF9800, #F57C00);
+  color: #fff;
+  box-shadow: 0 3px 12px rgba(255, 152, 0, 0.3);
+}
+
+.btn-oyun-action.btn-tekrar:hover {
+  box-shadow: 0 6px 20px rgba(255, 152, 0, 0.4);
+}
+
+.btn-oyun-action.btn-gecmis {
+  background: rgba(156, 39, 176, 0.12);
+  color: #CE93D8;
+  border: 1px solid rgba(156, 39, 176, 0.25);
+}
+
+.btn-oyun-action.btn-gecmis:hover {
+  background: rgba(156, 39, 176, 0.22);
+}
+
 .btn-oyun-sil {
   width: 40px;
   height: 40px;
@@ -2718,6 +2979,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 
 .btn-oyun-sil:hover {
@@ -2727,14 +2989,7 @@ body {
   color: #ef5350;
 }
 
-/* Oyun Kartı - Bitirildi */
-.oyun-card.bitirildi {
-  border-left: 5px solid var(--mid-blue);
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-}
-
+/* ---- BİTİRİLDİ KART DETAYLARI ---- */
 .oyun-card-header {
   display: flex;
   align-items: center;
@@ -2748,6 +3003,13 @@ body {
   display: flex;
   flex-direction: column;
   gap: 6px;
+}
+
+.oyun-bitis-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
 .gun-badge {
@@ -2819,6 +3081,16 @@ body {
   font-weight: 700;
 }
 
+/* Oyun Card Footer (bitirildi actions) */
+.oyun-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 15px 20px;
+  border-top: 1px solid var(--glow-primary);
+}
+
 /* Yıldız Display */
 .stars-display {
   display: flex;
@@ -2852,7 +3124,6 @@ body {
   color: #30363d;
 }
 
-/* Puan Yıldız Wrapper - Tablo için */
 .puan-yildiz-wrapper {
   display: flex;
   justify-content: center;
@@ -2865,7 +3136,7 @@ body {
 }
 
 /* ============================================
-   OYUN BİTİR MODAL - YENİ TASARIM
+   OYUN BİTİR MODAL
    ============================================ */
 
 .oyun-bitir-modal {
@@ -2883,6 +3154,10 @@ body {
   padding: 25px;
   background: #58a6ff;
   color: #fff;
+}
+
+.modal-header-oyun.gecmis-header {
+  background: linear-gradient(135deg, #9C27B0, #7B1FA2);
 }
 
 .modal-header-oyun .modal-icon {
@@ -3093,60 +3368,182 @@ body {
   box-shadow: 0 6px 20px var(--glow-primary);
 }
 
+/* ============================================
+   GEÇMİŞ MODAL & TİMELINE
+   ============================================ */
+
+.oyun-gecmis-modal {
+  max-width: 500px;
+  width: 95%;
+  padding: 0;
+  overflow: hidden;
+}
+
+.oyun-timeline {
+  padding: 25px 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.timeline-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 14px 0;
+  position: relative;
+}
+
+.timeline-item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: 10px;
+  top: 38px;
+  bottom: -14px;
+  width: 2px;
+  background: #30363d;
+}
+
+.timeline-dot {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  border: 3px solid #30363d;
+  background: #161b22;
+  position: relative;
+  z-index: 1;
+}
+
+.timeline-dot.basladi {
+  border-color: #4CAF50;
+  background: rgba(76, 175, 80, 0.2);
+  box-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
+}
+
+.timeline-dot.mola {
+  border-color: #FF9800;
+  background: rgba(255, 152, 0, 0.2);
+  box-shadow: 0 0 10px rgba(255, 152, 0, 0.3);
+}
+
+.timeline-dot.devam {
+  border-color: #2196F3;
+  background: rgba(33, 150, 243, 0.2);
+  box-shadow: 0 0 10px rgba(33, 150, 243, 0.3);
+}
+
+.timeline-dot.bitirildi {
+  border-color: #f0b429;
+  background: rgba(240, 180, 41, 0.2);
+  box-shadow: 0 0 10px rgba(240, 180, 41, 0.3);
+}
+
+.timeline-dot.tekrar {
+  border-color: #CE93D8;
+  background: rgba(156, 39, 176, 0.2);
+  box-shadow: 0 0 10px rgba(156, 39, 176, 0.3);
+}
+
+.timeline-item.current .timeline-dot {
+  animation: timelinePulse 2s infinite;
+}
+
+@keyframes timelinePulse {
+  0%, 100% { box-shadow: 0 0 10px currentColor; }
+  50% { box-shadow: 0 0 20px currentColor, 0 0 30px currentColor; }
+}
+
+.timeline-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-top: 1px;
+}
+
+.timeline-aksiyon {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.timeline-tarih {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
 /* -------- OYUNLAR RESPONSİVE -------- */
 @media (max-width: 768px) {
   .oyunlar-container {
     padding: 20px;
   }
-  
+
   .oyun-section-card {
     padding: 20px;
     margin-bottom: 20px;
   }
-  
+
   .section-header-box {
     flex-wrap: wrap;
     gap: 10px;
   }
-  
+
   .section-icon {
     width: 40px;
     height: 40px;
     font-size: 1.5rem;
   }
-  
+
   .form-row-oyun {
     grid-template-columns: 1fr;
   }
-  
-  .oyun-card.oynaniyor {
+
+  .oyun-tur-secim {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .oyun-filtre-bar {
+    gap: 6px;
+    padding: 4px;
+  }
+
+  .oyun-filtre-tab {
+    padding: 10px 12px;
+    font-size: 0.8rem;
+    min-width: 0;
+  }
+
+  .oyun-card.durum-aktif,
+  .oyun-card.durum-mola {
     flex-direction: column;
     align-items: stretch;
   }
-  
+
   .oyun-card-left {
     width: 100%;
   }
-  
-  .oyun-card.oynaniyor .oyun-actions {
+
+  .oyun-actions {
     justify-content: flex-end;
-    padding-top: 15px;
+    padding-top: 12px;
     border-top: 1px solid var(--glow-primary);
-    margin-top: 10px;
+    flex-wrap: wrap;
   }
-  
+
   .oyun-puanlar-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .puan-section {
     grid-template-columns: 1fr;
   }
-  
+
   .star-rating .star {
     font-size: 1.4rem;
   }
-  
+
   .stars-display.small .star {
     font-size: 0.75rem;
   }
@@ -3156,141 +3553,208 @@ body {
   .oyunlar-container {
     padding: 20px 15px;
   }
-  
+
   .oyun-section-card {
     padding: 16px;
     border-radius: 14px;
     margin-bottom: 16px;
   }
-  
+
   .section-header-box {
     gap: 10px;
     margin-bottom: 18px;
     padding-bottom: 12px;
   }
-  
+
   .section-icon {
     width: 38px;
     height: 38px;
     font-size: 1.3rem;
     border-radius: 10px;
   }
-  
+
   .section-title-box {
     font-size: 1.1rem;
   }
-  
+
   .section-count {
     padding: 4px 10px;
     font-size: 0.8rem;
   }
-  
-  /* Oyun ekleme formu */
+
   .form-group-oyun label {
     font-size: 0.85rem;
   }
-  
+
   .form-group-oyun input {
     padding: 12px 14px;
     font-size: 0.95rem;
     border-radius: 10px;
   }
-  
+
   .btn-oyun-baslat {
     padding: 14px 20px;
     font-size: 0.95rem;
     border-radius: 12px;
   }
-  
-  /* Oynanıyor kartlar */
-  .oyun-card.oynaniyor {
+
+  .oyun-tur-secim {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .oyun-tur-option {
+    padding: 14px 10px;
+  }
+
+  .oyun-tur-option .tur-icon {
+    font-size: 1.6rem;
+  }
+
+  .oyun-tur-option .tur-label {
+    font-size: 0.95rem;
+  }
+
+  .oyun-tur-option .tur-desc {
+    font-size: 0.7rem;
+  }
+
+  .oyun-filtre-bar {
+    gap: 4px;
+    padding: 4px;
+    border-radius: 12px;
+  }
+
+  .oyun-filtre-tab {
+    padding: 8px 8px;
+    font-size: 0.72rem;
+    border-radius: 8px;
+    gap: 4px;
+  }
+
+  .filtre-count {
+    padding: 1px 6px;
+    font-size: 0.68rem;
+  }
+
+  .oyun-card.durum-aktif,
+  .oyun-card.durum-mola {
     padding: 14px;
     border-radius: 14px;
     gap: 12px;
   }
-  
+
   .oyun-icon-box {
     width: 42px;
     height: 42px;
     font-size: 1.4rem;
     border-radius: 10px;
   }
-  
+
   .oyun-ad {
     font-size: 1rem;
   }
-  
+
   .oyun-tarih {
     font-size: 0.8rem;
   }
-  
-  .btn-oyun-tamamla {
-    padding: 10px 16px;
-    font-size: 0.85rem;
-    border-radius: 10px;
+
+  .oyun-name-row {
+    gap: 6px;
   }
-  
+
+  .oyun-tur-badge {
+    font-size: 0.68rem;
+    padding: 2px 7px;
+  }
+
+  .btn-oyun-action {
+    padding: 8px 12px;
+    font-size: 0.78rem;
+    border-radius: 8px;
+  }
+
   .btn-oyun-sil {
     width: 36px;
     height: 36px;
     font-size: 1rem;
     border-radius: 10px;
   }
-  
-  /* Bitirilmiş oyun kartları */
-  .oyun-card.bitirildi {
+
+  .oyun-card.durum-bitirildi {
     border-radius: 14px;
   }
-  
+
   .oyun-card-header {
     padding: 14px;
     gap: 12px;
   }
-  
+
   .gun-badge {
     padding: 3px 10px;
     font-size: 0.75rem;
   }
-  
+
   .oyun-tarih-range {
     padding: 10px 14px;
     font-size: 0.8rem;
   }
-  
-  /* Puan grid mobil */
+
   .oyun-puanlar-grid {
     padding: 12px;
     gap: 10px;
   }
-  
+
   .puan-box {
     padding: 10px;
     border-radius: 10px;
   }
-  
+
   .puan-kisi {
     font-size: 0.8rem;
   }
-  
+
   .puan-num {
     font-size: 0.9rem;
   }
-  
+
   .puan-num.ortalama-num {
     font-size: 1.1rem;
   }
-  
-  /* Yıldız boyutları mobil */
+
+  .oyun-card-footer {
+    padding: 12px 14px;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
   .star-rating .star {
     font-size: 1.1rem;
   }
-  
+
   .stars-display.small .star {
     font-size: 0.7rem;
   }
-  
+
   .ortalama-stars .star {
     font-size: 1rem;
+  }
+
+  /* Timeline mobile */
+  .oyun-timeline {
+    padding: 20px;
+  }
+
+  .timeline-item {
+    gap: 12px;
+  }
+
+  .timeline-aksiyon {
+    font-size: 0.85rem;
+  }
+
+  .timeline-tarih {
+    font-size: 0.75rem;
   }
 }
 
@@ -5521,38 +5985,88 @@ body {
 /* Streak Panel Responsive */
 @media (max-width: 768px) {
   .streak-panel {
-    gap: 12px;
-    padding: 12px;
+    gap: 10px;
+    padding: 10px;
+    margin: 15px 0;
+    border-radius: 15px;
   }
   
   .streak-card {
-    padding: 12px 18px;
-    min-width: 140px;
+    padding: 10px 14px;
+    min-width: 120px;
+    border-radius: 12px;
+    gap: 8px;
   }
   
   .streak-icon {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
   }
   
   .streak-value {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
   }
   
   .streak-label {
-    font-size: 0.7rem;
+    font-size: 0.65rem;
+  }
+  
+  .streak-unit {
+    font-size: 0.6rem;
   }
 }
 
 @media (max-width: 500px) {
   .streak-panel {
-    flex-direction: column;
-    align-items: center;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    padding: 8px;
   }
   
   .streak-card {
+    min-width: unset;
     width: 100%;
-    max-width: 250px;
-    justify-content: center;
+    padding: 10px 12px;
+    gap: 8px;
+  }
+  
+  .streak-icon {
+    font-size: 1.2rem;
+  }
+  
+  .streak-info {
+    flex: 1;
+    min-width: 0;
+  }
+  
+  .streak-value {
+    font-size: 1.2rem;
+  }
+  
+  .streak-label {
+    font-size: 0.6rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+@media (max-width: 360px) {
+  .streak-panel {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+  
+  .streak-card {
+    padding: 8px 10px;
+  }
+  
+  .streak-icon {
+    font-size: 1.1rem;
+  }
+  
+  .streak-value {
+    font-size: 1.1rem;
   }
 }
 
@@ -5923,111 +6437,104 @@ body {
 
 @media (max-width: 768px) {
   .takvim-container {
-    padding: 15px;
+    padding: 12px 8px;
   }
   
   .takvim-header {
-    gap: 15px;
+    gap: 12px;
+    margin-bottom: 15px;
   }
   
   .takvim-ay-baslik {
-    font-size: 1.5rem;
-    letter-spacing: 3px;
-    min-width: 180px;
+    font-size: 1.4rem;
+    letter-spacing: 2px;
+    min-width: auto;
+    flex: 1;
+    text-align: center;
   }
   
   .takvim-nav-btn {
-    width: 40px;
-    height: 40px;
-    font-size: 1.2rem;
+    width: 38px;
+    height: 38px;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+  
+  /* Sade görünüm butonları mobil */
+  .sade-gorunum-container {
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+  
+  .sade-gorunum-btn,
+  .yillik-ozet-btn {
+    padding: 8px 14px;
+    font-size: 0.85rem;
+    border-radius: 20px;
+  }
+  
+  .sade-gorunum-btn .sade-icon,
+  .yillik-ozet-btn .yillik-icon {
+    font-size: 1rem;
+  }
+  
+  .sade-legend {
+    width: 100%;
+    justify-content: center;
+    gap: 15px;
+    padding: 6px 12px;
+  }
+  
+  .sade-legend-item {
+    font-size: 0.8rem;
+  }
+  
+  /* Takvim Grid Mobil */
+  .takvim-gunler {
+    gap: 3px;
+    margin-bottom: 5px;
   }
   
   .takvim-grid {
-    gap: 5px;
+    gap: 3px;
   }
   
   .takvim-gun {
-    min-height: 65px;
-    padding: 8px 5px;
+    min-height: 56px;
+    padding: 6px 4px;
     border-radius: 8px;
   }
   
   .gun-numara {
-    font-size: 0.9rem;
-    margin-bottom: 5px;
+    font-size: 0.85rem;
+    margin-bottom: 4px;
   }
   
   .duygu-toplar {
-    gap: 4px;
+    gap: 3px;
   }
   
   .duygu-top {
-    width: 14px;
-    height: 14px;
+    width: 13px;
+    height: 13px;
   }
   
   .takvim-gun-isim {
-    font-size: 0.75rem;
-    padding: 5px 0;
+    font-size: 0.7rem;
+    padding: 4px 0;
+    letter-spacing: 0;
   }
   
-  .takvim-legend {
-    gap: 12px;
-    padding: 12px;
-  }
-  
-  .legend-text {
-    font-size: 0.75rem;
-  }
-  
-  .duygu-modal {
-    max-width: 95%;
-  }
-  
-  .duygu-btn {
-    min-width: 60px;
-    padding: 10px 12px;
-  }
-  
-  .duygu-emoji {
-    font-size: 1.5rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .takvim-ay-baslik {
-    font-size: 1.2rem;
-    letter-spacing: 2px;
-    min-width: 140px;
-  }
-  
-  .takvim-nav-btn {
-    width: 36px;
-    height: 36px;
-    font-size: 1rem;
-  }
-  
-  .takvim-gun {
-    min-height: 55px;
-    padding: 6px 3px;
-  }
-  
-  .gun-numara {
-    font-size: 0.8rem;
-  }
-  
-  .duygu-top {
-    width: 12px;
-    height: 12px;
-  }
-  
-  .takvim-gun-isim {
-    font-size: 0.65rem;
-  }
-  
+  /* Legend mobil */
   .takvim-legend {
     gap: 8px;
     padding: 10px;
+    margin-top: 15px;
+    max-height: 100px;
+  }
+  
+  .legend-item {
+    gap: 4px;
   }
   
   .legend-dot {
@@ -6037,6 +6544,239 @@ body {
   
   .legend-text {
     font-size: 0.7rem;
+  }
+  
+  /* Modal mobil */
+  .duygu-modal {
+    max-width: 95%;
+    margin: 10px;
+  }
+  
+  .duygu-modal-body {
+    padding: 15px;
+  }
+  
+  .duygu-btn {
+    min-width: 55px;
+    padding: 8px 10px;
+  }
+  
+  .duygu-emoji {
+    font-size: 1.3rem;
+  }
+  
+  .duygu-ad {
+    font-size: 0.6rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .takvim-container {
+    padding: 8px 5px;
+  }
+  
+  .takvim-header {
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  
+  .takvim-ay-baslik {
+    font-size: 1.15rem;
+    letter-spacing: 1px;
+  }
+  
+  .takvim-nav-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 0.9rem;
+  }
+  
+  /* Sade görünüm butonları - küçük ekran */
+  .sade-gorunum-container {
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  
+  .sade-gorunum-btn,
+  .yillik-ozet-btn {
+    padding: 6px 10px;
+    font-size: 0.75rem;
+    gap: 5px;
+  }
+  
+  .sade-gorunum-btn .sade-text,
+  .yillik-ozet-btn .yillik-text {
+    display: none;
+  }
+  
+  .sade-gorunum-btn .sade-icon,
+  .yillik-ozet-btn .yillik-icon {
+    font-size: 1.1rem;
+  }
+  
+  .sade-legend {
+    gap: 10px;
+    padding: 5px 10px;
+  }
+  
+  .sade-legend-item {
+    font-size: 0.7rem;
+  }
+  
+  .sade-dot {
+    width: 12px;
+    height: 12px;
+  }
+  
+  /* Takvim Grid - çok küçük ekran */
+  .takvim-gunler {
+    gap: 2px;
+  }
+  
+  .takvim-grid {
+    gap: 2px;
+  }
+  
+  .takvim-gun {
+    min-height: 48px;
+    padding: 4px 2px;
+    border-radius: 6px;
+  }
+  
+  .gun-numara {
+    font-size: 0.75rem;
+    margin-bottom: 2px;
+  }
+  
+  .duygu-toplar {
+    gap: 2px;
+  }
+  
+  .duygu-top {
+    width: 10px;
+    height: 10px;
+  }
+  
+  .takvim-gun-isim {
+    font-size: 0.6rem;
+    padding: 3px 0;
+  }
+  
+  /* Legend - küçük ekran */
+  .takvim-legend {
+    gap: 6px;
+    padding: 8px;
+    margin-top: 12px;
+    max-height: 80px;
+    justify-content: flex-start;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .legend-item {
+    flex-shrink: 0;
+    gap: 3px;
+  }
+  
+  .legend-dot {
+    width: 8px;
+    height: 8px;
+  }
+  
+  .legend-text {
+    font-size: 0.6rem;
+    white-space: nowrap;
+  }
+  
+  /* Modal - küçük ekran */
+  .duygu-modal {
+    max-width: 100%;
+    max-height: 85vh;
+    margin: 5px;
+    border-radius: 12px;
+  }
+  
+  .duygu-modal-body {
+    padding: 12px;
+  }
+  
+  .duygu-secim-grup {
+    margin-bottom: 15px;
+  }
+  
+  .duygu-secim-grup h4 {
+    font-size: 0.95rem;
+    margin-bottom: 10px;
+  }
+  
+  .duygu-butonlar {
+    gap: 6px;
+  }
+  
+  .duygu-btn {
+    min-width: 48px;
+    padding: 6px 8px;
+    border-radius: 8px;
+  }
+  
+  .duygu-emoji {
+    font-size: 1.2rem;
+  }
+  
+  .duygu-ad {
+    font-size: 0.55rem;
+  }
+  
+  /* Not grubu mobil */
+  .not-grup {
+    margin-top: 15px;
+    padding-top: 15px;
+  }
+  
+  .gun-not-input {
+    min-height: 60px;
+    padding: 10px;
+    font-size: 0.85rem;
+  }
+}
+
+/* Çok küçük ekranlar için (320px ve altı) */
+@media (max-width: 360px) {
+  .takvim-container {
+    padding: 5px 3px;
+  }
+  
+  .takvim-header {
+    gap: 5px;
+  }
+  
+  .takvim-ay-baslik {
+    font-size: 1rem;
+  }
+  
+  .takvim-nav-btn {
+    width: 28px;
+    height: 28px;
+    font-size: 0.8rem;
+  }
+  
+  .takvim-gun {
+    min-height: 42px;
+    padding: 3px 1px;
+  }
+  
+  .gun-numara {
+    font-size: 0.65rem;
+  }
+  
+  .duygu-top {
+    width: 8px;
+    height: 8px;
+  }
+  
+  .takvim-gun-isim {
+    font-size: 0.55rem;
   }
 }
 
